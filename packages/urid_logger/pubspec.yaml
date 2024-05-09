@@ -1,0 +1,11 @@
+name: urid_logger
+description: Package which provides basic logger functionalities for all other app components.
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:  
+  flutter:
+    sdk: flutter
+  logger: ^1.3.0 # Logger Framework

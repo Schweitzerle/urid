@@ -1,0 +1,47 @@
+name: urid
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0-234.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  flutter_localizations:
+    sdk: flutter
+  urid_logger:
+    path: packages/urid_logger
+  urid_api_client:
+    path: packages/urid_api_client
+  qr_flutter: ^4.1.0
+  cached_network_image: ^3.3.1
+  intl: any
+  introduction_screen: ^3.1.14
+  lottie: ^3.1.0
+  syncfusion_flutter_sliders: ^25.2.3
+  clay_containers: ^0.3.4
+  get_it: ^7.7.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+
+flutter:
+
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/animations/study.json
+    - assets/animations/study2.json
+
