@@ -977,8 +977,6 @@ class DummyData {
   };
 
   static URIDPass erikaMusterfrauPassObject() {
-    print('Frau: $erikaMusterfrau');
-    print('Object: $erikaMusterfrauPass');
     DateTime createdAt = DateTime.parse('2024-01-16T13:00:39.645Z');
     return URIDPass.fromJsonMap(erikaMusterfrauPass, createdAt);
   }

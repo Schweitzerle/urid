@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:urid_api_client/urid_api_client.dart';
 
-class PassWidgetProperties extends StatefulWidget {
+class PassWidgetPropertiesCover extends StatefulWidget {
   final URIDPass pass;
 
-  const PassWidgetProperties({required this.pass, super.key});
+  const PassWidgetPropertiesCover({required this.pass, super.key});
 
   @override
-  State<PassWidgetProperties> createState() => _PassWidgetProperties();
+  State<PassWidgetPropertiesCover> createState() => _PassWidgetPropertiesCover();
 }
 
-class _PassWidgetProperties extends State<PassWidgetProperties> {
+class _PassWidgetPropertiesCover extends State<PassWidgetPropertiesCover> {
   bool showHiddenProperties = true;
 
   TableRow _createPropertyContainer(PassProperty property) {

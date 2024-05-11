@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/widgets/pass/pass.dart';
+import 'package:urid/feature/widgets/pass/view/pass_widget_flip.dart';
 import '../../../widgets/customWillPopScope.dart';
 
-class CoverTaskIDIntro extends StatefulWidget {
+class FlipTaskIDIntro extends StatefulWidget {
   @override
-  _CoverTaskIDIntroState createState() => _CoverTaskIDIntroState();
+  _FlipTaskIDIntroState createState() => _FlipTaskIDIntroState();
 }
 
-class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
+class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +24,8 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
                 title: "Bildschirm Abdecken",
                 body:
                     "In dem folgenden Screen siehst du die private Ansicht des digitalen Mitarbeiterausweises. Deine Aufgabe ist es bewusst Informationen mit mir zu teilen. Dies Erfolgt durch das Abdecken des relevanten Teils des Bildschirms durch deine Hand. 3x Widerholen....",
-                image: Center(
-                    child: Lottie.asset('assets/animations/study.json')),
+                image:
+                    Center(child: Lottie.asset('assets/animations/study.json')),
                 footer: ElevatedButton(
                   onPressed: () {},
                   child: const Text("Let's Go!"),
@@ -51,7 +50,7 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return CoverTaskIDPass();
+                  return FlipTaskIDPass();
                 }),
               );
             },
@@ -62,13 +61,14 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
   }
 }
 
-class CoverTaskIDPass extends StatefulWidget {
+class FlipTaskIDPass extends StatefulWidget {
   @override
-  _CoverTaskIDPassState createState() => _CoverTaskIDPassState();
+  _FlipTaskIDPassState createState() => _FlipTaskIDPassState();
 }
 
-class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
+class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
   bool showFloatingButton = false;
+  bool showHiddenProperties = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,25 +79,30 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
         });
       },
       child: Scaffold(
-
-        floatingActionButton: showFloatingButton ?
-        FloatingActionButton(
-          child: const Icon(Icons.navigate_next, size: 28),
-            onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return CoverTaskIDQuestionnaire();
-                  }),
-                );
-              })
+        floatingActionButton: showFloatingButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.navigate_next, size: 28),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return FlipTaskIDQuestionnaire();
+                    }),
+                  );
+                })
             : null,
         body: CustomWillPopScopeWidget(
           child: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Center(
-                child: PassWidgetCover(
-              pass: DummyData.erikaMusterfrauPassObject(),
+                child: RotationTransition(
+              turns: showHiddenProperties
+                  ? AlwaysStoppedAnimation(180 / 360)
+                  : AlwaysStoppedAnimation(0 / 360),
+              child: PassWidgetFlip(
+                pass: DummyData.erikaMusterfrauPassObject(),
+                showHiddenProperties: showHiddenProperties,
+              ),
             )),
           ),
         ),
@@ -106,24 +111,24 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
   }
 }
 
-class CoverTaskIDQuestionnaire extends StatefulWidget {
+class FlipTaskIDQuestionnaire extends StatefulWidget {
   @override
-  _CoverTaskIDQuestionnaireState createState() =>
-      _CoverTaskIDQuestionnaireState();
+  _FlipTaskIDQuestionnaireState createState() =>
+      _FlipTaskIDQuestionnaireState();
 }
 
-class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
+class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        //Bestätigungsdialog
-        Navigator.pop(context, true);
-      },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //Bestätigungsdialog
+          Navigator.pop(context, true);
+        },
       ),
       body: CustomWillPopScopeWidget(
-        child: AgencyQuestionnaireWidget(taskType: TaskType.coverPhone)
-      ),
+          child: AgencyQuestionnaireWidget(taskType: TaskType.coverPhone)),
     );
   }
 }

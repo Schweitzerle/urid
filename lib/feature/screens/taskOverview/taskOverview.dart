@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:urid/feature/models/gestureTaskItem.dart';
+import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
 class TaskOverviewScreen extends StatefulWidget {
@@ -21,12 +23,12 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
     GestureTaskItem(
       title: 'Button gedrückt halten',
       icon: Icons.radio_button_checked,
-      screen: CoverTaskIDIntro(),
+      screen: ButtonTaskIDIntro(),
     ),
     GestureTaskItem(
       title: 'Flip Smartphone',
       icon: Icons.flip,
-      screen: CoverTaskIDIntro(),
+      screen: FlipTaskIDIntro(),
     ),
     GestureTaskItem(
       title: 'Fingerabdruck',
@@ -53,8 +55,14 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
             return ListTile(
               leading: Icon(item.icon),
               title: Text(item.title),
+              onLongPress: () {
+                setState(() {
+                  item.completed = false;
+                });
+              },
               onTap: () {
-                if (!item.completed) {
+                //TODO: Nicht vergessen hier wieder zu enablen, nur zu testzwecke deaktiviert
+                //if (!item.completed) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => item.screen),
@@ -64,8 +72,10 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
                     });
                   });
                 }
-              },
-              enabled: !item.completed,
+              //},
+
+              //TODO: Nicht vergessen hier wieder zu enablen, nur zu testzwecke deaktiviert
+              //enabled: !item.completed,
             );
           },
         ),

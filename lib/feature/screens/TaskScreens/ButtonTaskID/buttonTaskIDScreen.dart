@@ -6,14 +6,15 @@ import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
+import 'package:urid/feature/widgets/pass/view/pass_widget_button.dart';
 import '../../../widgets/customWillPopScope.dart';
 
-class CoverTaskIDIntro extends StatefulWidget {
+class ButtonTaskIDIntro extends StatefulWidget {
   @override
-  _CoverTaskIDIntroState createState() => _CoverTaskIDIntroState();
+  _ButtonTaskIDIntroState createState() => _ButtonTaskIDIntroState();
 }
 
-class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
+class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +52,7 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return CoverTaskIDPass();
+                  return ButtonTaskIDPass();
                 }),
               );
             },
@@ -62,13 +63,14 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
   }
 }
 
-class CoverTaskIDPass extends StatefulWidget {
+class ButtonTaskIDPass extends StatefulWidget {
   @override
-  _CoverTaskIDPassState createState() => _CoverTaskIDPassState();
+  _ButtonTaskIDPassState createState() => _ButtonTaskIDPassState();
 }
 
-class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
+class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
   bool showFloatingButton = false;
+  bool showHiddenProperties = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +80,25 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
           showFloatingButton = true;
         });
       },
-      child: Scaffold(
-
+      onTapDown: (details) {
+        setState(() {
+          showHiddenProperties = true;
+        });
+      },
+      onTapUp: (details) {
+        setState(() {
+          showHiddenProperties = false;
+        });
+      },
+      onVerticalDragEnd: (details) {
+        setState(() {
+          showHiddenProperties = false;
+        });
+      },
+      onHorizontalDragEnd: (details) {
+        showHiddenProperties = false;
+      },
+    child: Scaffold(
         floatingActionButton: showFloatingButton ?
         FloatingActionButton(
           child: const Icon(Icons.navigate_next, size: 28),
@@ -87,7 +106,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return CoverTaskIDQuestionnaire();
+                    return ButtonTaskIDQuestionnaire();
                   }),
                 );
               })
@@ -96,9 +115,12 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
           child: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Center(
-                child: PassWidgetCover(
-              pass: DummyData.erikaMusterfrauPassObject(),
-            )),
+                child: RotationTransition(
+                  turns: showHiddenProperties ? AlwaysStoppedAnimation(180/360) : AlwaysStoppedAnimation(0/360),
+                  child: PassWidgetButton(
+                                pass: DummyData.erikaMusterfrauPassObject(), showHiddenProperties: showHiddenProperties,
+                              ),
+                )),
           ),
         ),
       ),
@@ -106,13 +128,13 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
   }
 }
 
-class CoverTaskIDQuestionnaire extends StatefulWidget {
+class ButtonTaskIDQuestionnaire extends StatefulWidget {
   @override
-  _CoverTaskIDQuestionnaireState createState() =>
-      _CoverTaskIDQuestionnaireState();
+  _ButtonTaskIDQuestionnaireState createState() =>
+      _ButtonTaskIDQuestionnaireState();
 }
 
-class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
+class _ButtonTaskIDQuestionnaireState extends State<ButtonTaskIDQuestionnaire> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
