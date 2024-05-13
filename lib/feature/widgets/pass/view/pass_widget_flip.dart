@@ -109,7 +109,7 @@ class PassWidgetFlip extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              PassWidgetPropertiesCover(pass: pass),
+              PassWidgetPropertiesFlip(pass: pass, showHiddenProperties: showHiddenProperties,),
               const SizedBox(
                 height: 8,
               ),

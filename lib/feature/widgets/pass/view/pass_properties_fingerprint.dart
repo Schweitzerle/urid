@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:urid_api_client/urid_api_client.dart';
 
-class PassWidgetPropertiesFlip extends StatefulWidget {
+class PassWidgetPropertiesFingerprint extends StatefulWidget {
   final URIDPass pass;
   bool showHiddenProperties;
 
-  PassWidgetPropertiesFlip({required this.pass, required this.showHiddenProperties, super.key});
+  PassWidgetPropertiesFingerprint({required this.pass, required this.showHiddenProperties, super.key});
 
   @override
-  State<PassWidgetPropertiesFlip> createState() => _PassWidgetPropertiesFlip();
+  State<PassWidgetPropertiesFingerprint> createState() => _PassWidgetPropertiesFingerprint();
 }
 
-class _PassWidgetPropertiesFlip extends State<PassWidgetPropertiesFlip> {
+class _PassWidgetPropertiesFingerprint extends State<PassWidgetPropertiesFingerprint> {
 
   TableRow _createPropertyContainer(PassProperty property) {
     String text = property.value;
@@ -63,18 +63,20 @@ class _PassWidgetPropertiesFlip extends State<PassWidgetPropertiesFlip> {
     }
     return Column(
       children: [
-        ListTile(
-          title: Text(widget.showHiddenProperties ? 'Öffentliche Ansicht' : 'Private Ansicht',
-              style: DefaultTextStyle.of(context).style.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold)),
-          subtitle: Text(widget.showHiddenProperties ? 'Smartphone flippen, um Inhalte auszublenden' : 'Smartphone erneut flippen, um Inhalte anzuzeigen',
-              style: DefaultTextStyle.of(context).style.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 14)),
-          leading: Icon(widget.showHiddenProperties ? Icons.visibility : Icons.visibility_off,
-              color: Theme.of(context).colorScheme.onPrimary),
+        GestureDetector(
+          child: ListTile(
+            title: Text(widget.showHiddenProperties ? 'Öffentliche Ansicht' : 'Private Ansicht',
+                style: DefaultTextStyle.of(context).style.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold)),
+            subtitle: Text(widget.showHiddenProperties ? 'Loslassen, um Inhalte auszublenden' : 'Pass irgendwo Gedrückt halten, um Inhalte anzuzeigen',
+                style: DefaultTextStyle.of(context).style.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 14)),
+            leading: Icon(widget.showHiddenProperties ? Icons.visibility : Icons.visibility_off,
+                color: Theme.of(context).colorScheme.onPrimary),
+          ),
         ),
     if (widget.showHiddenProperties == true)
       Padding(

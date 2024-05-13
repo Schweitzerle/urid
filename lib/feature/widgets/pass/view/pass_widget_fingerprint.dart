@@ -4,16 +4,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:urid/feature/widgets/pass/view/pass_properties_button.dart';
+import 'package:urid/feature/widgets/pass/view/pass_properties_fingerprint.dart';
 import 'package:urid_api_client/urid_api_client.dart';
 
 import '../pass.dart';
 
 
-class PassWidgetButton extends StatelessWidget {
+class PassWidgetFingerprint extends StatelessWidget {
   final URIDPass pass;
   bool showHiddenProperties;
 
-  PassWidgetButton({required this.pass, required this.showHiddenProperties, super.key});
+  PassWidgetFingerprint({required this.pass, required this.showHiddenProperties, super.key});
 
   static Widget createImageForPass(URIDPass pass) {
     var image = Image.memory(base64Decode(pass.properties["photo"]!.value));
@@ -48,6 +49,7 @@ class PassWidgetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool show = false;
     if (Platform.isAndroid && pass.properties["smartID"] != null) {
       return SingleChildScrollView(
         child: Padding(
@@ -73,7 +75,7 @@ class PassWidgetButton extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                PassWidgetPropertiesButton(pass: pass, showHiddenProperties: showHiddenProperties,),
+                PassWidgetPropertiesFingerprint(pass: pass, showHiddenProperties: showHiddenProperties,),
                 const SizedBox(
                   height: 8,
                 ),

@@ -128,7 +128,7 @@ class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
         },
       ),
       body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.coverPhone)),
+          child: AgencyQuestionnaireWidget(taskType: TaskType.flipPhone)),
     );
   }
 }

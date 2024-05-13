@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:urid/feature/models/gestureTaskItem.dart';
 import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/FingerprintTaskID/fingerprintTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
@@ -33,7 +34,7 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
     GestureTaskItem(
       title: 'Fingerabdruck',
       icon: Icons.fingerprint,
-      screen: CoverTaskIDIntro(),
+      screen: FingerprintTaskIDIntro(),
     ),
   ];
 

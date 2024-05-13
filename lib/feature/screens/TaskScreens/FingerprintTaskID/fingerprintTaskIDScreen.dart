@@ -7,14 +7,16 @@ import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dar
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
 import 'package:urid/feature/widgets/pass/view/pass_widget_button.dart';
+import 'package:urid/feature/widgets/pass/view/pass_widget_fingerprint.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../../../widgets/fingerprintDialog.dart';
 
-class ButtonTaskIDIntro extends StatefulWidget {
+class FingerprintTaskIDIntro extends StatefulWidget {
   @override
-  _ButtonTaskIDIntroState createState() => _ButtonTaskIDIntroState();
+  _FingerprintTaskIDIntroState createState() => _FingerprintTaskIDIntroState();
 }
 
-class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
+class _FingerprintTaskIDIntroState extends State<FingerprintTaskIDIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +28,8 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 title: "Bildschirm Abdecken",
                 body:
                     "In dem folgenden Screen siehst du die private Ansicht des digitalen Mitarbeiterausweises. Deine Aufgabe ist es bewusst Informationen mit mir zu teilen. Dies Erfolgt durch das Abdecken des relevanten Teils des Bildschirms durch deine Hand. 3x Widerholen....",
-                image: Center(
-                    child: Lottie.asset('assets/animations/study.json')),
+                image:
+                    Center(child: Lottie.asset('assets/animations/study.json')),
                 footer: ElevatedButton(
                   onPressed: () {},
                   child: const Text("Let's Go!"),
@@ -52,7 +54,7 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return ButtonTaskIDPass();
+                  return FingerprintTaskIDPass();
                 }),
               );
             },
@@ -63,89 +65,92 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
   }
 }
 
-class ButtonTaskIDPass extends StatefulWidget {
+class FingerprintTaskIDPass extends StatefulWidget {
   @override
-  _ButtonTaskIDPassState createState() => _ButtonTaskIDPassState();
+  _FingerprintTaskIDPassState createState() => _FingerprintTaskIDPassState();
 }
 
-class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
+class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: showFloatingButton ?
-        FloatingActionButton(
-          child: const Icon(Icons.navigate_next, size: 28),
-            onPressed: () {
+    return GestureDetector(
+      onDoubleTap: () {
+        setState(() {
+          showFloatingButton = true;
+        });
+      },
+      child: Scaffold(
+        floatingActionButton: showFloatingButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.navigate_next, size: 28),
+                onPressed: () {
+                  /*
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return ButtonTaskIDQuestionnaire();
+                    return FingerprintTaskIDQuestionnaire();
                   }),
                 );
-              })
+                 */
+                  showFingerprintBottomSheet(context, (bool success) {
+                    if (success) {
+                      // Authentifizierung erfolgreich
+                      // Führe die gewünschte Aktion aus
+                    } else {
+                      // Authentifizierung fehlgeschlagen
+                      // Zeige eine Fehlermeldung oder führe alternative Aktionen aus
+                    }
+                  });
+                })
             : null,
         body: CustomWillPopScopeWidget(
           child: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Center(
-                child: GestureDetector(
-                  onDoubleTap: () {
-                    setState(() {
-                      showFloatingButton = true;
-                    });
-                  },
-                  onTapDown: (details) {
-                    setState(() {
-                      showHiddenProperties = true;
-                    });
-                  },
-                  onTapUp: (details) {
-                    setState(() {
-                      showHiddenProperties = false;
-                    });
-                  },
-                  onVerticalDragEnd: (details) {
-                    setState(() {
-                      showHiddenProperties = false;
-                    });
-                  },
-                  onHorizontalDragEnd: (details) {
-                    showHiddenProperties = false;
-                  },
-                  child: RotationTransition(
-                    turns: showHiddenProperties ? AlwaysStoppedAnimation(180/360) : AlwaysStoppedAnimation(0/360),
-                    child: PassWidgetButton(
-                                  pass: DummyData.erikaMusterfrauPassObject(), showHiddenProperties: showHiddenProperties,
-                                ),
-                  ),
-                )),
+                child: RotationTransition(
+              turns: showHiddenProperties
+                  ? AlwaysStoppedAnimation(180 / 360)
+                  : AlwaysStoppedAnimation(0 / 360),
+              child: PassWidgetFingerprint(
+                pass: DummyData.erikaMusterfrauPassObject(),
+                showHiddenProperties: showHiddenProperties,
+              ),
+            )),
           ),
         ),
-      );
-  }
-}
-
-class ButtonTaskIDQuestionnaire extends StatefulWidget {
-  @override
-  _ButtonTaskIDQuestionnaireState createState() =>
-      _ButtonTaskIDQuestionnaireState();
-}
-
-class _ButtonTaskIDQuestionnaireState extends State<ButtonTaskIDQuestionnaire> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        //Bestätigungsdialog
-        Navigator.pop(context, true);
-      },
-      ),
-      body: CustomWillPopScopeWidget(
-        child: AgencyQuestionnaireWidget(taskType: TaskType.holdButton)
       ),
     );
   }
+}
+
+class FingerprintTaskIDQuestionnaire extends StatefulWidget {
+  @override
+  _FingerprintTaskIDQuestionnaireState createState() =>
+      _FingerprintTaskIDQuestionnaireState();
+}
+
+class _FingerprintTaskIDQuestionnaireState
+    extends State<FingerprintTaskIDQuestionnaire> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //Bestätigungsdialog
+          Navigator.pop(context, true);
+        },
+      ),
+      body: CustomWillPopScopeWidget(
+          child: AgencyQuestionnaireWidget(taskType: TaskType.fingerprint)),
+    );
+  }
+}
+
+enum _SupportState {
+  unknown,
+  supported,
+  unsupported,
 }
