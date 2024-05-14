@@ -6,7 +6,7 @@ import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
-import 'package:urid/feature/widgets/pass/view/pass_widget_button.dart';
+import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_widget_button.dart';
 import '../../../widgets/customWillPopScope.dart';
 
 class ButtonTaskIDIntro extends StatefulWidget {

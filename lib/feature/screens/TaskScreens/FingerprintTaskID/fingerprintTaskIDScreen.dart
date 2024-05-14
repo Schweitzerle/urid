@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/widgets/pass/pass.dart';
-import 'package:urid/feature/widgets/pass/view/pass_widget_button.dart';
-import 'package:urid/feature/widgets/pass/view/pass_widget_fingerprint.dart';
+import 'package:urid/feature/screens/TaskScreens/FingerprintTaskID/pass_widget_fingerprint.dart';
 import '../../../widgets/customWillPopScope.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
+
 import '../../../widgets/fingerprintDialog.dart';
 
 class FingerprintTaskIDIntro extends StatefulWidget {
@@ -73,6 +75,8 @@ class FingerprintTaskIDPass extends StatefulWidget {
 class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
+  final LocalAuthentication auth = LocalAuthentication();
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,24 +90,33 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
         floatingActionButton: showFloatingButton
             ? FloatingActionButton(
                 child: const Icon(Icons.navigate_next, size: 28),
-                onPressed: () {
+                onPressed: () async {
                   /*
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) {
                     return FingerprintTaskIDQuestionnaire();
                   }),
+                 try {
+                  final bool didAuthenticate = await auth.authenticate(
+                  localizedReason: 'Please authenticate to show account balance',
+                  options: const AuthenticationOptions(biometricOnly: true, useErrorDialogs: false));
+                  } on PlatformException catch (e) {
+                    if (e.code == auth_error.notEnrolled) {
+                      print(e.message);
+                    }
+                  }
                 );
                  */
                   showFingerprintBottomSheet(context, (bool success) {
+                    print(success);
                     if (success) {
-                      // Authentifizierung erfolgreich
-                      // Führe die gewünschte Aktion aus
+
                     } else {
-                      // Authentifizierung fehlgeschlagen
-                      // Zeige eine Fehlermeldung oder führe alternative Aktionen aus
+
                     }
                   });
+
                 })
             : null,
         body: CustomWillPopScopeWidget(

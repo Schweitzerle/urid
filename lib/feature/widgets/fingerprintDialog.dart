@@ -59,7 +59,7 @@ class _FingerprintAuthenticationDialogState extends State<FingerprintAuthenticat
             alignment: Alignment.bottomLeft,
             child: TextButton(
               onPressed: () {
-                Navigator.pop(context); // Schließe das Bottom Sheet
+                Navigator.pop(context);
               },
               child: Text(
                 'Abbrechen',
@@ -74,10 +74,10 @@ class _FingerprintAuthenticationDialogState extends State<FingerprintAuthenticat
 
   void _startFingerprintAuthentication(BuildContext context) {
     Vibration.vibrate(
-      pattern: [300, 400, 300, 400, 300, 400],
-      intensities: [2, 4, 2, 4, 2, 4],
+      pattern: [10000],
+      intensities: [1],
     );
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _authenticating = true;
       });
@@ -90,7 +90,7 @@ class _FingerprintAuthenticationDialogState extends State<FingerprintAuthenticat
   }
 
   void _completeAuthentication() {
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       widget.onAuthenticated(true);
       Vibration.cancel();
       Navigator.pop(context);

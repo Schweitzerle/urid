@@ -3,17 +3,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:urid/feature/widgets/pass/view/pass_properties_button.dart';
 import 'package:urid_api_client/urid_api_client.dart';
 
-import '../pass.dart';
+import '../../../widgets/pass/pass.dart';
 
 
-class PassWidgetButton extends StatelessWidget {
+class PassWidgetCover extends StatelessWidget {
   final URIDPass pass;
-  bool showHiddenProperties;
 
-  PassWidgetButton({required this.pass, required this.showHiddenProperties, super.key});
+  const PassWidgetCover({required this.pass, super.key});
 
   static Widget createImageForPass(URIDPass pass) {
     var image = Image.memory(base64Decode(pass.properties["photo"]!.value));
@@ -73,7 +71,7 @@ class PassWidgetButton extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                PassWidgetPropertiesButton(pass: pass, showHiddenProperties: showHiddenProperties,),
+                PassWidgetPropertiesCover(pass: pass),
                 const SizedBox(
                   height: 8,
                 ),

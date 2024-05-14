@@ -18,7 +18,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final TextEditingController subjectIDTextController = TextEditingController();
+  final TextEditingController subjectIDTextController = TextEditingController(text: '18'); //Später User selbst eingeben
 
 
   @override
@@ -56,11 +56,12 @@ class _IntroScreenState extends State<IntroScreen> {
                 Text("Trage hier bitte die Probanden ID ein, welche du vom Versuchsleiter gesagt bekommst."),
                 TextField(
                   controller: subjectIDTextController,
-                  decoration: new InputDecoration(labelText: "Probanden ID"),
+                  decoration: InputDecoration(labelText: "Probanden ID"),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
+
                 ),
               ],
             ),
@@ -73,7 +74,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
-              return TaskOverviewScreen();
+              return const TaskOverviewScreen();
             }),
           );
         },

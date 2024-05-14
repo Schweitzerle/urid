@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/widgets/pass/view/pass_widget_flip.dart';
+import 'package:urid/feature/screens/TaskScreens/FlipTaskID/pass_widget_flip.dart';
 import '../../../widgets/customWillPopScope.dart';
 
 class FlipTaskIDIntro extends StatefulWidget {

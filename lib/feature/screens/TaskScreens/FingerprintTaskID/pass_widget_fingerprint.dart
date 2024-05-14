@@ -3,18 +3,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:urid/feature/widgets/pass/view/pass_properties_button.dart';
-import 'package:urid/feature/widgets/pass/view/pass_properties_flip.dart';
+import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_properties_button.dart';
+import 'package:urid/feature/screens/TaskScreens/FingerprintTaskID/pass_properties_fingerprint.dart';
 import 'package:urid_api_client/urid_api_client.dart';
 
-import '../pass.dart';
+import '../../../widgets/pass/pass.dart';
 
 
-class PassWidgetFlip extends StatelessWidget {
+class PassWidgetFingerprint extends StatelessWidget {
   final URIDPass pass;
   bool showHiddenProperties;
 
-  PassWidgetFlip({required this.pass, required this.showHiddenProperties, super.key});
+  PassWidgetFingerprint({required this.pass, required this.showHiddenProperties, super.key});
 
   static Widget createImageForPass(URIDPass pass) {
     var image = Image.memory(base64Decode(pass.properties["photo"]!.value));
@@ -49,6 +49,7 @@ class PassWidgetFlip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool show = false;
     if (Platform.isAndroid && pass.properties["smartID"] != null) {
       return SingleChildScrollView(
         child: Padding(
@@ -74,7 +75,7 @@ class PassWidgetFlip extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                PassWidgetPropertiesFlip(pass: pass, showHiddenProperties: showHiddenProperties,),
+                PassWidgetPropertiesFingerprint(pass: pass, showHiddenProperties: showHiddenProperties,),
                 const SizedBox(
                   height: 8,
                 ),
@@ -109,7 +110,7 @@ class PassWidgetFlip extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              PassWidgetPropertiesFlip(pass: pass, showHiddenProperties: showHiddenProperties,),
+              PassWidgetPropertiesCover(pass: pass),
               const SizedBox(
                 height: 8,
               ),
