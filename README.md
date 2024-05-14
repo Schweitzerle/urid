@@ -16,7 +16,7 @@ wie den Zähler der Versuche usw. ist noch nicht implementiert.
 Durch einen Doppelklick auf den Pass (bei allen verschiedenen Gesten) lässt einen
 FloatingActionButton unten rechts erscheinen. Wenn man darauf Klickt gelangt man zu dem
 Questionnaire.
-Dabei habe ich verschieden Designoptionen ausgetestet, kannst mir gerne mal deine Meinung sagen,
+Dabei habe ich verschieden Designoptionen für die Slider ausgetestet, kannst mir gerne mal deine Meinung sagen,
 welche Designoption du am besten fändest. Dann kann man weiterklicken und man gelangt wieder zum
 TaskOverview Screen.
 Bei dem Fingerprint wird der, nach doppelklick auf den Pass erscheinende, FloatingActionButton als
