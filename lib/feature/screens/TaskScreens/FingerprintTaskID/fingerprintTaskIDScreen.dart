@@ -109,12 +109,9 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
                 );
                  */
                   showFingerprintBottomSheet(context, (bool success) {
-                    print(success);
-                    if (success) {
-
-                    } else {
-
-                    }
+                   setState(() {
+                     showHiddenProperties = !showHiddenProperties;
+                   });
                   });
 
                 })
