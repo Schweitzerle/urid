@@ -32,7 +32,7 @@ dependencies:
   local_auth: ^2.2.0
   local_auth_android: ^1.0.38
   vibration: ^1.8.4
-
+  volume_controller: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -48,4 +48,5 @@ flutter:
   assets:
     - assets/animations/study.json
     - assets/animations/study2.json
+    - assets/animations/study3.json
 

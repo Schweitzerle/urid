@@ -1,24 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sensors_plus/sensors_plus.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
+import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/pass_widget_volume_button.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/screens/TaskScreens/FlipTaskID/pass_widget_flip.dart';
+import 'package:volume_controller/volume_controller.dart';
 import '../../../models/counterService.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 
-class FlipTaskIDIntro extends StatefulWidget {
+class VolumeButtonTaskIDIntro extends StatefulWidget {
   @override
-  _FlipTaskIDIntroState createState() => _FlipTaskIDIntroState();
+  _VolumeButtonTaskIDIntroState createState() =>
+      _VolumeButtonTaskIDIntroState();
 }
 
-class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
+class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +55,7 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return FlipTaskIDPass();
+                  return VolumeButtonTaskIDPass();
                 }),
               );
             },
@@ -67,55 +66,55 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
   }
 }
 
-class FlipTaskIDPass extends StatefulWidget {
+class VolumeButtonTaskIDPass extends StatefulWidget {
   @override
-  _FlipTaskIDPassState createState() => _FlipTaskIDPassState();
+  _VolumeButtonTaskIDPassState createState() => _VolumeButtonTaskIDPassState();
 }
 
-class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
+class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
   late CounterService counterService;
 
-  Duration sensorInterval = SensorInterval.uiInterval;
-  final _streamSubscriptions = <StreamSubscription<dynamic>>[];
-
   @override
   void initState() {
-    super.initState();
     counterService = GetIt.instance.get<CounterService>();
-    _startGyroscopeListener();
-  }
-
-  void _startGyroscopeListener() {
-    _streamSubscriptions.add(
-        gyroscopeEventStream(samplingPeriod: sensorInterval)
-            .listen((GyroscopeEvent event) {
-      if (event.x > 2.0) {
+    //TODO: Manchmal zeigt er trzdem noch SystemUI
+    VolumeController().showSystemUI = false;
+    VolumeController().setVolume(.1, showSystemUI: false);
+    VolumeController().listener((volume) {
+      if (volume == 1) {
         setState(() {
-          if (showHiddenProperties) {
+          showHiddenProperties = true;
+        });
+      } else if(volume == 0) {
+        setState(() {
+          if(showHiddenProperties) {
             showHiddenProperties = false;
             _handleResetCounter();
           }
         });
-      } else if (event.x < -2.0) {
-        setState(() {
-          showHiddenProperties = true;
-        });
       }
-    }));
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    VolumeController().removeListener();
+    super.dispose();
   }
 
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
     print(resetCounter);
-    if (resetCounter >= 3) {
+    if (resetCounter == 3) {
       _showCountdownDialog(() {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
-            return FlipTaskIDQuestionnaire();
+            return VolumeButtonTaskIDQuestionnaire();
           }),
         );
         counterService.resetCounter();
@@ -125,18 +124,10 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
-            return FlipTaskIDIntro();
+            return VolumeButtonTaskIDIntro();
           }),
         );
       });
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    for (final subscription in _streamSubscriptions) {
-      subscription.cancel();
     }
   }
 
@@ -156,52 +147,53 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onDoubleTap: () {
-        setState(() {
-          showFloatingButton = true;
-        });
-      },
-      child: Scaffold(
-        floatingActionButton: showFloatingButton
-            ? FloatingActionButton(
-                child: const Icon(Icons.navigate_next, size: 28),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return FlipTaskIDQuestionnaire();
-                    }),
-                  );
-                })
-            : null,
-        body: CustomWillPopScopeWidget(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Center(
-                child: RotationTransition(
+    return Scaffold(
+      floatingActionButton: showFloatingButton
+          ? FloatingActionButton(
+              child: const Icon(Icons.navigate_next, size: 28),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return VolumeButtonTaskIDQuestionnaire();
+                  }),
+                );
+              })
+          : null,
+      body: CustomWillPopScopeWidget(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Center(
+              child: GestureDetector(
+            onDoubleTap: () {
+              setState(() {
+                showFloatingButton = true;
+              });
+            },
+            child: RotationTransition(
               turns: showHiddenProperties
                   ? AlwaysStoppedAnimation(180 / 360)
                   : AlwaysStoppedAnimation(0 / 360),
-              child: PassWidgetFlip(
+              child: PassWidgetVolumeButton(
                 pass: DummyData.erikaMusterfrauPassObject(),
                 showHiddenProperties: showHiddenProperties,
               ),
-            )),
-          ),
+            ),
+          )),
         ),
       ),
     );
   }
 }
 
-class FlipTaskIDQuestionnaire extends StatefulWidget {
+class VolumeButtonTaskIDQuestionnaire extends StatefulWidget {
   @override
-  _FlipTaskIDQuestionnaireState createState() =>
-      _FlipTaskIDQuestionnaireState();
+  _VolumeButtonTaskIDQuestionnaireState createState() =>
+      _VolumeButtonTaskIDQuestionnaireState();
 }
 
-class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
+class _VolumeButtonTaskIDQuestionnaireState
+    extends State<VolumeButtonTaskIDQuestionnaire> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,7 +204,7 @@ class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
         },
       ),
       body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.flipPhone)),
+          child: AgencyQuestionnaireWidget(taskType: TaskType.holdButton)),
     );
   }
 }

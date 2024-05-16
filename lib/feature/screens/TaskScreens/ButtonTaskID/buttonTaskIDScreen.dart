@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
@@ -7,6 +8,8 @@ import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dar
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
 import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_widget_button.dart';
+import '../../../models/counterService.dart';
+import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 
 class ButtonTaskIDIntro extends StatefulWidget {
@@ -71,6 +74,53 @@ class ButtonTaskIDPass extends StatefulWidget {
 class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
+  late CounterService counterService;
+
+  @override
+  void initState() {
+    counterService = GetIt.instance.get<CounterService>();
+    super.initState();
+  }
+
+  void _handleResetCounter() {
+    counterService.incrementCounter();
+    int resetCounter = counterService.counter;
+    print(resetCounter);
+    if (resetCounter >= 3) {
+      _showCountdownDialog(() {
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return ButtonTaskIDQuestionnaire();
+        }),
+      );
+        counterService.resetCounter();
+      });
+    } else if (resetCounter < 3) {
+      _showCountdownDialog(() {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return ButtonTaskIDIntro();
+        }),
+      );
+      });
+    }
+  }
+
+  Future<void> _showCountdownDialog(Function onCountdownComplete) async {
+    int countdownSeconds = 15;
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CountdownDialog(
+          countdownSeconds: countdownSeconds,
+          onCountdownComplete: onCountdownComplete,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,16 +154,25 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                   },
                   onTapUp: (details) {
                     setState(() {
-                      showHiddenProperties = false;
+                      if (showHiddenProperties) {
+                        showHiddenProperties = false;
+                        _handleResetCounter();
+                      }
                     });
                   },
                   onVerticalDragEnd: (details) {
                     setState(() {
-                      showHiddenProperties = false;
+                      if (showHiddenProperties) {
+                        showHiddenProperties = false;
+                        _handleResetCounter();
+                      }
                     });
                   },
                   onHorizontalDragEnd: (details) {
-                    showHiddenProperties = false;
+                    if (showHiddenProperties) {
+                      showHiddenProperties = false;
+                      _handleResetCounter();
+                    }
                   },
                   child: RotationTransition(
                     turns: showHiddenProperties ? AlwaysStoppedAnimation(180/360) : AlwaysStoppedAnimation(0/360),
@@ -139,7 +198,7 @@ class _ButtonTaskIDQuestionnaireState extends State<ButtonTaskIDQuestionnaire> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
-        //Bestätigungsdialog
+        //TODO: Screen dazwischen schalten, welcher aus der id den nächsten Task nach LatingSquare entnimmt, auch pause dazwischen
         Navigator.pop(context, true);
       },
       ),

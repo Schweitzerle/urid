@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lottie/lottie.dart';
@@ -6,9 +7,12 @@ import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/screens/TaskScreens/FingerprintTaskID/pass_widget_fingerprint.dart';
+import '../../../models/counterService.dart';
+import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 
 import '../../../widgets/fingerprintDialog.dart';
+import '../FlipTaskID/flipTaskIDScreen.dart';
 
 class FingerprintTaskIDIntro extends StatefulWidget {
   @override
@@ -73,7 +77,54 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
   final LocalAuthentication auth = LocalAuthentication();
+  late CounterService counterService;
 
+  @override
+  void initState() {
+    counterService = GetIt.instance.get<CounterService>();
+    super.initState();
+  }
+
+  void _handleResetCounter() {
+    counterService.incrementCounter();
+    int resetCounter = counterService.counter;
+    print(resetCounter);
+    if (resetCounter >= 3) {
+      _showCountdownDialog(() {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return FingerprintTaskIDQuestionnaire();
+          }),
+        );
+        counterService.resetCounter();
+      });
+    } else if (resetCounter < 3) {
+      //TODO: aus irgendeinem Grund geht er hier nicht weiter zum nächsten screen obwohl er richtig in die bedingung rein geht
+      _showCountdownDialog(() {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return FingerprintTaskIDIntro();
+          }),
+        );
+      });
+    }
+  }
+
+  Future<void> _showCountdownDialog(Function onCountdownComplete) async {
+    int countdownSeconds = 15;
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CountdownDialog(
+          countdownSeconds: countdownSeconds,
+          onCountdownComplete: onCountdownComplete,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,11 +157,15 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
                 );
                  */
                   showFingerprintBottomSheet(context, (bool success) {
-                   setState(() {
-                     showHiddenProperties = !showHiddenProperties;
-                   });
+                    setState(() {
+                      if (showHiddenProperties == true) {
+                        showHiddenProperties = false;
+                        _handleResetCounter();
+                      } else if (showHiddenProperties == false) {
+                        showHiddenProperties = true;
+                      }
+                    });
                   });
-
                 })
             : null,
         body: CustomWillPopScopeWidget(

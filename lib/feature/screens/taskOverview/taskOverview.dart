@@ -5,6 +5,7 @@ import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen
 import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/FingerprintTaskID/fingerprintTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
 class TaskOverviewScreen extends StatefulWidget {
@@ -35,6 +36,11 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
       title: 'Fingerabdruck',
       icon: Icons.fingerprint,
       screen: FingerprintTaskIDIntro(),
+    ),
+    GestureTaskItem(
+      title: 'Lautstärketaste',
+      icon: Icons.smart_button,
+      screen: VolumeButtonTaskIDIntro(),
     ),
   ];
 
