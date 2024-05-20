@@ -70,7 +70,7 @@ class _PassWidgetProperties extends State<PassWidgetPropertiesVolumeButton> {
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.bold)),
-            subtitle: Text(widget.showHiddenProperties ? 'Loslassen, um Inhalte auszublenden' : 'Pass irgendwo Gedrückt halten, um Inhalte anzuzeigen',
+            subtitle: Text(widget.showHiddenProperties ? 'Lautstärke- gedrückt halten, um Inhalte auszublenden' : 'Lautstärke+ gedrückt halten, um Inhalte  anzuzeigen',
                 style: DefaultTextStyle.of(context).style.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontSize: 14)),

@@ -6,12 +6,17 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
+import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
+import 'package:urid/feature/screens/taskOverview/taskOverview.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/screens/TaskScreens/FlipTaskID/pass_widget_flip.dart';
 import '../../../models/counterService.dart';
+import '../../../models/taskAssigningService.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 
 class FlipTaskIDIntro extends StatefulWidget {
   @override
@@ -75,6 +80,8 @@ class FlipTaskIDPass extends StatefulWidget {
 class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
+  bool gestureEnabled = true;
+
   late CounterService counterService;
 
   Duration sensorInterval = SensorInterval.uiInterval;
@@ -91,17 +98,19 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
     _streamSubscriptions.add(
         gyroscopeEventStream(samplingPeriod: sensorInterval)
             .listen((GyroscopeEvent event) {
-      if (event.x > 2.0) {
-        setState(() {
-          if (showHiddenProperties) {
-            showHiddenProperties = false;
-            _handleResetCounter();
-          }
-        });
-      } else if (event.x < -2.0) {
-        setState(() {
-          showHiddenProperties = true;
-        });
+      if (gestureEnabled) {
+        if (event.x > 2.0) {
+          setState(() {
+            if (showHiddenProperties) {
+              showHiddenProperties = false;
+              _handleResetCounter();
+            }
+          });
+        } else if (event.x < -2.0) {
+          setState(() {
+            showHiddenProperties = true;
+          });
+        }
       }
     }));
   }
@@ -111,7 +120,10 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
     int resetCounter = counterService.counter;
     print(resetCounter);
     if (resetCounter >= 3) {
-      _showCountdownDialog(() {
+      setState(() {
+        gestureEnabled = false;
+      });
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -119,15 +131,24 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
           }),
         );
         counterService.resetCounter();
+        setState(() {
+          gestureEnabled = true;
+        });
       });
     } else if (resetCounter < 3) {
-      _showCountdownDialog(() {
+      setState(() {
+        gestureEnabled = false;
+      });
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
             return FlipTaskIDIntro();
           }),
         );
+        setState(() {
+          gestureEnabled = true;
+        });
       });
     }
   }
@@ -138,20 +159,6 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
     }
-  }
-
-  Future<void> _showCountdownDialog(Function onCountdownComplete) async {
-    int countdownSeconds = 15;
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return CountdownDialog(
-          countdownSeconds: countdownSeconds,
-          onCountdownComplete: onCountdownComplete,
-        );
-      },
-    );
   }
 
   @override
@@ -202,13 +209,36 @@ class FlipTaskIDQuestionnaire extends StatefulWidget {
 }
 
 class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
+  late TaskAssigningService taskAssigningService;
+
+  @override
+  void initState() {
+    taskAssigningService = GetIt.instance.get<TaskAssigningService>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Bestätigungsdialog
-          Navigator.pop(context, true);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) {
+                switch (taskAssigningService.task) {
+                  case 1:
+                  //TODO: screen nach allen vier gesten
+                    return TaskOverviewScreen();
+                  case 2:
+                    return CoverTaskIDIntro();
+                  case 3:
+                    return VolumeButtonTaskIDIntro();
+                  case 4:
+                    return ButtonTaskIDIntro();
+                  default:
+                    return const TaskOverviewScreen();
+                }
+              }));
         },
       ),
       body: CustomWillPopScopeWidget(

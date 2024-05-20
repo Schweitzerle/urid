@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,6 +15,19 @@ class CountdownDialog extends StatefulWidget {
 
   @override
   _CountdownDialogState createState() => _CountdownDialogState();
+
+  static Future<void> showCountdownDialog(BuildContext context, int countdownSeconds, Function onCountdownComplete) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CountdownDialog(
+          countdownSeconds: countdownSeconds,
+          onCountdownComplete: onCountdownComplete,
+        );
+      },
+    );
+  }
 }
 
 class _CountdownDialogState extends State<CountdownDialog> {

@@ -69,7 +69,7 @@ class _PassWidgetPropertiesFlip extends State<PassWidgetPropertiesFlip> {
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 16,
                   fontWeight: FontWeight.bold)),
-          subtitle: Text(widget.showHiddenProperties ? 'Smartphone flippen, um Inhalte auszublenden' : 'Smartphone erneut flippen, um Inhalte anzuzeigen',
+          subtitle: Text(widget.showHiddenProperties ? 'Smartphone nach vorne neigen, um Inhalte auszublenden' : 'Smartphone nach hinten neigen, um Inhalte anzuzeigen',
               style: DefaultTextStyle.of(context).style.copyWith(
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 14)),

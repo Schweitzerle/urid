@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
+import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
+import '../../../models/taskAssigningService.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../../taskOverview/taskOverview.dart';
+import '../ButtonTaskID/buttonTaskIDScreen.dart';
 
 class CoverTaskIDIntro extends StatefulWidget {
   @override
@@ -113,12 +119,35 @@ class CoverTaskIDQuestionnaire extends StatefulWidget {
 }
 
 class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
+  late TaskAssigningService taskAssigningService;
+
+  @override
+  void initState() {
+    taskAssigningService = GetIt.instance.get<TaskAssigningService>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
-        //Bestätigungsdialog
-        Navigator.pop(context, true);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) {
+          switch (taskAssigningService.task) {
+            case 1:
+              return ButtonTaskIDIntro();
+            case 2:
+              return VolumeButtonTaskIDIntro();
+            case 3:
+              //TODO: screen nach allen vier gesten
+              return TaskOverviewScreen();
+            case 4:
+              return FlipTaskIDIntro();
+            default:
+              return const TaskOverviewScreen();
+          }
+        }));
       },
       ),
       body: CustomWillPopScopeWidget(

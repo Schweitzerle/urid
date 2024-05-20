@@ -68,6 +68,8 @@ class _FingerprintTaskIDIntroState extends State<FingerprintTaskIDIntro> {
   }
 }
 
+
+
 class FingerprintTaskIDPass extends StatefulWidget {
   @override
   _FingerprintTaskIDPassState createState() => _FingerprintTaskIDPassState();
@@ -88,9 +90,9 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
-    print(resetCounter);
+    print('Reset Counter: $resetCounter');
     if (resetCounter >= 3) {
-      _showCountdownDialog(() {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -99,9 +101,8 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
         );
         counterService.resetCounter();
       });
-    } else if (resetCounter < 3) {
-      //TODO: aus irgendeinem Grund geht er hier nicht weiter zum nächsten screen obwohl er richtig in die bedingung rein geht
-      _showCountdownDialog(() {
+    } else {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -110,20 +111,6 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
         );
       });
     }
-  }
-
-  Future<void> _showCountdownDialog(Function onCountdownComplete) async {
-    int countdownSeconds = 15;
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return CountdownDialog(
-          countdownSeconds: countdownSeconds,
-          onCountdownComplete: onCountdownComplete,
-        );
-      },
-    );
   }
 
   @override
@@ -137,56 +124,51 @@ class _FingerprintTaskIDPassState extends State<FingerprintTaskIDPass> {
       child: Scaffold(
         floatingActionButton: showFloatingButton
             ? FloatingActionButton(
-                child: const Icon(Icons.navigate_next, size: 28),
-                onPressed: () async {
-                  /*
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return FingerprintTaskIDQuestionnaire();
-                  }),
-                 try {
-                  final bool didAuthenticate = await auth.authenticate(
-                  localizedReason: 'Please authenticate to show account balance',
-                  options: const AuthenticationOptions(biometricOnly: true, useErrorDialogs: false));
-                  } on PlatformException catch (e) {
-                    if (e.code == auth_error.notEnrolled) {
-                      print(e.message);
-                    }
-                  }
-                );
-                 */
-                  showFingerprintBottomSheet(context, (bool success) {
-                    setState(() {
-                      if (showHiddenProperties == true) {
-                        showHiddenProperties = false;
-                        _handleResetCounter();
-                      } else if (showHiddenProperties == false) {
-                        showHiddenProperties = true;
-                      }
-                    });
-                  });
-                })
+            child: const Icon(Icons.navigate_next, size: 28),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return FingerprintTaskIDQuestionnaire();
+                }),
+              );
+            })
             : null,
         body: CustomWillPopScopeWidget(
           child: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Center(
-                child: RotationTransition(
-              turns: showHiddenProperties
-                  ? AlwaysStoppedAnimation(180 / 360)
-                  : AlwaysStoppedAnimation(0 / 360),
-              child: PassWidgetFingerprint(
-                pass: DummyData.erikaMusterfrauPassObject(),
-                showHiddenProperties: showHiddenProperties,
+              child: RotationTransition(
+                turns: showHiddenProperties
+                    ? AlwaysStoppedAnimation(180 / 360)
+                    : AlwaysStoppedAnimation(0 / 360),
+                child: PassWidgetFingerprint(
+                  pass: DummyData.erikaMusterfrauPassObject(),
+                  showHiddenProperties: showHiddenProperties,
+                  onAuthenticate: () {
+                    showFingerprintBottomSheet(context, (bool success) {
+                      if (success) {
+                        setState(() {
+                          if (showHiddenProperties) {
+                            showHiddenProperties = false;
+                            _handleResetCounter();
+                          } else {
+                            showHiddenProperties = true;
+                          }
+                        });
+                      }
+                    });
+                  },
+                ),
               ),
-            )),
+            ),
           ),
         ),
       ),
     );
   }
 }
+
 
 class FingerprintTaskIDQuestionnaire extends StatefulWidget {
   @override

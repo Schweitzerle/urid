@@ -4,6 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:urid/feature/models/taskAssigningService.dart';
+import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import 'package:urid/feature/screens/taskOverview/taskOverview.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
@@ -19,7 +24,13 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final TextEditingController subjectIDTextController = TextEditingController(text: '18'); //Später User selbst eingeben
+  late TaskAssigningService taskAssigningService;
 
+  @override
+  void initState() {
+    taskAssigningService = GetIt.instance.get<TaskAssigningService>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +85,18 @@ class _IntroScreenState extends State<IntroScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
-              return const TaskOverviewScreen();
+              switch (taskAssigningService.task) {
+                case 1:
+                  return CoverTaskIDIntro();
+                case 2:
+                  return ButtonTaskIDIntro();
+                case 3:
+                  return FlipTaskIDIntro();
+                case 4:
+                  return VolumeButtonTaskIDIntro();
+                default:
+                  return const TaskOverviewScreen();
+              }
             }),
           );
         },

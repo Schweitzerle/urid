@@ -4,13 +4,18 @@ import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
+import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
+import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
 import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_widget_button.dart';
 import '../../../models/counterService.dart';
+import '../../../models/taskAssigningService.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../../taskOverview/taskOverview.dart';
 
 class ButtonTaskIDIntro extends StatefulWidget {
   @override
@@ -29,8 +34,8 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 title: "Bildschirm Abdecken",
                 body:
                     "In dem folgenden Screen siehst du die private Ansicht des digitalen Mitarbeiterausweises. Deine Aufgabe ist es bewusst Informationen mit mir zu teilen. Dies Erfolgt durch das Abdecken des relevanten Teils des Bildschirms durch deine Hand. 3x Widerholen....",
-                image: Center(
-                    child: Lottie.asset('assets/animations/study.json')),
+                image:
+                    Center(child: Lottie.asset('assets/animations/study.json')),
                 footer: ElevatedButton(
                   onPressed: () {},
                   child: const Text("Let's Go!"),
@@ -74,6 +79,7 @@ class ButtonTaskIDPass extends StatefulWidget {
 class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
+  bool gestureEnabled = true;
   late CounterService counterService;
 
   @override
@@ -87,48 +93,47 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     int resetCounter = counterService.counter;
     print(resetCounter);
     if (resetCounter >= 3) {
-      _showCountdownDialog(() {
+      setState(() {
+        gestureEnabled = false;
+      });
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return ButtonTaskIDQuestionnaire();
-        }),
-      );
+          context,
+          MaterialPageRoute(builder: (context) {
+            return ButtonTaskIDQuestionnaire();
+          }),
+        );
         counterService.resetCounter();
+        setState(() {
+          gestureEnabled = true;
+        });
       });
     } else if (resetCounter < 3) {
-      _showCountdownDialog(() {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return ButtonTaskIDIntro();
-        }),
-      );
+      setState(() {
+        gestureEnabled = false;
+      });
+      CountdownDialog.showCountdownDialog(context, 15, () {
+        gestureEnabled = false;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return ButtonTaskIDIntro();
+          }),
+        );
+        setState(() {
+          gestureEnabled = true;
+        });
       });
     }
-  }
-
-  Future<void> _showCountdownDialog(Function onCountdownComplete) async {
-    int countdownSeconds = 15;
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return CountdownDialog(
-          countdownSeconds: countdownSeconds,
-          onCountdownComplete: onCountdownComplete,
-        );
-      },
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: showFloatingButton ?
-        FloatingActionButton(
-          child: const Icon(Icons.navigate_next, size: 28),
-            onPressed: () {
+      floatingActionButton: showFloatingButton
+          ? FloatingActionButton(
+              child: const Icon(Icons.navigate_next, size: 28),
+              onPressed: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) {
@@ -136,54 +141,67 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                   }),
                 );
               })
-            : null,
-        body: CustomWillPopScopeWidget(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Center(
-                child: GestureDetector(
-                  onDoubleTap: () {
-                    setState(() {
-                      showFloatingButton = true;
-                    });
-                  },
-                  onTapDown: (details) {
-                    setState(() {
-                      showHiddenProperties = true;
-                    });
-                  },
-                  onTapUp: (details) {
-                    setState(() {
-                      if (showHiddenProperties) {
-                        showHiddenProperties = false;
-                        _handleResetCounter();
-                      }
-                    });
-                  },
-                  onVerticalDragEnd: (details) {
-                    setState(() {
-                      if (showHiddenProperties) {
-                        showHiddenProperties = false;
-                        _handleResetCounter();
-                      }
-                    });
-                  },
-                  onHorizontalDragEnd: (details) {
-                    if (showHiddenProperties) {
-                      showHiddenProperties = false;
-                      _handleResetCounter();
-                    }
-                  },
-                  child: RotationTransition(
-                    turns: showHiddenProperties ? AlwaysStoppedAnimation(180/360) : AlwaysStoppedAnimation(0/360),
-                    child: PassWidgetButton(
-                                  pass: DummyData.erikaMusterfrauPassObject(), showHiddenProperties: showHiddenProperties,
-                                ),
-                  ),
-                )),
-          ),
+          : null,
+      body: CustomWillPopScopeWidget(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Center(
+              child: GestureDetector(
+            onDoubleTap: () {
+              setState(() {
+                showFloatingButton = true;
+              });
+            },
+            onTapDown: (details) {
+              if (gestureEnabled) {
+                setState(() {
+                  showHiddenProperties = true;
+                });
+              }
+            },
+            onTapUp: (details) {
+              if (gestureEnabled) {
+                setState(() {
+                  if (showHiddenProperties) {
+                    showHiddenProperties = false;
+                    _handleResetCounter();
+                  }
+                });
+              }
+            },
+            onVerticalDragEnd: (details) {
+              if (gestureEnabled) {
+                setState(() {
+                  if (showHiddenProperties) {
+                    showHiddenProperties = false;
+                    _handleResetCounter();
+                  }
+                });
+              }
+            },
+            onHorizontalDragEnd: (details) {
+              if (gestureEnabled) {
+                setState(() {
+                  if (showHiddenProperties) {
+                    showHiddenProperties = false;
+                    _handleResetCounter();
+                  }
+                });
+              }
+            },
+            child: RotationTransition(
+              turns: showHiddenProperties
+                  ? AlwaysStoppedAnimation(180 / 360)
+                  : AlwaysStoppedAnimation(0 / 360),
+              child: PassWidgetButton(
+                pass: DummyData.erikaMusterfrauPassObject(),
+                showHiddenProperties: showHiddenProperties,
+              ),
+            ),
+          )),
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -194,17 +212,40 @@ class ButtonTaskIDQuestionnaire extends StatefulWidget {
 }
 
 class _ButtonTaskIDQuestionnaireState extends State<ButtonTaskIDQuestionnaire> {
+  late TaskAssigningService taskAssigningService;
+
+  @override
+  void initState() {
+    taskAssigningService = GetIt.instance.get<TaskAssigningService>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        //TODO: Screen dazwischen schalten, welcher aus der id den nächsten Task nach LatingSquare entnimmt, auch pause dazwischen
-        Navigator.pop(context, true);
-      },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) {
+                switch (taskAssigningService.task) {
+                  case 1:
+                    return VolumeButtonTaskIDIntro();
+                  case 2:
+                    return FlipTaskIDIntro();
+                  case 3:
+                    return CoverTaskIDIntro();
+                  case 4:
+                  //TODO: screen nach allen vier gesten
+                    return TaskOverviewScreen();
+                  default:
+                    return const TaskOverviewScreen();
+                }
+              }));
+        },
       ),
       body: CustomWillPopScopeWidget(
-        child: AgencyQuestionnaireWidget(taskType: TaskType.holdButton)
-      ),
+          child: AgencyQuestionnaireWidget(taskType: TaskType.holdButton)),
     );
   }
 }

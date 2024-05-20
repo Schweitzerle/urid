@@ -33,6 +33,8 @@ dependencies:
   local_auth_android: ^1.0.38
   vibration: ^1.8.4
   volume_controller: ^2.0.7
+  package_info_plus: any
+  flutter_volume_controller: ^1.3.2
 
 dev_dependencies:
   flutter_test:

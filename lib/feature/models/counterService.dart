@@ -14,8 +14,3 @@ class CounterService {
   }
 }
 
-final GetIt getIt = GetIt.instance;
-
-void setupLocator() {
-  getIt.registerSingleton<CounterService>(CounterService());
-}

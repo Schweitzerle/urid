@@ -9,12 +9,17 @@ import 'package:urid_api_client/urid_api_client.dart';
 
 import '../../../widgets/pass/pass.dart';
 
-
 class PassWidgetFingerprint extends StatelessWidget {
   final URIDPass pass;
-  bool showHiddenProperties;
+  final bool showHiddenProperties;
+  final void Function() onAuthenticate;
 
-  PassWidgetFingerprint({required this.pass, required this.showHiddenProperties, super.key});
+  PassWidgetFingerprint({
+    required this.pass,
+    required this.showHiddenProperties,
+    required this.onAuthenticate,
+    super.key,
+  });
 
   static Widget createImageForPass(URIDPass pass) {
     var image = Image.memory(base64Decode(pass.properties["photo"]!.value));
@@ -49,7 +54,6 @@ class PassWidgetFingerprint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool show = false;
     if (Platform.isAndroid && pass.properties["smartID"] != null) {
       return SingleChildScrollView(
         child: Padding(
@@ -75,7 +79,11 @@ class PassWidgetFingerprint extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                PassWidgetPropertiesFingerprint(pass: pass, showHiddenProperties: showHiddenProperties,),
+                PassWidgetPropertiesFingerprint(
+                  pass: pass,
+                  showHiddenProperties: showHiddenProperties,
+                  onAuthenticate: onAuthenticate,
+                ),
                 const SizedBox(
                   height: 8,
                 ),
