@@ -272,22 +272,24 @@ class _VolumeButtonTaskIDQuestionnaireState
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            switch (taskAssigningService.task) {
-              case 1:
-                return FlipTaskIDIntro();
-              case 2:
-                //TODO: screen nach allen vier gesten
-                return TaskOverviewScreen();
-              case 3:
-                return ButtonTaskIDIntro();
-              case 4:
-                return CoverTaskIDIntro();
-              default:
-                return const TaskOverviewScreen();
-            }
-          }));
+          CountdownDialog.showCountdownDialog(context, 60, () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
+                  switch (taskAssigningService.task) {
+                    case 1:
+                      return FlipTaskIDIntro();
+                    case 2:
+                    //TODO: screen nach allen vier gesten
+                      return TaskOverviewScreen();
+                    case 3:
+                      return ButtonTaskIDIntro();
+                    case 4:
+                      return CoverTaskIDIntro();
+                    default:
+                      return const TaskOverviewScreen();
+                  }
+                }));
+          });
         },
       ),
       body: CustomWillPopScopeWidget(

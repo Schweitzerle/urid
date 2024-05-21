@@ -215,22 +215,24 @@ class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            switch (taskAssigningService.task) {
-              case 1:
-                return ButtonTaskIDIntro();
-              case 2:
-                return VolumeButtonTaskIDIntro();
-              case 3:
-                //TODO: screen nach allen vier gesten
-                return TaskOverviewScreen();
-              case 4:
-                return FlipTaskIDIntro();
-              default:
-                return const TaskOverviewScreen();
-            }
-          }));
+          CountdownDialog.showCountdownDialog(context, 60, () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
+                  switch (taskAssigningService.task) {
+                    case 1:
+                      return ButtonTaskIDIntro();
+                    case 2:
+                      return VolumeButtonTaskIDIntro();
+                    case 3:
+                    //TODO: screen nach allen vier gesten
+                      return TaskOverviewScreen();
+                    case 4:
+                      return FlipTaskIDIntro();
+                    default:
+                      return const TaskOverviewScreen();
+                  }
+                }));
+          });
         },
       ),
       body: CustomWillPopScopeWidget(
