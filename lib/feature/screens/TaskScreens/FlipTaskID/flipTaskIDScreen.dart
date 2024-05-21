@@ -117,7 +117,7 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return ButtonTaskIDPass();
+                  return FlipTaskIDPass();
                 }),
               );
             },
