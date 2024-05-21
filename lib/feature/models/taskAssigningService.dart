@@ -1,20 +1,36 @@
-import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskAssigningService {
-  //TODO: wieder auf eins setzten, nur für testzwecke
-  //TODO: SharedPrefs um state of task nummer sitzungsübergreifend zu merken und somit automoatisch neue probanden nach latinsquare reihenfolge einteilen. incrementtask soll am besten erst vor der ersten task, also am ende vom introscreen (vermeidet fehler, wenn man die app mal aus versheen startet, dann wird dort nicht die task nummer erhöht und verzerrt die latinsquare reihenfolge)
-  int _task = 4;
+  static const _taskKey = 'taskKey';
+  int _task = 0;
+
+  TaskAssigningService() {
+    _loadTaskFromPrefs();
+  }
 
   int get task => _task;
 
-  void incrementCounter() {
-    if (_task >= 4) {
-      resetCounter();
-    }
-    _task++;
+  Future<void> _loadTaskFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _task = prefs.getInt(_taskKey) ?? 0;
   }
 
-  void resetCounter() {
+  Future<void> incrementCounter() async {
+    if (_task >= 4) {
+      await resetCounter();
+    } else {
+      _task++;
+      await _saveTaskToPrefs();
+    }
+  }
+
+  Future<void> resetCounter() async {
     _task = 1;
+    await _saveTaskToPrefs();
+  }
+
+  Future<void> _saveTaskToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_taskKey, _task);
   }
 }

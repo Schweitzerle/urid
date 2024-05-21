@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
+
+import '../models/taskAssigningService.dart';
 
 class CountdownDialog extends StatefulWidget {
   final int countdownSeconds;
@@ -32,10 +35,13 @@ class CountdownDialog extends StatefulWidget {
 
 class _CountdownDialogState extends State<CountdownDialog> {
   late int _currentCountdown;
+  final TaskAssigningService taskAssigningService = GetIt.instance<TaskAssigningService>();
+
 
   @override
   void initState() {
     super.initState();
+    print(taskAssigningService.task);
     _currentCountdown = widget.countdownSeconds;
     _startCountdown();
   }
@@ -60,7 +66,7 @@ class _CountdownDialogState extends State<CountdownDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Lottie.asset('assets/animations/study3.json'),
+          Lottie.asset('assets/animations/break.json'),
           SizedBox(height: 14,),
           Text('Nächste Task in $_currentCountdown Sekunden...'),
         ],

@@ -12,10 +12,19 @@ import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidg
 import 'package:urid/feature/widgets/pass/pass.dart';
 import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_widget_button.dart';
 import '../../../models/counterService.dart';
+import '../../../models/strings.dart';
 import '../../../models/taskAssigningService.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 import '../../taskOverview/taskOverview.dart';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:lottie/lottie.dart';
+import 'package:get_it/get_it.dart';
+import 'package:urid/feature/widgets/customWillPopScope.dart';
+
 
 class ButtonTaskIDIntro extends StatefulWidget {
   @override
@@ -23,6 +32,8 @@ class ButtonTaskIDIntro extends StatefulWidget {
 }
 
 class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
+  final CounterService counterService = GetIt.instance.get<CounterService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,31 +42,84 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
           child: IntroductionScreen(
             pages: [
               PageViewModel(
-                title: "Bildschirm Abdecken",
-                body:
-                    "In dem folgenden Screen siehst du die private Ansicht des digitalen Mitarbeiterausweises. Deine Aufgabe ist es bewusst Informationen mit mir zu teilen. Dies Erfolgt durch das Abdecken des relevanten Teils des Bildschirms durch deine Hand. 3x Widerholen....",
-                image:
-                    Center(child: Lottie.asset('assets/animations/study.json')),
-                footer: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Let's Go!"),
+                title: Strings.buttonTaskTitle,
+                bodyWidget: const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.buttonTaskBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
+                image: Center(
+                    child: Lottie.asset('assets/animations/press_button.json')),
+                decoration: const PageDecoration(
+                  bodyFlex: 5,
+                  imageFlex: 3,
+                  bodyAlignment: Alignment.topCenter,
+                  imageAlignment: Alignment.center,
+                  imagePadding: EdgeInsets.all(8),
                 ),
               ),
               PageViewModel(
-                title: "Title of custom button page",
-                body:
-                    "This is a description on a page with a custom button below.",
-                image: Container(
-                    child: Center(
-                        child: Lottie.asset('assets/animations/study2.json'))),
-                footer: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Let's Go!"),
+                title: Strings.nextStepAutoTitle,
+                bodyWidget: const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.nextStepAutoBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
+                image: Center(
+                    child: Lottie.asset('assets/animations/study.json')),
+                decoration: const PageDecoration(
+                  bodyFlex: 5,
+                  imageFlex: 3,
+                  bodyAlignment: Alignment.topCenter,
+                  imageAlignment: Alignment.center,
+                  imagePadding: EdgeInsets.all(8),
                 ),
-              )
+              ),
+              PageViewModel(
+                title: Strings.questionnaireTitle,
+                image: Center(
+                    child: Lottie.asset('assets/animations/start.json')),
+                bodyWidget: Column(
+                  children: [
+                    Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            Strings.questionnaireTaskBody,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
+                    SizedBox(height: 20,),
+                    Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            counterService.counter <= 0 ? 'Noch 3 Wiederholungen!' : counterService.counter == 1 ? 'Noch 2 Wiederholungen!' : counterService.counter >= 2 ? 'Noch 1 Wiederholung!' : '',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
+                  ],
+                ),
+                decoration: const PageDecoration(
+                  bodyFlex: 5,
+                  imageFlex: 3,
+                  bodyAlignment: Alignment.topCenter,
+                  imagePadding: EdgeInsets.all(8),
+                ),
+              ),
             ],
             showNextButton: false,
-            done: const Text("Done"),
+            done: const Text("Fertig"),
             onDone: () {
               Navigator.pushReplacement(
                 context,
@@ -80,11 +144,10 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
   bool showFloatingButton = false;
   bool showHiddenProperties = false;
   bool gestureEnabled = true;
-  late CounterService counterService;
+  final CounterService counterService = GetIt.instance.get<CounterService>();
 
   @override
   void initState() {
-    counterService = GetIt.instance.get<CounterService>();
     super.initState();
   }
 

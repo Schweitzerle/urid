@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -12,76 +11,190 @@ import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButton
 import 'package:urid/feature/screens/taskOverview/taskOverview.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
+import '../../models/strings.dart';
 import '../../models/subject.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
-
 
   @override
   State<IntroScreen> createState() => _IntroScreenState();
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final TextEditingController subjectIDTextController = TextEditingController(text: '18'); //Später User selbst eingeben
-  late TaskAssigningService taskAssigningService;
+  final TaskAssigningService taskAssigningService =
+  GetIt.instance<TaskAssigningService>();
 
   @override
   void initState() {
-    taskAssigningService = GetIt.instance.get<TaskAssigningService>();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: introSliderPages()
+      body: introSliderPages(context),
     );
   }
 
-  @override
-  void dispose() {
-    subjectIDTextController.dispose();
-    super.dispose();
-  }
-
-  Widget introSliderPages() {
+  Widget introSliderPages(BuildContext context) {
     return CustomWillPopScopeWidget(
       child: IntroductionScreen(
         pages: [
           PageViewModel(
-            title: "Wilkommen zu meiner Studie",
-            body: "Vielen Dank, dass du an meiner Studie teilnimmst. Im Folgenden wird dir nochmal der Studienablauf erklärt und deine Aufgaben. Viel Spas bei der Studie!",
-            image: Center(child: Lottie.asset('assets/animations/study.json')),
-          ),
-          PageViewModel(
-            title: "Studienablauf",
-            body: "Im Verlauf der Studie wirst du einen digitalen Mitarbeiterausweis der Universität Regensburg benutzen....Task startet immer in privater Ansciht und aufgabe ist es in die öffentliche zu gehene(bwusste informationsfreigabe) durch interaktionsgesten, 3x wiederholen.",
-            image: Center(child: Lottie.asset('assets/animations/study2.json')),
-          ),
-          PageViewModel(
-            title: "Probanden ID",
-            image: Center(child: Lottie.asset('assets/animations/study2.json')),
-            bodyWidget: Column(
-              children: [
-                Text("Trage hier bitte die Probanden ID ein, welche du vom Versuchsleiter gesagt bekommst."),
-                TextField(
-                  controller: subjectIDTextController,
-                  decoration: InputDecoration(labelText: "Probanden ID"),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-
+            title: Strings.welcomeTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.welcomeBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
                 ),
-              ],
+              ),
             ),
-          )
+            image: Center(child: Lottie.asset('assets/animations/hello.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
+          PageViewModel(
+            title: Strings.confidentialityTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.confidentialityBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            image: Center(child: Lottie.asset('assets/animations/privacy.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
+          PageViewModel(
+            title: Strings.studyProcessTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.studyProcessBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            image: Center(child: Lottie.asset('assets/animations/study.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
+          PageViewModel(
+            title: Strings.interactionMethodsTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.interactionMethodsBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            image: Center(child: Lottie.asset('assets/animations/interaction.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
+          PageViewModel(
+            title: Strings.questionnaireTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.questionnaireBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            image: Center(child: Lottie.asset('assets/animations/survey.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
+          PageViewModel(
+            title: Strings.interviewTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.interviewBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            image: Center(child: Lottie.asset('assets/animations/coopWork.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
+          PageViewModel(
+            title: Strings.readyTitle,
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.readyBody,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            image: Center(child: Lottie.asset('assets/animations/start.json')),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
         ],
-        showNextButton: false,
-        done: const Text("Done"),
-        onDone: () {
-          registerCurrentUserData(int.parse(subjectIDTextController.text));
+        showNextButton: true,
+        next: const Icon(Icons.arrow_forward),
+        done: const Text("Start"),
+        onDone: () async {
+          await taskAssigningService.incrementCounter();
+          print(taskAssigningService.task);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
@@ -100,6 +213,15 @@ class _IntroScreenState extends State<IntroScreen> {
             }),
           );
         },
+        dotsDecorator: DotsDecorator(
+          activeColor: Theme.of(context).primaryColor,
+          size: const Size.square(10.0),
+          activeSize: const Size(22.0, 10.0),
+          activeShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+        ),
+        globalBackgroundColor: Colors.white,
       ),
     );
   }
@@ -108,7 +230,6 @@ class _IntroScreenState extends State<IntroScreen> {
     Subject subject = Subject(id: subjectId);
     final getIt = GetIt.instance;
     getIt.allowReassignment = true;
-    getIt.registerSingletonAsync<Subject>(() => Future.value(subject),
-    );  }
-
+    getIt.registerSingletonAsync<Subject>(() => Future.value(subject));
+  }
 }

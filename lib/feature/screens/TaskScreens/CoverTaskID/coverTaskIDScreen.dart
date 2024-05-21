@@ -9,7 +9,10 @@ import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButton
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
+import '../../../models/counterService.dart';
+import '../../../models/strings.dart';
 import '../../../models/taskAssigningService.dart';
+import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 import '../../taskOverview/taskOverview.dart';
 import '../ButtonTaskID/buttonTaskIDScreen.dart';
@@ -20,6 +23,8 @@ class CoverTaskIDIntro extends StatefulWidget {
 }
 
 class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
+  final CounterService counterService = GetIt.instance.get<CounterService>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,31 +33,83 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
           child: IntroductionScreen(
             pages: [
               PageViewModel(
-                title: "Bildschirm Abdecken",
-                body:
-                    "In dem folgenden Screen siehst du die private Ansicht des digitalen Mitarbeiterausweises. Deine Aufgabe ist es bewusst Informationen mit mir zu teilen. Dies Erfolgt durch das Abdecken des relevanten Teils des Bildschirms durch deine Hand. 3x Widerholen....",
+                title: Strings.coverTaskTitle,
+                bodyWidget: const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.coverTaskBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: Center(
-                    child: Lottie.asset('assets/animations/study.json')),
-                footer: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Let's Go!"),
+                    child: Lottie.asset('assets/animations/cover_hand.json')),
+                decoration: const PageDecoration(
+                  bodyFlex: 5,
+                  imageFlex: 3,
+                  bodyAlignment: Alignment.topCenter,
+                  imageAlignment: Alignment.center,
+                  imagePadding: EdgeInsets.all(8),
                 ),
               ),
               PageViewModel(
-                title: "Title of custom button page",
-                body:
-                    "This is a description on a page with a custom button below.",
-                image: Container(
-                    child: Center(
-                        child: Lottie.asset('assets/animations/study2.json'))),
-                footer: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Let's Go!"),
+                title: Strings.nextStepTitle,
+                bodyWidget: const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.nextStepBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
+                image: Center(child: Lottie.asset('assets/animations/study.json')),
+                decoration: const PageDecoration(
+                  bodyFlex: 5,
+                  imageFlex: 3,
+                  bodyAlignment: Alignment.topCenter,
+                  imageAlignment: Alignment.center,
+                  imagePadding: EdgeInsets.all(8),
                 ),
-              )
+              ),
+              PageViewModel(
+                title: Strings.questionnaireTitle,
+                image: Center(child: Lottie.asset('assets/animations/start.json')),
+                bodyWidget: Column(
+                  children: [
+                    Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            Strings.questionnaireTaskBody,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
+                    SizedBox(height: 20,),
+                    Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            counterService.counter <= 0 ? 'Noch 3 Wiederholungen!' : counterService.counter == 1 ? 'Noch 2 Wiederholungen!' : counterService.counter >= 2 ? 'Noch 1 Wiederholung!' : '',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
+
+                  ],
+                ),
+                decoration: const PageDecoration(
+                  bodyFlex: 5,
+                  imageFlex: 3,
+                  bodyAlignment: Alignment.topCenter,
+                  imagePadding: EdgeInsets.all(8),
+                ),
+              ),
             ],
             showNextButton: false,
-            done: const Text("Done"),
+            done: const Text("Fertig"),
             onDone: () {
               Navigator.pushReplacement(
                 context,
@@ -75,6 +132,38 @@ class CoverTaskIDPass extends StatefulWidget {
 
 class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
   bool showFloatingButton = false;
+  final CounterService counterService = GetIt.instance.get<CounterService>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _handleResetCounter() {
+    counterService.incrementCounter();
+    int resetCounter = counterService.counter;
+    print(resetCounter);
+    if (resetCounter >= 3) {
+      CountdownDialog.showCountdownDialog(context, 15, () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return CoverTaskIDQuestionnaire();
+          }),
+        );
+        counterService.resetCounter();
+      });
+    } else if (resetCounter < 3) {
+      CountdownDialog.showCountdownDialog(context, 15, () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return CoverTaskIDIntro();
+          }),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,18 +174,12 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
         });
       },
       child: Scaffold(
-
-        floatingActionButton: showFloatingButton ?
-        FloatingActionButton(
-          child: const Icon(Icons.navigate_next, size: 28),
-            onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return CoverTaskIDQuestionnaire();
-                  }),
-                );
-              })
+        floatingActionButton: showFloatingButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.navigate_next, size: 28),
+                onPressed: () {
+                  _handleResetCounter();
+                })
             : null,
         body: CustomWillPopScopeWidget(
           child: Padding(
@@ -130,29 +213,28 @@ class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) {
-          switch (taskAssigningService.task) {
-            case 1:
-              return ButtonTaskIDIntro();
-            case 2:
-              return VolumeButtonTaskIDIntro();
-            case 3:
-              //TODO: screen nach allen vier gesten
-              return TaskOverviewScreen();
-            case 4:
-              return FlipTaskIDIntro();
-            default:
-              return const TaskOverviewScreen();
-          }
-        }));
-      },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            switch (taskAssigningService.task) {
+              case 1:
+                return ButtonTaskIDIntro();
+              case 2:
+                return VolumeButtonTaskIDIntro();
+              case 3:
+                //TODO: screen nach allen vier gesten
+                return TaskOverviewScreen();
+              case 4:
+                return FlipTaskIDIntro();
+              default:
+                return const TaskOverviewScreen();
+            }
+          }));
+        },
       ),
       body: CustomWillPopScopeWidget(
-        child: AgencyQuestionnaireWidget(taskType: TaskType.coverPhone)
-      ),
+          child: AgencyQuestionnaireWidget(taskType: TaskType.coverPhone)),
     );
   }
 }
