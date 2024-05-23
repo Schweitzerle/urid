@@ -179,7 +179,7 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -195,7 +195,7 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -275,32 +275,6 @@ class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          CountdownDialog.showCountdownDialog(context, 60, () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  switch (taskAssigningService.task) {
-                    case 1:
-                    //TODO: screen nach allen vier gesten
-                      return TaskOverviewScreen();
-                    case 2:
-                      return CoverTaskIDIntro();
-                    case 3:
-                      return VolumeButtonTaskIDIntro();
-                    case 4:
-                      return ButtonTaskIDIntro();
-                    default:
-                      return const TaskOverviewScreen();
-                  }
-                }));
-          });
-        },
-      ),
-      body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.flipPhone)),
-    );
+    return AgencyQuestionnaireWidget(taskType: TaskType.flipPhone, taskAssigningService: taskAssigningService,);
   }
 }

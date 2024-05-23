@@ -8,8 +8,10 @@ import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen
 import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
+import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
 import 'package:urid/feature/screens/taskOverview/taskOverview.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/strings.dart';
 import '../../models/subject.dart';
@@ -194,11 +196,15 @@ class _IntroScreenState extends State<IntroScreen> {
         done: const Text("Start"),
         onDone: () async {
           await taskAssigningService.incrementCounter();
+          registerCurrentSubject();
           print(taskAssigningService.task);
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
-              switch (taskAssigningService.task) {
+              return AudioRecorderScreen();
+              /*
+          switch (taskAssigningService.task) {
                 case 1:
                   return CoverTaskIDIntro();
                 case 2:
@@ -210,6 +216,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 default:
                   return const TaskOverviewScreen();
               }
+           */
             }),
           );
         },
@@ -226,10 +233,8 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  void registerCurrentUserData(int subjectId) {
-    Subject subject = Subject(id: subjectId);
-    final getIt = GetIt.instance;
-    getIt.allowReassignment = true;
-    getIt.registerSingletonAsync<Subject>(() => Future.value(subject));
+  void registerCurrentSubject() {
+    var uuid = const Uuid();
+    GetIt.I.registerSingleton<Subject>(Subject(null, null, null, null, null, uuid: uuid.v4(), taskAssigningService: taskAssigningService));
   }
 }

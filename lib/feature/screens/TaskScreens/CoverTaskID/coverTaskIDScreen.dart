@@ -44,7 +44,7 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
                       ),
                     )),
                 image: Center(
-                    child: Lottie.asset('assets/animations/cover_hand.json')),
+                    child: Lottie.asset('assets/animations/handCover.json')),
                 decoration: const PageDecoration(
                   bodyFlex: 5,
                   imageFlex: 3,
@@ -144,7 +144,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
     int resetCounter = counterService.counter;
     print(resetCounter);
     if (resetCounter >= 3) {
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -154,7 +154,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
         counterService.resetCounter();
       });
     } else if (resetCounter < 3) {
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -212,31 +212,6 @@ class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          CountdownDialog.showCountdownDialog(context, 60, () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-                  switch (taskAssigningService.task) {
-                    case 1:
-                      return ButtonTaskIDIntro();
-                    case 2:
-                      return VolumeButtonTaskIDIntro();
-                    case 3:
-                    //TODO: screen nach allen vier gesten
-                      return TaskOverviewScreen();
-                    case 4:
-                      return FlipTaskIDIntro();
-                    default:
-                      return const TaskOverviewScreen();
-                  }
-                }));
-          });
-        },
-      ),
-      body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.coverPhone)),
-    );
+    return AgencyQuestionnaireWidget(taskType: TaskType.coverPhone, taskAssigningService: taskAssigningService,);
   }
 }

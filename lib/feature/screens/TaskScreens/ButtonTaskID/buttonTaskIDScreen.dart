@@ -25,7 +25,6 @@ import 'package:lottie/lottie.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
-
 class ButtonTaskIDIntro extends StatefulWidget {
   @override
   _ButtonTaskIDIntroState createState() => _ButtonTaskIDIntroState();
@@ -45,15 +44,15 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 title: Strings.buttonTaskTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.buttonTaskBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    Strings.buttonTaskBody,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )),
                 image: Center(
-                    child: Lottie.asset('assets/animations/press_button.json')),
+                    child: Lottie.asset('assets/animations/handCover.json')),
                 decoration: const PageDecoration(
                   bodyFlex: 5,
                   imageFlex: 3,
@@ -66,15 +65,15 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 title: Strings.nextStepAutoTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.nextStepAutoBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
-                image: Center(
-                    child: Lottie.asset('assets/animations/study.json')),
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    Strings.nextStepAutoBody,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )),
+                image:
+                    Center(child: Lottie.asset('assets/animations/study.json')),
                 decoration: const PageDecoration(
                   bodyFlex: 5,
                   imageFlex: 3,
@@ -85,29 +84,37 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
               ),
               PageViewModel(
                 title: Strings.questionnaireTitle,
-                image: Center(
-                    child: Lottie.asset('assets/animations/start.json')),
+                image:
+                    Center(child: Lottie.asset('assets/animations/start.json')),
                 bodyWidget: Column(
                   children: [
                     Card(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            Strings.questionnaireTaskBody,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        )),
-                    SizedBox(height: 20,),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.questionnaireTaskBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Card(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            counterService.counter <= 0 ? 'Noch 3 Wiederholungen!' : counterService.counter == 1 ? 'Noch 2 Wiederholungen!' : counterService.counter >= 2 ? 'Noch 1 Wiederholung!' : '',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        )),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        counterService.counter <= 0
+                            ? 'Noch 3 Wiederholungen!'
+                            : counterService.counter == 1
+                                ? 'Noch 2 Wiederholungen!'
+                                : counterService.counter >= 2
+                                    ? 'Noch 1 Wiederholung!'
+                                    : '',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                   ],
                 ),
                 decoration: const PageDecoration(
@@ -159,7 +166,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -175,7 +182,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         gestureEnabled = false;
         Navigator.pushReplacement(
           context,
@@ -285,32 +292,9 @@ class _ButtonTaskIDQuestionnaireState extends State<ButtonTaskIDQuestionnaire> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          CountdownDialog.showCountdownDialog(context, 60, () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  switch (taskAssigningService.task) {
-                    case 1:
-                      return VolumeButtonTaskIDIntro();
-                    case 2:
-                      return FlipTaskIDIntro();
-                    case 3:
-                      return CoverTaskIDIntro();
-                    case 4:
-                    //TODO: screen nach allen vier gesten
-                      return TaskOverviewScreen();
-                    default:
-                      return const TaskOverviewScreen();
-                  }
-                }));
-          });
-        },
-      ),
-      body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.holdButton)),
+    return AgencyQuestionnaireWidget(
+      taskType: TaskType.holdButton,
+      taskAssigningService: taskAssigningService,
     );
   }
 }

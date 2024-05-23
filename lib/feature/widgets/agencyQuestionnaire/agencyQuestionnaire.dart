@@ -18,7 +18,7 @@ enum TaskType {
 coverPhone,
 holdButton,
 flipPhone,
-fingerprint
+volumeButton
 }
 
 extension ParseToString on TaskType {
@@ -30,8 +30,8 @@ extension ParseToString on TaskType {
         return "Button gedrückt halten";
       case TaskType.flipPhone:
         return "Flip Smartphone";
-      case TaskType.fingerprint:
-        return "Fingerabdruck";
+      case TaskType.volumeButton:
+        return "Lautstärketasten";
       default: return "Konnte Tasktype nicht identifizieren..";
     }
   }

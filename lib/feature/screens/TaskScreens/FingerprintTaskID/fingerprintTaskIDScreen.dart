@@ -4,6 +4,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
+import 'package:urid/feature/models/taskAssigningService.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/screens/TaskScreens/FingerprintTaskID/pass_widget_fingerprint.dart';
@@ -180,21 +181,6 @@ class _FingerprintTaskIDQuestionnaireState
     extends State<FingerprintTaskIDQuestionnaire> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Bestätigungsdialog
-          Navigator.pop(context, true);
-        },
-      ),
-      body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.fingerprint)),
-    );
+    return AgencyQuestionnaireWidget(taskType: TaskType.volumeButton, taskAssigningService: TaskAssigningService(),);
   }
-}
-
-enum _SupportState {
-  unknown,
-  supported,
-  unsupported,
 }

@@ -180,7 +180,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -196,7 +196,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 1, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -269,31 +269,6 @@ class _VolumeButtonTaskIDQuestionnaireState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          CountdownDialog.showCountdownDialog(context, 60, () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-                  switch (taskAssigningService.task) {
-                    case 1:
-                      return FlipTaskIDIntro();
-                    case 2:
-                    //TODO: screen nach allen vier gesten
-                      return TaskOverviewScreen();
-                    case 3:
-                      return ButtonTaskIDIntro();
-                    case 4:
-                      return CoverTaskIDIntro();
-                    default:
-                      return const TaskOverviewScreen();
-                  }
-                }));
-          });
-        },
-      ),
-      body: CustomWillPopScopeWidget(
-          child: AgencyQuestionnaireWidget(taskType: TaskType.holdButton)),
-    );
+    return AgencyQuestionnaireWidget(taskType: TaskType.holdButton, taskAssigningService: taskAssigningService,);
   }
 }
