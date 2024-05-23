@@ -1,4 +1,3 @@
-//getiT für klassenübergreifenden zugriff auf Probanden Objekt. Dort wird dann alles zu ID und Fragebögen gespeichert und am ende in CSV Konvertiert und an Email geschickt
 import 'package:urid/feature/models/taskAssigningService.dart';
 
 import '../widgets/agencyQuestionnaire/agencyQuestionnaire.dart';

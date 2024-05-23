@@ -52,7 +52,6 @@ class _PassWidgetPropertiesFlip extends State<PassWidgetPropertiesFlip> {
   }
 
 
-  //TODO: Vllt noch widget drehen implementieren, muss man die usablility noch untersuchen
   @override
   Widget build(BuildContext context) {
     List<TableRow> properties = List.empty(growable: true);

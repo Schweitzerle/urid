@@ -65,4 +65,6 @@ flutter:
     - assets/animations/start.json
     - assets/animations/survey.json
     - assets/animations/handCover.json
+    - assets/animations/thanks.json
+    - assets/animations/error.json
 

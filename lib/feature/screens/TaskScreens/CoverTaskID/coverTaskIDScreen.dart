@@ -139,6 +139,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
     super.initState();
   }
 
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;

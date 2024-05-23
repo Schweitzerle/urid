@@ -172,6 +172,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
     super.dispose();
   }
 
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -203,9 +204,6 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
             return VolumeButtonTaskIDIntro();
           }),
         );
-        setState(() {
-          gestureEnabled = true;
-        });
       });
     }
   }
@@ -269,6 +267,6 @@ class _VolumeButtonTaskIDQuestionnaireState
 
   @override
   Widget build(BuildContext context) {
-    return AgencyQuestionnaireWidget(taskType: TaskType.holdButton, taskAssigningService: taskAssigningService,);
+    return AgencyQuestionnaireWidget(taskType: TaskType.volumeButton, taskAssigningService: taskAssigningService,);
   }
 }

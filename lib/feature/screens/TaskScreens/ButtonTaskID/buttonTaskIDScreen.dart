@@ -158,6 +158,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     super.initState();
   }
 
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -190,9 +191,6 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
             return ButtonTaskIDIntro();
           }),
         );
-        setState(() {
-          gestureEnabled = true;
-        });
       });
     }
   }

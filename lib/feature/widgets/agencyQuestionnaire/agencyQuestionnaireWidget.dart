@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
+import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 
@@ -60,12 +61,11 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                       case 1:
                         return ButtonTaskIDIntro();
                       case 2:
-                        return VolumeButtonTaskIDIntro();
-                      case 3:
-                      //TODO: screen nach allen vier gesten
-                        return TaskOverviewScreen();
-                      case 4:
                         return FlipTaskIDIntro();
+                      case 3:
+                        return AudioRecorderScreen();
+                      case 4:
+                        return VolumeButtonTaskIDIntro();
                       default:
                         return const TaskOverviewScreen();
                     }
@@ -80,14 +80,13 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                   MaterialPageRoute(builder: (context) {
                     switch (widget.taskAssigningService.task) {
                       case 1:
-                        return VolumeButtonTaskIDIntro();
-                      case 2:
                         return FlipTaskIDIntro();
+                      case 2:
+                        return VolumeButtonTaskIDIntro();
                       case 3:
                         return CoverTaskIDIntro();
                       case 4:
-                      //TODO: screen nach allen vier gesten
-                        return TaskOverviewScreen();
+                        return AudioRecorderScreen();
                       default:
                         return const TaskOverviewScreen();
                     }
@@ -102,14 +101,13 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                   MaterialPageRoute(builder: (context) {
                     switch (widget.taskAssigningService.task) {
                       case 1:
-                      //TODO: screen nach allen vier gesten
-                        return TaskOverviewScreen();
-                      case 2:
-                        return CoverTaskIDIntro();
-                      case 3:
                         return VolumeButtonTaskIDIntro();
-                      case 4:
+                      case 2:
+                        return AudioRecorderScreen();
+                      case 3:
                         return ButtonTaskIDIntro();
+                      case 4:
+                        return CoverTaskIDIntro();
                       default:
                         return const TaskOverviewScreen();
                     }
@@ -123,14 +121,13 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                   MaterialPageRoute(builder: (context) {
                     switch (widget.taskAssigningService.task) {
                       case 1:
-                        return FlipTaskIDIntro();
+                        return AudioRecorderScreen();
                       case 2:
-                      //TODO: screen nach allen vier gesten
-                        return TaskOverviewScreen();
-                      case 3:
-                        return ButtonTaskIDIntro();
-                      case 4:
                         return CoverTaskIDIntro();
+                      case 3:
+                        return FlipTaskIDIntro();
+                      case 4:
+                        return ButtonTaskIDIntro();
                       default:
                         return const TaskOverviewScreen();
                     }

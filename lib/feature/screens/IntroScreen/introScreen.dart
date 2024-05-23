@@ -25,7 +25,7 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final TaskAssigningService taskAssigningService =
-  GetIt.instance<TaskAssigningService>();
+      GetIt.instance<TaskAssigningService>();
 
   @override
   void initState() {
@@ -76,7 +76,8 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/privacy.json')),
+            image:
+                Center(child: Lottie.asset('assets/animations/privacy.json')),
             decoration: const PageDecoration(
               bodyFlex: 5,
               imageFlex: 3,
@@ -118,7 +119,8 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/interaction.json')),
+            image: Center(
+                child: Lottie.asset('assets/animations/interaction.json')),
             decoration: const PageDecoration(
               bodyFlex: 5,
               imageFlex: 3,
@@ -160,7 +162,8 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/coopWork.json')),
+            image:
+                Center(child: Lottie.asset('assets/animations/coopWork.json')),
             decoration: const PageDecoration(
               bodyFlex: 5,
               imageFlex: 3,
@@ -202,9 +205,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
-              return AudioRecorderScreen();
-              /*
-          switch (taskAssigningService.task) {
+              switch (taskAssigningService.task) {
                 case 1:
                   return CoverTaskIDIntro();
                 case 2:
@@ -216,7 +217,6 @@ class _IntroScreenState extends State<IntroScreen> {
                 default:
                   return const TaskOverviewScreen();
               }
-           */
             }),
           );
         },
@@ -235,6 +235,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void registerCurrentSubject() {
     var uuid = const Uuid();
-    GetIt.I.registerSingleton<Subject>(Subject(null, null, null, null, null, uuid: uuid.v4(), taskAssigningService: taskAssigningService));
+    GetIt.I.registerSingleton<Subject>(Subject(null, null, null, null, null,
+        uuid: uuid.v4(), taskAssigningService: taskAssigningService));
   }
 }
