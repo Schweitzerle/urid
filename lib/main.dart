@@ -7,14 +7,19 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
 import 'feature/models/counterService.dart';
+import 'feature/models/taskTimer.dart';
 import 'feature/screens/introScreen/introScreen.dart';
 
 Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   WidgetsFlutterBinding.ensureInitialized();
   Intl.systemLocale = await findSystemLocale();
   GetIt.I.registerSingleton<CounterService>(CounterService());
   GetIt.I.registerSingleton<TaskAssigningService>(TaskAssigningService());
+  GetIt.I.registerSingleton<TaskTimer>(TaskTimer());
   runApp(const MyApp());
 }
 

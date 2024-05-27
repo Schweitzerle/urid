@@ -1,20 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
+import 'package:urid/feature/screens/EndScreen/endScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
-import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
-import 'package:urid/feature/screens/taskOverview/taskOverview.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
-import 'package:uuid/uuid.dart';
-
 import '../../models/strings.dart';
 import '../../models/subject.dart';
+import '../../widgets/signaturePDF.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -24,8 +27,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final TaskAssigningService taskAssigningService =
-      GetIt.instance<TaskAssigningService>();
+  final TaskAssigningService taskAssigningService = GetIt.instance<TaskAssigningService>();
 
   @override
   void initState() {
@@ -76,8 +78,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
-            image:
-                Center(child: Lottie.asset('assets/animations/privacy.json')),
+            image: Center(child: Lottie.asset('assets/animations/privacy.json')),
             decoration: const PageDecoration(
               bodyFlex: 5,
               imageFlex: 3,
@@ -119,8 +120,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
-            image: Center(
-                child: Lottie.asset('assets/animations/interaction.json')),
+            image: Center(child: Lottie.asset('assets/animations/interaction.json')),
             decoration: const PageDecoration(
               bodyFlex: 5,
               imageFlex: 3,
@@ -162,8 +162,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
             ),
-            image:
-                Center(child: Lottie.asset('assets/animations/coopWork.json')),
+            image: Center(child: Lottie.asset('assets/animations/coopWork.json')),
             decoration: const PageDecoration(
               bodyFlex: 5,
               imageFlex: 3,
@@ -193,6 +192,18 @@ class _IntroScreenState extends State<IntroScreen> {
               imagePadding: EdgeInsets.all(8),
             ),
           ),
+          //TODO: hier entfernen und da bei dem data safety pageviewmodel einfügen. Am besten als Button, dass man auf den Screen von dort kommt und dann wenn die file gemachjt wurde wieder zurück und es wird ein kreuzcehn ausgefüllt in dem pageviewmodel und erst dann kann man weiter zum nächsten pageviewmodel. Undnatürlich die Unterschrift erstmal gescheid zum laufen bekommen
+          PageViewModel(
+            title: 'Einwilligungserklärung',
+            bodyWidget: PdfSignatureScreen(),
+            decoration: const PageDecoration(
+              bodyFlex: 5,
+              imageFlex: 3,
+              bodyAlignment: Alignment.topCenter,
+              imageAlignment: Alignment.center,
+              imagePadding: EdgeInsets.all(8),
+            ),
+          ),
         ],
         showNextButton: true,
         next: const Icon(Icons.arrow_forward),
@@ -211,11 +222,11 @@ class _IntroScreenState extends State<IntroScreen> {
                 case 2:
                   return ButtonTaskIDIntro();
                 case 3:
-                  return FlipTaskIDIntro();
-                case 4:
                   return VolumeButtonTaskIDIntro();
+                case 4:
+                  return FlipTaskIDIntro();
                 default:
-                  return const TaskOverviewScreen();
+                  return EndScreen();
               }
             }),
           );
@@ -235,7 +246,16 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void registerCurrentSubject() {
     var uuid = const Uuid();
-    GetIt.I.registerSingleton<Subject>(Subject(null, null, null, null, null,
-        uuid: uuid.v4(), taskAssigningService: taskAssigningService));
+    GetIt.I.registerSingleton<Subject>(Subject(
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      uuid: uuid.v4(),
+      taskAssigningService: taskAssigningService,
+    ));
   }
 }
+

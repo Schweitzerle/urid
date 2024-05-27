@@ -1,5 +1,4 @@
 import 'package:urid/feature/models/taskAssigningService.dart';
-
 import '../widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 
 class Subject {
@@ -10,7 +9,16 @@ class Subject {
   AgencyQuestionnaire? flipTaskQuestionnaire;
   AgencyQuestionnaire? volumeTaskQuestionnaire;
   String? audioFilePath;
+  String? consentPdfPath;
 
-  Subject(this.coverTaskQuestionnaire, this.buttonTaskQuestionnaire, this.flipTaskQuestionnaire, this.volumeTaskQuestionnaire, this.audioFilePath, {required this.uuid, required this.taskAssigningService});
+  Subject(
+      this.coverTaskQuestionnaire,
+      this.buttonTaskQuestionnaire,
+      this.flipTaskQuestionnaire,
+      this.volumeTaskQuestionnaire,
+      this.audioFilePath, this.consentPdfPath, {
+        required this.uuid,
+        required this.taskAssigningService,
 
+      });
 }

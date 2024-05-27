@@ -5,15 +5,14 @@ import 'package:get_it/get_it.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
+import 'package:urid/feature/screens/EndScreen/endScreen.dart';
 import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
-
 import '../../screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import '../../screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import '../../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import '../../screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
-import '../../screens/taskOverview/taskOverview.dart';
 import '../countdownDialog.dart';
 
 class AgencyQuestionnaireWidget extends StatefulWidget {
@@ -42,12 +41,14 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     );
   }
 
+  //TODO: reihenfolge überprüfen, vorhin endscreen mal falsch angezuegt
   @override
   Widget build(BuildContext context) {
     final subject = getIt<Subject>();
     print(subject.uuid);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.navigate_next, size: 28),
         onPressed: () {
           CountdownDialog.showCountdownDialog(context, 2, () {
             if (widget.taskType == TaskType.coverPhone) {
@@ -67,7 +68,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                       case 4:
                         return VolumeButtonTaskIDIntro();
                       default:
-                        return const TaskOverviewScreen();
+                        return EndScreen();
                     }
                   }));
             } else if (widget.taskType == TaskType.holdButton) {
@@ -88,7 +89,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                       case 4:
                         return AudioRecorderScreen();
                       default:
-                        return const TaskOverviewScreen();
+                        return EndScreen();
                     }
                   }));
             } else if (widget.taskType == TaskType.flipPhone) {
@@ -109,7 +110,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                       case 4:
                         return CoverTaskIDIntro();
                       default:
-                        return const TaskOverviewScreen();
+                        return EndScreen();
                     }
                   }));
             } else if (widget.taskType == TaskType.volumeButton) {
@@ -129,7 +130,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                       case 4:
                         return ButtonTaskIDIntro();
                       default:
-                        return const TaskOverviewScreen();
+                        return EndScreen();
                     }
                   }));
             }
@@ -159,7 +160,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                       children: [
                         const Text('1. Es fühlte sich so an, als hätte Sie die Bewegungen während der Aufgabe unter Kontrolle gehabt.'
                             , style: TextStyle(fontWeight: FontWeight.bold)),
-                        SfSlider.vertical(
+                        SfSlider(
                             min: 1,
                             max: 7,
                             value: agencyQuestionnaire.movementAgencyQuestionValue,
@@ -181,30 +182,29 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                                 case 6:
                                   return 'stimme zu';
                                 case 7:
-                                  return 'stimme vollkomen zu';
+                                  return 'stimme vollkommen zu';
                               }
                               return actualValue.toString();
                             },
-                            tooltipPosition: SliderTooltipPosition.right,
                             enableTooltip: true,
                             labelPlacement: LabelPlacement.onTicks,
                             labelFormatterCallback:
                                 (dynamic actualValue, String formattedText) {
                               switch (actualValue) {
                                 case 1:
-                                  return 'stimme überhaupt nicht zu';
+                                  return '';
                                 case 2:
                                   return 'stimme nicht zu';
                                 case 3:
-                                  return 'stimme eher nicht zu';
+                                  return '';
                                 case 4:
                                   return 'weder noch';
                                 case 5:
-                                  return 'stimme eher zu';
+                                  return '';
                                 case 6:
                                   return 'stimme zu';
                                 case 7:
-                                  return 'stimme vollkomen zu';
+                                  return ' ';
                               }
                               return actualValue.toString();
                             },
@@ -308,11 +308,31 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                                 case 6:
                                   return 'sehr';
                                 case 7:
-                                  return 'vollkomen';
+                                  return 'vollkommen';
                               }
                               return actualValue.toString();
                             },
                             labelPlacement: LabelPlacement.onTicks,
+                            labelFormatterCallback:
+                                (dynamic actualValue, String formattedText) {
+                              switch (actualValue) {
+                                case 1:
+                                  return '';
+                                case 2:
+                                  return 'wenig';
+                                case 3:
+                                  return '';
+                                case 4:
+                                  return 'eher';
+                                case 5:
+                                  return '';
+                                case 6:
+                                  return 'sehr';
+                                case 7:
+                                  return '';
+                              }
+                              return actualValue.toString();
+                            },
                             onChanged: (dynamic value) {
                               setState(() {
                                 agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value.toInt();

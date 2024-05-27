@@ -4,26 +4,17 @@ import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
-import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/widgets/pass/pass.dart';
 import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_widget_button.dart';
+import 'package:video_player/video_player.dart';
 import '../../../models/counterService.dart';
 import '../../../models/strings.dart';
 import '../../../models/taskAssigningService.dart';
+import '../../../models/taskTimer.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
-import '../../taskOverview/taskOverview.dart';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-import 'package:lottie/lottie.dart';
-import 'package:get_it/get_it.dart';
-import 'package:urid/feature/widgets/customWillPopScope.dart';
 
 class ButtonTaskIDIntro extends StatefulWidget {
   @override
@@ -32,12 +23,32 @@ class ButtonTaskIDIntro extends StatefulWidget {
 
 class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/videos/hold.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.setLooping(true);
+        _controller.setVolume(0.0);
+        _controller.play();
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomWillPopScopeWidget(
-        child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 40),
           child: IntroductionScreen(
             pages: [
               PageViewModel(
@@ -52,10 +63,19 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                   ),
                 )),
                 image: Center(
-                    child: Lottie.asset('assets/animations/handCover.json')),
+                  child: _controller.value.isInitialized
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(16.0),
+                          child: AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: VideoPlayer(_controller),
+                          ),
+                        )
+                      : const CircularProgressIndicator(),
+                ),
                 decoration: const PageDecoration(
-                  bodyFlex: 5,
-                  imageFlex: 3,
+                  bodyFlex: 7,
+                  imageFlex: 5,
                   bodyAlignment: Alignment.topCenter,
                   imageAlignment: Alignment.center,
                   imagePadding: EdgeInsets.all(8),
@@ -72,8 +92,9 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                     style: TextStyle(fontSize: 18),
                   ),
                 )),
-                image:
-                    Center(child: Lottie.asset('assets/animations/study.json')),
+                image: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: Lottie.asset('assets/animations/study.json')),
                 decoration: const PageDecoration(
                   bodyFlex: 5,
                   imageFlex: 3,
@@ -101,20 +122,32 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                       height: 20,
                     ),
                     Card(
-                        child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        counterService.counter <= 0
-                            ? 'Noch 3 Wiederholungen!'
-                            : counterService.counter == 1
-                                ? 'Noch 2 Wiederholungen!'
-                                : counterService.counter >= 2
-                                    ? 'Noch 1 Wiederholung!'
-                                    : '',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.repeat,
+                              size: 24,
+                              color: Colors.black54,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              counterService.counter <= 0
+                                  ? 'Noch 3 Wiederholungen!'
+                                  : counterService.counter == 1
+                                  ? 'Noch 2 Wiederholungen!'
+                                  : counterService.counter >= 2
+                                  ? 'Noch 1 Wiederholung!'
+                                  : '',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
                       ),
-                    )),
+                    )
                   ],
                 ),
                 decoration: const PageDecoration(
@@ -148,14 +181,17 @@ class ButtonTaskIDPass extends StatefulWidget {
 }
 
 class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
-  bool showFloatingButton = false;
   bool showHiddenProperties = false;
   bool gestureEnabled = true;
   final CounterService counterService = GetIt.instance.get<CounterService>();
+  final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
+  final Stopwatch stopwatch = Stopwatch();
 
   @override
   void initState() {
     super.initState();
+    taskTimer.startTask('Button', counterService.counter);
+    stopwatch.start();
   }
 
   //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
@@ -198,28 +234,11 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: showFloatingButton
-          ? FloatingActionButton(
-              child: const Icon(Icons.navigate_next, size: 28),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return ButtonTaskIDQuestionnaire();
-                  }),
-                );
-              })
-          : null,
       body: CustomWillPopScopeWidget(
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
               child: GestureDetector(
-            onDoubleTap: () {
-              setState(() {
-                showFloatingButton = true;
-              });
-            },
             onTapDown: (details) {
               if (gestureEnabled) {
                 setState(() {
@@ -232,6 +251,13 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                 setState(() {
                   if (showHiddenProperties) {
                     showHiddenProperties = false;
+                    stopwatch.stop();
+                    taskTimer.endTask('Button', counterService.counter, stopwatch.elapsed);
+                    taskTimer.getAllTaskDurations().forEach((taskName, durations) {
+                      for (int i = 0; i < durations.length; i++) {
+                        print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+                      }
+                    });
                     _handleResetCounter();
                   }
                 });

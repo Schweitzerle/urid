@@ -10,15 +10,16 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/screens/EndScreen/endScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
+import 'package:urid/feature/models/taskTimer.dart';
 
 class AudioRecorderScreen extends StatefulWidget {
   @override
   _AudioRecorderScreenState createState() => _AudioRecorderScreenState();
 }
 
-
 class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
   bool _isRecording = false;
   String? _audioFilePath;
   StreamSubscription? _recorderSubscription;
@@ -111,6 +112,8 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
       ]
     ];
 
+    rows.addAll(taskTimer.getCsvRows());
+
     String csvData = const ListToCsvConverter().convert(rows);
     Directory tempDir = await getTemporaryDirectory();
     String csvFilePath = '${tempDir.path}/subject_data.csv';
@@ -133,7 +136,30 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   }
 
   void _navigateToNextScreen() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EndScreen()));
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Bestätigung'),
+          content: Text('Möchten Sie wirklich zum nächsten Bildschirm wechseln? Nicht versendete Daten werden verloren!'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Abbrechen'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Ja'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EndScreen()));
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -276,5 +302,3 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }
-
-

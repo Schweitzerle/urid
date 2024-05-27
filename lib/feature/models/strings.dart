@@ -1,6 +1,6 @@
 class Strings {
   static const String welcomeTitle = "Willkommen zu unserer Studie";
-  static const String welcomeBody = "Vielen Dank, dass Sie an unserer Studie teilnehmen.\n\nIn den nächsten Schritten erfahren Sie mehr über den Ablauf und Ihre Aufgaben. Viel Spaß bei der Studie!";
+  static const String welcomeBody = "Vielen Dank, dass Sie an meiner Studie teilnehmen.\n\nIn den nächsten Schritten erfahren Sie mehr über den Ablauf und Ihre Aufgaben. Viel Spaß bei der Studie!";
 
   static const String studyProcessTitle = "Überblick über die Studie";
   static const String studyProcessBody = "In dieser Studie untersuchen wir, wie verschiedene Interaktionsformen das Sicherheits- und Kontrollgefühl während der Nutzung eines digitalen Mitarbeiterausweises beeinflussen.";
