@@ -25,6 +25,8 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   StreamSubscription? _recorderSubscription;
   Duration _recordDuration = Duration.zero;
   Timer? _timer;
+  String csvFilePath = '';
+  final subject = GetIt.instance<Subject>();
 
   @override
   void initState() {
@@ -86,29 +88,47 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     });
   }
 
+  //TODO: Gesten funktionieren hier auf einmal wieder, flippen zb wieder in pausecountdown und dannn zurück in den Zyklus
+  //TODO: Methode früher aufrufen, sodass nachdem AUdio aufgezeichnet ist, ich den Path hab und anzeigen kann.
   Future<void> _sendEmail() async {
-    final subject = GetIt.instance<Subject>();
-
     List<List<dynamic>> rows = [
-      ["UUID", "Task", "CoverTask_Movement", "CoverTask_Agency", "CoverTask_ControlFeeling",
-        "ButtonTask_Movement", "ButtonTask_Agency", "ButtonTask_ControlFeeling",
-        "FlipTask_Movement", "FlipTask_Agency", "FlipTask_ControlFeeling",
-        "VolumeTask_Movement", "VolumeTask_Agency", "VolumeTask_ControlFeeling"],
+      [
+        "UUID",
+        "Task",
+        "CoverTask_Movement",
+        "CoverTask_Agency",
+        "CoverTask_ControlFeeling",
+        "ButtonTask_Movement",
+        "ButtonTask_Agency",
+        "ButtonTask_ControlFeeling",
+        "FlipTask_Movement",
+        "FlipTask_Agency",
+        "FlipTask_ControlFeeling",
+        "VolumeTask_Movement",
+        "VolumeTask_Agency",
+        "VolumeTask_ControlFeeling"
+      ],
       [
         subject.uuid,
         subject.taskAssigningService.task,
         subject.coverTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.coverTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.coverTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ??
+            "",
         subject.buttonTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.buttonTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire
+                ?.controlFeelingViewChangeQuestionValue ??
+            "",
         subject.flipTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.flipTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ??
+            "",
         subject.volumeTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.volumeTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? ""
+        subject.volumeTaskQuestionnaire
+                ?.controlFeelingViewChangeQuestionValue ??
+            ""
       ]
     ];
 
@@ -116,15 +136,25 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
 
     String csvData = const ListToCsvConverter().convert(rows);
     Directory tempDir = await getTemporaryDirectory();
-    String csvFilePath = '${tempDir.path}/subject_data.csv';
+    setState(() {
+      csvFilePath = '${tempDir.path}/subject_data.csv';
+    });
     File csvFile = File(csvFilePath);
     await csvFile.writeAsString(csvData);
 
+    final pdfFilePath = subject.consentPdfPath;
+
+    final List<String> attachmentPaths = [_audioFilePath!, csvFilePath];
+    if (pdfFilePath != null) {
+      attachmentPaths.add(pdfFilePath);
+    }
+
     final Email email = Email(
-      body: 'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.',
+      body:
+          'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.',
       subject: 'Interview Data',
       recipients: ['julianschweizer9@gmail.com'],
-      attachmentPaths: [_audioFilePath!, csvFilePath],
+      attachmentPaths: attachmentPaths,
       isHTML: false,
     );
 
@@ -141,7 +171,8 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Bestätigung'),
-          content: Text('Möchten Sie wirklich zum nächsten Bildschirm wechseln? Nicht versendete Daten werden verloren!'),
+          content: Text(
+              'Möchten Sie wirklich zum nächsten Bildschirm wechseln? Nicht versendete Daten gehen verloren!'),
           actions: <Widget>[
             TextButton(
               child: Text('Abbrechen'),
@@ -153,7 +184,8 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
               child: Text('Ja'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EndScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => EndScreen()));
               },
             ),
           ],
@@ -189,60 +221,130 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
               children: <Widget>[
                 AnimatedSwitcher(
                   duration: Duration(milliseconds: 300),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
                     return FadeTransition(child: child, opacity: animation);
                   },
                   child: _isRecording
                       ? Column(
-                    key: ValueKey<int>(1),
-                    children: [
-                      Text(
-                        'Aufnahme läuft...',
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        durationText,
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red),
-                      ),
-                    ],
-                  )
+                          key: ValueKey<int>(1),
+                          children: [
+                            Text(
+                              'Aufnahme läuft...',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              durationText,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red),
+                            ),
+                          ],
+                        )
                       : _audioFilePath != null
-                      ? Card(
-                    key: ValueKey<int>(2),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                    child: ListTile(
-                      leading: Icon(Icons.audiotrack, color: Colors.blue),
-                      title: Text(
-                        'Aufgenommene Datei',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _audioFilePath!,
-                            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            'Länge: $durationText',
-                            style: TextStyle(fontSize: 14, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                      : Column(
-                    key: ValueKey<int>(3),
-                    children: [
-                      Text(
-                        'Keine Aufnahme vorhanden...',
-                        style: TextStyle(fontSize: 16, color: Colors.red),
-                      ),
-                    ],
-                  ),
+                          ? Column(
+                              children: [
+                                Card(
+                                  key: ValueKey<int>(2),
+                                  elevation: 4,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 25),
+                                  child: ListTile(
+                                    leading: Icon(Icons.audiotrack,
+                                        color: Colors.blue),
+                                    title: Text(
+                                      'Aufgenommene Audio Datei',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _audioFilePath!,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey[600]),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          'Länge: $durationText',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  elevation: 4,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 25),
+                                  child: ListTile(
+                                    leading: Icon(Icons.description,
+                                        color: Colors.green),
+                                    title: Text(
+                                      'CSV Datei Studienergebnisse',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          csvFilePath,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey[600]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  elevation: 4,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 25),
+                                  child: ListTile(
+                                    leading: Icon(Icons.picture_as_pdf_outlined,
+                                        color: Colors.red),
+                                    title: Text(
+                                      'Einverständniserklärung PDF',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          subject.consentPdfPath!,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey[600]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              key: ValueKey<int>(3),
+                              children: [
+                                Text(
+                                  'Keine Aufnahme vorhanden...',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.red),
+                                ),
+                              ],
+                            ),
                 ),
                 SizedBox(height: 20),
                 IconButton(
@@ -262,7 +364,10 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                         child: ElevatedButton.icon(
                           onPressed: _deleteRecording,
                           icon: Icon(Icons.delete, color: Colors.white),
-                          label: Text('Aufnahme löschen', style: TextStyle(color: Colors.white),),
+                          label: Text(
+                            'Aufnahme löschen',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                           ),
@@ -273,7 +378,10 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                         child: ElevatedButton.icon(
                           onPressed: _sendEmail,
                           icon: Icon(Icons.email, color: Colors.white),
-                          label: Text('Daten versenden', style: TextStyle(color: Colors.white),),
+                          label: Text(
+                            'Daten versenden',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                           ),
@@ -286,10 +394,19 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
           ),
         ),
         floatingActionButton: _audioFilePath != null
-            ? FloatingActionButton(
-          onPressed: _navigateToNextScreen,
-          child: Icon(Icons.arrow_forward),
-        )
+            ? FutureBuilder(
+                future: Future.delayed(const Duration(seconds: 8)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return FloatingActionButton(
+                      onPressed: _navigateToNextScreen,
+                      child: const Icon(Icons.arrow_forward),
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              )
             : null,
       ),
     );

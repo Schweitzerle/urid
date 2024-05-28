@@ -19,6 +19,5 @@ class Subject {
       this.audioFilePath, this.consentPdfPath, {
         required this.uuid,
         required this.taskAssigningService,
-
       });
 }

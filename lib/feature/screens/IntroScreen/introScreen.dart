@@ -1,19 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
-import 'package:urid/feature/screens/EndScreen/endScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import '../../models/strings.dart';
 import '../../models/subject.dart';
@@ -192,18 +183,6 @@ class _IntroScreenState extends State<IntroScreen> {
               imagePadding: EdgeInsets.all(8),
             ),
           ),
-          //TODO: hier entfernen und da bei dem data safety pageviewmodel einfügen. Am besten als Button, dass man auf den Screen von dort kommt und dann wenn die file gemachjt wurde wieder zurück und es wird ein kreuzcehn ausgefüllt in dem pageviewmodel und erst dann kann man weiter zum nächsten pageviewmodel. Undnatürlich die Unterschrift erstmal gescheid zum laufen bekommen
-          PageViewModel(
-            title: 'Einwilligungserklärung',
-            bodyWidget: PdfSignatureScreen(),
-            decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
-            ),
-          ),
         ],
         showNextButton: true,
         next: const Icon(Icons.arrow_forward),
@@ -216,18 +195,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
-              switch (taskAssigningService.task) {
-                case 1:
-                  return CoverTaskIDIntro();
-                case 2:
-                  return ButtonTaskIDIntro();
-                case 3:
-                  return VolumeButtonTaskIDIntro();
-                case 4:
-                  return FlipTaskIDIntro();
-                default:
-                  return EndScreen();
-              }
+                  return ConsentForm();
             }),
           );
         },

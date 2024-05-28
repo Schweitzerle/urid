@@ -194,7 +194,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     stopwatch.start();
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig / vllt auch noch einen Future delay befor der PauseDialog kommt, sieht sonst so hektisch aus
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;

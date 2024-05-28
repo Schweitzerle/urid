@@ -1,110 +1,278 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_signature_pad/flutter_signature_pad.dart';
+import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:pdf/pdf.dart';
-import 'package:printing/printing.dart';
-import 'package:open_file/open_file.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:urid/feature/screens/InterviewScreen/interviewScreen.dart';
+import 'dart:io';
 
-class PdfSignatureScreen extends StatefulWidget {
+import '../models/subject.dart';
+import '../models/taskAssigningService.dart';
+import '../screens/EndScreen/endScreen.dart';
+import '../screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
+import '../screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
+import '../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
+import '../screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
+
+class ConsentForm extends StatefulWidget {
   @override
-  _PdfSignatureScreenState createState() => _PdfSignatureScreenState();
+  _ConsentFormState createState() => _ConsentFormState();
 }
 
-class _PdfSignatureScreenState extends State<PdfSignatureScreen> {
-  final _sign = GlobalKey<SignatureState>();
-  Uint8List? _pdfData;
-  String? _pdfPath;
-  final GlobalKey _signatureCanvasKey = GlobalKey();
+class _ConsentFormState extends State<ConsentForm> {
+  final GlobalKey<SfSignaturePadState> _signaturePadKey = GlobalKey();
+  bool _isSigned = false;
+  Uint8List? _signatureData;
+  final TaskAssigningService taskAssigningService = GetIt.instance<TaskAssigningService>();
+  String? _pdfFilePath;
+  final subject = GetIt.instance<Subject>();
+  final String formattedDate = DateFormat('dd.MM.yyyy').format(DateTime.now());
 
-  @override
-  void initState() {
-    super.initState();
-    _loadPdf();
-  }
-
-  Future<void> _loadPdf() async {
-    final ByteData data = await DefaultAssetBundle.of(context).load("assets/pdf/consent.pdf");
-    final tempDir = await getTemporaryDirectory();
-    final tempFile = File('${tempDir.path}/Einwilligungserklaerung_HuiWa.pdf');
-    await tempFile.writeAsBytes(data.buffer.asUint8List(), flush: true);
-    setState(() {
-      _pdfData = data.buffer.asUint8List();
-      _pdfPath = tempFile.path;
-    });
-  }
-
-  Future<void> _savePdf() async {
-    RenderRepaintBoundary boundary = _signatureCanvasKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    ui.Image signatureImage = await boundary.toImage();
-    ByteData? byteData = await signatureImage.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List imageUint8List = byteData!.buffer.asUint8List();
-
-    final document = pw.Document();
-    final originalPdf = pw.MemoryImage(_pdfData!);
-    final signature = pw.MemoryImage(imageUint8List);
-
-    document.addPage(
-      pw.Page(
-        build: (pw.Context context) => pw.Stack(
-          children: [
-            pw.Image(originalPdf),
-            pw.Positioned(
-              left: 100,
-              bottom: 50,
-              child: pw.Image(signature, width: 200, height: 50),
+  void _showSignaturePad() {
+    showDialog<Widget>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Draw your signature',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Roboto-Medium',
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(
+                  Icons.clear,
+                  color: const Color.fromRGBO(0, 0, 0, 0.54),
+                  size: 24.0,
+                ),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  height: 172,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: SfSignaturePad(
+                    minimumStrokeWidth: 1.0,
+                    maximumStrokeWidth: 4.0,
+                    strokeColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    key: _signaturePadKey,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        _signaturePadKey.currentState!.clear();
+                      },
+                      child: const Text('CLEAR'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        final ui.Image imageData = await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
+                        final ByteData? bytes = await imageData.toByteData(format: ui.ImageByteFormat.png);
+                        if (bytes != null) {
+                          setState(() {
+                            _signatureData = bytes.buffer.asUint8List();
+                            _isSigned = true;
+                          });
+                        }
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('SAVE'),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _saveConsentPDFAndNavigateNext() async {
+    PdfDocument document = PdfDocument();
+
+    final page = document.pages.add();
+
+    page.graphics.drawString(
+      'Einverständniserklärung\n\n'
+          'Ich erkläre mich hiermit einverstanden, dass ich an der Studie teilnehme, bei der verschiedene Gesten an einem externen Smartphone durchgeführt werden. '
+          'Im Anschluss werden Fragebögen ausgefüllt und ein Interview durchgeführt, das mit einem Mikrofon aufgezeichnet wird. '
+          'Diese Einverständniserklärung gilt bis auf Widerruf. Ich habe das Recht, meine Einwilligung jederzeit zu widerrufen.\n\n'
+          'Datum: $formattedDate\n\n'
+          'Unterschrift:',
+      PdfStandardFont(PdfFontFamily.helvetica, 18),
+      bounds: Rect.fromLTWH(0, 0, page.getClientSize().width, 400),
     );
 
-    final output = await document.save();
-    final outputFile = File('${(await getTemporaryDirectory()).path}/signed_document.pdf');
-    await outputFile.writeAsBytes(output);
+    if (_isSigned && _signatureData != null) {
+      final PdfBitmap bitmap = PdfBitmap(_signatureData!);
+      page.graphics.drawImage(
+        bitmap,
+        Rect.fromLTWH(0, 410, 200, 100),
+      );
+    }
 
-    OpenFile.open(outputFile.path);
+    final List<int> bytes = await document.save();
+    document.dispose();
+
+    final directory = await getApplicationDocumentsDirectory();
+    final path = '${directory.path}/consent_form.pdf';
+    final file = File(path);
+    await file.writeAsBytes(bytes, flush: true);
+
+    setState(() {
+      _pdfFilePath = path;
+      subject.consentPdfPath = _pdfFilePath;
+    });
+
+   _navigateToNextScreen();
+    print('PDF saved at: $path');
+  }
+
+  void _navigateToNextScreen() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Bestätigung'),
+          content: Text('Möchten Sie wirklich zum nächsten Bildschirm wechseln? Gehen Sie sicher, dass Sie die Einverständniserklärung unterzeichnet haben!'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Abbrechen'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Ja'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    switch (taskAssigningService.task) {
+                      case 1:
+                        return CoverTaskIDIntro();
+                      case 2:
+                        return ButtonTaskIDIntro();
+                      case 3:
+                        return VolumeButtonTaskIDIntro();
+                      case 4:
+                        return FlipTaskIDIntro();
+                      default:
+                        return EndScreen();
+                    }
+                  }),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Einverständniserklärung'),
-      ),
-      body: Column(
-        children: [
-          if (_pdfPath != null)
+      floatingActionButton: _isSigned && _signatureData != null
+          ? FloatingActionButton(
+        onPressed: _saveConsentPDFAndNavigateNext,
+        child: Icon(Icons.arrow_forward),
+      ) : null,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
+        child: Column(
+          children: <Widget>[
             Expanded(
-              child: RepaintBoundary(
-                key: _signatureCanvasKey,
-                child: Stack(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PDFView(
-                      filePath: _pdfPath!,
+                    Text(
+                      'Einverständniserklärung',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Signature(
-                      key: _sign,
-                      color: Colors.black,
-                      strokeWidth: 5.0,
-                      backgroundPainter: null,
+                    SizedBox(height: 16),
+                    Text(
+                      'Ich erkläre mich hiermit einverstanden, dass ich an der Studie teilnehme, bei der verschiedene Gesten an einem externen Smartphone durchgeführt werden. '
+                          'Im Anschluss werden Fragebögen ausgefüllt und ein Interview durchgeführt, das mit einem Mikrofon aufgezeichnet wird. '
+                          'Diese Einverständniserklärung gilt bis auf Widerruf. Ich habe das Recht, meine Einwilligung jederzeit zu widerrufen.',
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Datum: $formattedDate',
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
               ),
-            )
-          else
-            Center(child: CircularProgressIndicator()),
-          ElevatedButton(
-            onPressed: _savePdf,
-            child: Text('Speichern'),
-          ),
-        ],
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Unterschrift:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                    onTap: _showSignaturePad,
+                    child: Container(
+                      width: double.infinity,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: _isSigned && _signatureData != null
+                          ? Image.memory(_signatureData!)
+                          : Center(
+                        child: Text(
+                          'Tap here to sign',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
