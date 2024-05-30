@@ -63,7 +63,7 @@ class _PassWidgetPropertiesCover extends State<PassWidgetPropertiesCover> {
           child: Table(
             border: TableBorder(
                 horizontalInside:
-                    BorderSide(width: 1, color: Theme.of(context).colorScheme.onPrimary, style: BorderStyle.solid)),
+                BorderSide(width: 1, color: Theme.of(context).colorScheme.onPrimary, style: BorderStyle.solid)),
             columnWidths: const <int, TableColumnWidth>{
               0: FlexColumnWidth(4),
               1: FlexColumnWidth(6),

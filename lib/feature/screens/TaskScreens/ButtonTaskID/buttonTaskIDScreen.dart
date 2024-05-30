@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_widget_button.dart';
+import 'package:urid/feature/widgets/pass/view/pass_widget.dart';
 import 'package:video_player/video_player.dart';
 import '../../../models/counterService.dart';
 import '../../../models/strings.dart';
@@ -135,12 +135,12 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                             SizedBox(width: 8),
                             Text(
                               counterService.counter <= 0
-                                  ? 'Noch 3 Wiederholungen!'
+                                  ? Strings.repetitionsLeft
                                   : counterService.counter == 1
-                                  ? 'Noch 2 Wiederholungen!'
-                                  : counterService.counter >= 2
-                                  ? 'Noch 1 Wiederholung!'
-                                  : '',
+                                      ? Strings.twoRepetitionsLeft
+                                      : counterService.counter >= 2
+                                          ? Strings.oneRepetitionLeft
+                                          : '',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 18),
                             ),
@@ -159,7 +159,7 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
               ),
             ],
             showNextButton: false,
-            done: const Text("Fertig"),
+            done: Text(Strings.finished),
             onDone: () {
               Navigator.pushReplacement(
                 context,
@@ -181,7 +181,7 @@ class ButtonTaskIDPass extends StatefulWidget {
 }
 
 class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
-  bool showHiddenProperties = false;
+  bool showHiddenProperties = true;
   bool gestureEnabled = true;
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
@@ -194,7 +194,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     stopwatch.start();
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig / vllt auch noch einen Future delay befor der PauseDialog kommt, sieht sonst so hektisch aus
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzen / im Moment nur für Testzwecke so niedrig / vielleicht auch noch einen Future delay bevor der PauseDialog kommt, sieht sonst so hektisch aus
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -211,16 +211,12 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
           }),
         );
         counterService.resetCounter();
-        setState(() {
-          gestureEnabled = true;
-        });
       });
     } else if (resetCounter < 3) {
       setState(() {
         gestureEnabled = false;
       });
       CountdownDialog.showCountdownDialog(context, 1, () {
-        gestureEnabled = false;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -242,20 +238,24 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
             onTapDown: (details) {
               if (gestureEnabled) {
                 setState(() {
-                  showHiddenProperties = true;
+                  showHiddenProperties = false;
                 });
               }
             },
             onTapUp: (details) {
               if (gestureEnabled) {
                 setState(() {
-                  if (showHiddenProperties) {
-                    showHiddenProperties = false;
+                  if (!showHiddenProperties) {
+                    showHiddenProperties = true;
                     stopwatch.stop();
-                    taskTimer.endTask('Button', counterService.counter, stopwatch.elapsed);
-                    taskTimer.getAllTaskDurations().forEach((taskName, durations) {
+                    taskTimer.endTask(
+                        'Button', counterService.counter, stopwatch.elapsed);
+                    taskTimer
+                        .getAllTaskDurations()
+                        .forEach((taskName, durations) {
                       for (int i = 0; i < durations.length; i++) {
-                        print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+                        print(
+                            '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
                       }
                     });
                     _handleResetCounter();
@@ -266,8 +266,8 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
             onVerticalDragEnd: (details) {
               if (gestureEnabled) {
                 setState(() {
-                  if (showHiddenProperties) {
-                    showHiddenProperties = false;
+                  if (!showHiddenProperties) {
+                    showHiddenProperties = true;
                     _handleResetCounter();
                   }
                 });
@@ -276,20 +276,20 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
             onHorizontalDragEnd: (details) {
               if (gestureEnabled) {
                 setState(() {
-                  if (showHiddenProperties) {
-                    showHiddenProperties = false;
+                  if (!showHiddenProperties) {
+                    showHiddenProperties = true;
                     _handleResetCounter();
                   }
                 });
               }
             },
             child: RotationTransition(
-              turns: showHiddenProperties
+              turns: !showHiddenProperties
                   ? AlwaysStoppedAnimation(180 / 360)
                   : AlwaysStoppedAnimation(0 / 360),
-              child: PassWidgetButton(
+              child: PassWidget(
                 pass: DummyData.erikaMusterfrauPassObject(),
-                showHiddenProperties: showHiddenProperties,
+                showHiddenProperties: showHiddenProperties, passType: PassType.button,
               ),
             ),
           )),

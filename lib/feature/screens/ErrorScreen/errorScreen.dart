@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../../models/strings.dart';
 
 class ErrorScreen extends StatelessWidget {
   @override
@@ -28,13 +29,13 @@ class ErrorScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Ups, etwas ist schief gelaufen!',
+                        Strings.errorScreenTitle,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Bitte wenden Sie sich an die Studienleitung für Unterstützung.',
+                        Strings.errorScreenBody,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16),
                       ),

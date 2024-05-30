@@ -54,26 +54,25 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
           child: IntroductionScreen(
             pages: [
               PageViewModel(
-
                 title: Strings.coverTaskTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    Strings.coverTaskBody,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.coverTaskBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: Center(
                   child: _controller.value.isInitialized
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          ),
-                        )
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
+                  )
                       : const CircularProgressIndicator(),
                 ),
                 decoration: const PageDecoration(
@@ -88,13 +87,13 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
                 title: Strings.nextStepTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    Strings.nextStepBody,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.nextStepBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: ClipRRect(
                     borderRadius: BorderRadius.circular(16.0),
                     child: Lottie.asset('assets/animations/study.json')),
@@ -109,18 +108,18 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
               PageViewModel(
                 title: Strings.questionnaireTitle,
                 image:
-                    Center(child: Lottie.asset('assets/animations/start.json')),
+                Center(child: Lottie.asset('assets/animations/start.json')),
                 bodyWidget: Column(
                   children: [
                     const Card(
                         child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.questionnaireTaskBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            Strings.questionnaireTaskBody,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
                     const SizedBox(
                       height: 20,
                     ),
@@ -138,11 +137,11 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
                             SizedBox(width: 8),
                             Text(
                               counterService.counter <= 0
-                                  ? 'Noch 3 Wiederholungen!'
+                                  ? Strings.repetitionsLeft
                                   : counterService.counter == 1
-                                  ? 'Noch 2 Wiederholungen!'
+                                  ? Strings.twoRepetitionsLeft
                                   : counterService.counter >= 2
-                                  ? 'Noch 1 Wiederholung!'
+                                  ? Strings.oneRepetitionLeft
                                   : '',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 18),
@@ -151,7 +150,6 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
                         ),
                       ),
                     )
-
                   ],
                 ),
                 decoration: const PageDecoration(
@@ -163,7 +161,7 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
               ),
             ],
             showNextButton: false,
-            done: const Text("Fertig"),
+            done: Text(Strings.finished),
             onDone: () {
               Navigator.pushReplacement(
                 context,
@@ -197,7 +195,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
     stopwatch.start();
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzen / im Moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -227,36 +225,36 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () {
-        setState(() {
-          showFloatingButton = true;
-        });
-      },
-      child: Scaffold(
+        onDoubleTap: () {
+          setState(() {
+            showFloatingButton = true;
+          });
+        },
+        child: Scaffold(
         floatingActionButton: showFloatingButton
-            ? FloatingActionButton(
-                child: const Icon(Icons.navigate_next, size: 28),
-                onPressed: () {
-                  stopwatch.stop();
-                  taskTimer.endTask('Cover', counterService.counter, stopwatch.elapsed);
-                  taskTimer.getAllTaskDurations().forEach((taskName, durations) {
-                    for (int i = 0; i < durations.length; i++) {
-                      print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
-                    }
-                  });
-                  _handleResetCounter();
-                })
+        ? FloatingActionButton(
+        child: const Icon(Icons.navigate_next, size: 28),
+    onPressed: () {
+    stopwatch.stop();
+    taskTimer.endTask('Cover', counterService.counter, stopwatch.elapsed);
+    taskTimer.getAllTaskDurations().forEach((taskName, durations) {
+    for (int i = 0; i < durations.length; i++) {
+    print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+    }
+    });
+    _handleResetCounter();
+    })
             : null,
-        body: CustomWillPopScopeWidget(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Center(
-                child: PassWidgetCover(
-              pass: DummyData.erikaMusterfrauPassObject(),
-            )),
+          body: CustomWillPopScopeWidget(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Center(
+                  child: PassWidgetCover(
+                    pass: DummyData.erikaMusterfrauPassObject(),
+                  )),
+            ),
           ),
         ),
-      ),
     );
   }
 }
@@ -284,3 +282,4 @@ class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
     );
   }
 }
+

@@ -9,6 +9,8 @@ import 'package:urid/feature/widgets/signaturePDF.dart';
 import 'feature/models/counterService.dart';
 import 'feature/models/taskTimer.dart';
 
+
+//TODO: Videos neu aufnehmen, sind im Moment noch mit den vertauschten Ansichten
 Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   SystemChrome.setPreferredOrientations([

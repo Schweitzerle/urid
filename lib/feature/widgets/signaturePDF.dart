@@ -7,9 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:urid/feature/screens/InterviewScreen/interviewScreen.dart';
 import 'dart:io';
-
 import '../models/subject.dart';
 import '../models/taskAssigningService.dart';
 import '../screens/EndScreen/endScreen.dart';
@@ -17,6 +15,7 @@ import '../screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import '../screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import '../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import '../screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
+import '../models/strings.dart';
 
 class ConsentForm extends StatefulWidget {
   @override
@@ -37,36 +36,42 @@ class _ConsentFormState extends State<ConsentForm> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Draw your signature',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Roboto-Medium',
+          titlePadding: EdgeInsets.all(0),
+          contentPadding: EdgeInsets.all(14),
+          title: Container(
+            padding: EdgeInsets.all(14),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  Strings.drawYourSignature,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Roboto-Medium',
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Icon(
-                  Icons.clear,
-                  color: const Color.fromRGBO(0, 0, 0, 0.54),
-                  size: 24.0,
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Icon(
+                    Icons.clear,
+                    color: const Color.fromRGBO(0, 0, 0, 0.54),
+                    size: 24.0,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           content: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: 172,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
@@ -87,7 +92,7 @@ class _ConsentFormState extends State<ConsentForm> {
                       onPressed: () {
                         _signaturePadKey.currentState!.clear();
                       },
-                      child: const Text('CLEAR'),
+                      child: const Text(Strings.clear),
                     ),
                     TextButton(
                       onPressed: () async {
@@ -101,7 +106,7 @@ class _ConsentFormState extends State<ConsentForm> {
                         }
                         Navigator.of(context).pop();
                       },
-                      child: const Text('SAVE'),
+                      child: const Text(Strings.save),
                     ),
                   ],
                 ),
@@ -113,18 +118,14 @@ class _ConsentFormState extends State<ConsentForm> {
     );
   }
 
+
   Future<void> _saveConsentPDFAndNavigateNext() async {
     PdfDocument document = PdfDocument();
 
     final page = document.pages.add();
 
     page.graphics.drawString(
-      'Einverständniserklärung\n\n'
-          'Ich erkläre mich hiermit einverstanden, dass ich an der Studie teilnehme, bei der verschiedene Gesten an einem externen Smartphone durchgeführt werden. '
-          'Im Anschluss werden Fragebögen ausgefüllt und ein Interview durchgeführt, das mit einem Mikrofon aufgezeichnet wird. '
-          'Diese Einverständniserklärung gilt bis auf Widerruf. Ich habe das Recht, meine Einwilligung jederzeit zu widerrufen.\n\n'
-          'Datum: $formattedDate\n\n'
-          'Unterschrift:',
+      '${Strings.consentTitle}\n\n${Strings.consentDescription}\n\n${Strings.dateLabel} $formattedDate\n\n${Strings.signatureLabel}',
       PdfStandardFont(PdfFontFamily.helvetica, 18),
       bounds: Rect.fromLTWH(0, 0, page.getClientSize().width, 400),
     );
@@ -150,62 +151,62 @@ class _ConsentFormState extends State<ConsentForm> {
       subject.consentPdfPath = _pdfFilePath;
     });
 
-   _navigateToNextScreen();
+    _navigateToNextScreen();
     print('PDF saved at: $path');
   }
 
   void _navigateToNextScreen() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Bestätigung'),
-          content: Text('Möchten Sie wirklich zum nächsten Bildschirm wechseln? Gehen Sie sicher, dass Sie die Einverständniserklärung unterzeichnet haben!'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Abbrechen'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Ja'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    switch (taskAssigningService.task) {
-                      case 1:
-                        return CoverTaskIDIntro();
-                      case 2:
-                        return ButtonTaskIDIntro();
-                      case 3:
-                        return VolumeButtonTaskIDIntro();
-                      case 4:
-                        return FlipTaskIDIntro();
-                      default:
-                        return EndScreen();
-                    }
-                  }),
-                );
-              },
-            ),
-          ],
-        );
-      },
+        context: context,
+        builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(Strings.confirmationTitle),
+        content: Text(Strings.confirmationContent),
+        actions: <Widget>[
+          TextButton(
+            child: Text(Strings.cancel),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(Strings.yes),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  switch (taskAssigningService.task) {
+                    case 1:
+                      return CoverTaskIDIntro();
+                    case 2:
+                      return ButtonTaskIDIntro();
+                    case 3:
+                      return VolumeButtonTaskIDIntro();
+                    case 4:
+                      return FlipTaskIDIntro();
+                    default:
+                      return EndScreen();
+                  }
+                }),
+              );
+            },
+          ),
+        ],
+      );
+        },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       floatingActionButton: _isSigned && _signatureData != null
           ? FloatingActionButton(
         onPressed: _saveConsentPDFAndNavigateNext,
         child: Icon(Icons.arrow_forward),
-      ) : null,
+      )
+          : null,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
         child: Column(
@@ -217,20 +218,18 @@ class _ConsentFormState extends State<ConsentForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Einverständniserklärung',
+                      Strings.consentTitle,
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Ich erkläre mich hiermit einverstanden, dass ich an der Studie teilnehme, bei der verschiedene Gesten an einem externen Smartphone durchgeführt werden. '
-                          'Im Anschluss werden Fragebögen ausgefüllt und ein Interview durchgeführt, das mit einem Mikrofon aufgezeichnet wird. '
-                          'Diese Einverständniserklärung gilt bis auf Widerruf. Ich habe das Recht, meine Einwilligung jederzeit zu widerrufen.',
+                      Strings.consentDescription,
                       style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.start,
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Datum: $formattedDate',
+                      '${Strings.dateLabel} $formattedDate',
                       style: TextStyle(fontSize: 18),
                     ),
                   ],
@@ -243,7 +242,7 @@ class _ConsentFormState extends State<ConsentForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Unterschrift:',
+                    Strings.signatureLabel,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
@@ -258,7 +257,7 @@ class _ConsentFormState extends State<ConsentForm> {
                           ? Image.memory(_signatureData!)
                           : Center(
                         child: Text(
-                          'Tap here to sign',
+                          Strings.tapToSign,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -277,3 +276,4 @@ class _ConsentFormState extends State<ConsentForm> {
     );
   }
 }
+

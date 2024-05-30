@@ -186,7 +186,7 @@ class _IntroScreenState extends State<IntroScreen> {
         ],
         showNextButton: true,
         next: const Icon(Icons.arrow_forward),
-        done: const Text("Start"),
+        done: const Text(Strings.done),
         onDone: () async {
           await taskAssigningService.incrementCounter();
           registerCurrentSubject();
@@ -195,7 +195,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) {
-                  return ConsentForm();
+              return ConsentForm();
             }),
           );
         },
@@ -226,4 +226,3 @@ class _IntroScreenState extends State<IntroScreen> {
     ));
   }
 }
-

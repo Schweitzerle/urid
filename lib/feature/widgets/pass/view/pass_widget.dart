@@ -1,19 +1,32 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_properties_button.dart';
 import 'package:urid_api_client/urid_api_client.dart';
+import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/pass_properties_button.dart';
+import 'package:urid/feature/screens/TaskScreens/FlipTaskID/pass_properties_flip.dart';
+import 'package:urid/feature/screens/TaskScreens/CoverTaskID/pass_properties_cover.dart';
+import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/pass_properties_volume_button.dart';
+import 'package:urid/feature/widgets/pass/pass.dart';
 
-import '../../../widgets/pass/pass.dart';
+enum PassType {
+  button,
+  flip,
+  cover,
+  volume,
+}
 
-
-class PassWidgetButton extends StatelessWidget {
+class PassWidget extends StatelessWidget {
   final URIDPass pass;
-  bool showHiddenProperties;
+  final bool showHiddenProperties;
+  final PassType passType;
 
-  PassWidgetButton({required this.pass, required this.showHiddenProperties, super.key});
+  PassWidget({
+    required this.pass,
+    required this.showHiddenProperties,
+    required this.passType,
+    super.key,
+  });
 
   static Widget createImageForPass(URIDPass pass) {
     var image = Image.memory(base64Decode(pass.properties["photo"]!.value));
@@ -30,20 +43,38 @@ class PassWidgetButton extends StatelessWidget {
       );
     }
     return Center(
-      child: Text("${"Die Gültigkeit dieses Ausweises konnte nicht geprüft werden."}."),
+      child: Text(
+          "Die Gültigkeit dieses Ausweises konnte nicht geprüft werden."),
     );
   }
 
   static Widget createValidationCode(URIDPass pass) {
     if (pass.isValid) {
       return QrImageView(
-        // TODO Create validation url on server side before sending pass to client
         data: "https:/id.uni-regensburg.de/api/v1/validate/${pass.id}",
         version: QrVersions.auto,
         size: 160.0,
       );
     }
     return Container();
+  }
+
+  Widget _buildPassProperties() {
+    switch (passType) {
+      case PassType.button:
+        return PassWidgetPropertiesButton(
+            pass: pass, showHiddenProperties: showHiddenProperties);
+      case PassType.flip:
+        return PassWidgetPropertiesFlip(
+            pass: pass, showHiddenProperties: showHiddenProperties);
+      case PassType.cover:
+        return PassWidgetPropertiesCover(pass: pass);
+      case PassType.volume:
+        return PassWidgetPropertiesVolumeButton(
+            pass: pass, showHiddenProperties: showHiddenProperties);
+      default:
+        return Container();
+    }
   }
 
   @override
@@ -59,24 +90,18 @@ class PassWidgetButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              color: Theme.of(context).primaryColor,
+              color: Theme
+                  .of(context)
+                  .primaryColor,
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 PassWidgetHeader(pass: pass),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 PassWidgetProvider(pass: pass),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 PassWidgetOwner(pass: pass),
-                const SizedBox(
-                  height: 8,
-                ),
-                PassWidgetPropertiesButton(pass: pass, showHiddenProperties: showHiddenProperties,),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
+                _buildPassProperties(),
+                const SizedBox(height: 8),
                 PassWidgetValidation(pass: pass),
               ]),
             ),
@@ -94,24 +119,18 @@ class PassWidgetButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            color: Theme.of(context).primaryColor,
+            color: Theme
+                .of(context)
+                .primaryColor,
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               PassWidgetHeader(pass: pass),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               PassWidgetProvider(pass: pass),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               PassWidgetOwner(pass: pass),
-              const SizedBox(
-                height: 8,
-              ),
-              PassWidgetPropertiesCover(pass: pass),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
+              _buildPassProperties(),
+              const SizedBox(height: 8),
               PassWidgetValidation(pass: pass),
             ]),
           ),

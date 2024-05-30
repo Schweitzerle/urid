@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/strings.dart';
 
 class CustomWillPopScopeWidget extends StatelessWidget {
   final Widget child;
@@ -29,19 +30,18 @@ class CustomWillPopScopeWidget extends StatelessWidget {
 
   AlertDialog _buildExitDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Bitte bestätige!'),
-      content: const Text('Willst du den Vorgang wirklich beenden? Bitte konsultiere zerst den Versuchsleiter!'),
+      title: Text(Strings.exitConfirmationTitle),
+      content: Text(Strings.exitConfirmationContent),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Nein'),
+          child: Text(Strings.no),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Ja'),
+          child: Text(Strings.yes),
         ),
       ],
     );
   }
-
 }

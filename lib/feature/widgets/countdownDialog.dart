@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
@@ -33,10 +32,11 @@ class CountdownDialog extends StatefulWidget {
   }
 }
 
-class _CountdownDialogState extends State<CountdownDialog> {
+class _CountdownDialogState extends State<CountdownDialog> with SingleTickerProviderStateMixin {
   late int _currentCountdown;
   final TaskAssigningService taskAssigningService = GetIt.instance<TaskAssigningService>();
-
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
@@ -44,6 +44,21 @@ class _CountdownDialogState extends State<CountdownDialog> {
     print(taskAssigningService.task);
     _currentCountdown = widget.countdownSeconds;
     _startCountdown();
+
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 1.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
+    _animationController.forward();
   }
 
   void _startCountdown() {
@@ -60,16 +75,25 @@ class _CountdownDialogState extends State<CountdownDialog> {
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Pause'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Lottie.asset('assets/animations/break.json'),
-          SizedBox(height: 14,),
-          Text('Nächste Task in $_currentCountdown Sekunden...'),
-        ],
+    return SlideTransition(
+      position: _slideAnimation,
+      child: AlertDialog(
+        title: Text('Pause'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Lottie.asset('assets/animations/break.json'),
+            SizedBox(height: 14),
+            Text('Nächste Task in $_currentCountdown Sekunden...'),
+          ],
+        ),
       ),
     );
   }

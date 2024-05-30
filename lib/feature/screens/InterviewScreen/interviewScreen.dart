@@ -12,6 +12,8 @@ import 'package:urid/feature/screens/EndScreen/endScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import 'package:urid/feature/models/taskTimer.dart';
 
+import '../../models/strings.dart';
+
 class AudioRecorderScreen extends StatefulWidget {
   @override
   _AudioRecorderScreenState createState() => _AudioRecorderScreenState();
@@ -88,47 +90,39 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     });
   }
 
-  //TODO: Gesten funktionieren hier auf einmal wieder, flippen zb wieder in pausecountdown und dannn zurück in den Zyklus
-  //TODO: Methode früher aufrufen, sodass nachdem AUdio aufgezeichnet ist, ich den Path hab und anzeigen kann.
   Future<void> _sendEmail() async {
     List<List<dynamic>> rows = [
-      [
-        "UUID",
-        "Task",
-        "CoverTask_Movement",
-        "CoverTask_Agency",
-        "CoverTask_ControlFeeling",
-        "ButtonTask_Movement",
-        "ButtonTask_Agency",
-        "ButtonTask_ControlFeeling",
-        "FlipTask_Movement",
-        "FlipTask_Agency",
-        "FlipTask_ControlFeeling",
-        "VolumeTask_Movement",
-        "VolumeTask_Agency",
-        "VolumeTask_ControlFeeling"
-      ],
+    [
+    "UUID",
+    "Task",
+    "CoverTask_Movement",
+    "CoverTask_Agency",
+    "CoverTask_ControlFeeling",
+    "ButtonTask_Movement",
+    "ButtonTask_Agency",
+    "ButtonTask_ControlFeeling",
+    "FlipTask_Movement",
+    "FlipTask_Agency",
+      "FlipTask_ControlFeeling",
+      "VolumeTask_Movement",
+      "VolumeTask_Agency",
+      "VolumeTask_ControlFeeling"
+    ],
       [
         subject.uuid,
         subject.taskAssigningService.task,
         subject.coverTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.coverTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.coverTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ??
-            "",
+        subject.coverTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
         subject.buttonTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.buttonTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire
-                ?.controlFeelingViewChangeQuestionValue ??
-            "",
+        subject.buttonTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
         subject.flipTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.flipTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ??
-            "",
+        subject.flipTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
         subject.volumeTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
         subject.volumeTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire
-                ?.controlFeelingViewChangeQuestionValue ??
-            ""
+        subject.volumeTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? ""
       ]
     ];
 
@@ -151,7 +145,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
 
     final Email email = Email(
       body:
-          'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.',
+      'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.',
       subject: 'Interview Data',
       recipients: ['julianschweizer9@gmail.com'],
       attachmentPaths: attachmentPaths,
@@ -170,18 +164,17 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Bestätigung'),
-          content: Text(
-              'Möchten Sie wirklich zum nächsten Bildschirm wechseln? Nicht versendete Daten gehen verloren!'),
+          title: Text(Strings.confirmation),
+          content: Text(Strings.navigateToNextScreenConfirmation),
           actions: <Widget>[
             TextButton(
-              child: Text('Abbrechen'),
+              child: Text(Strings.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Ja'),
+              child: Text(Strings.yes),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context)
@@ -211,7 +204,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: Text('Interview'),
+          title: Text(Strings.interviewTitle),
         ),
         body: Center(
           child: Padding(
@@ -227,124 +220,123 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                   },
                   child: _isRecording
                       ? Column(
-                          key: ValueKey<int>(1),
-                          children: [
-                            Text(
-                              'Aufnahme läuft...',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              durationText,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red),
-                            ),
-                          ],
-                        )
+                    key: ValueKey<int>(1),
+                    children: [
+                      Text(
+                        Strings.recordingInProgress,
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        durationText,
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
+                      ),
+                    ],
+                  )
                       : _audioFilePath != null
-                          ? Column(
-                              children: [
-                                Card(
-                                  key: ValueKey<int>(2),
-                                  elevation: 4,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 25),
-                                  child: ListTile(
-                                    leading: Icon(Icons.audiotrack,
-                                        color: Colors.blue),
-                                    title: Text(
-                                      'Aufgenommene Audio Datei',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.black),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          _audioFilePath!,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[600]),
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          'Länge: $durationText',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 4,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 25),
-                                  child: ListTile(
-                                    leading: Icon(Icons.description,
-                                        color: Colors.green),
-                                    title: Text(
-                                      'CSV Datei Studienergebnisse',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.black),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          csvFilePath,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[600]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 4,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 25),
-                                  child: ListTile(
-                                    leading: Icon(Icons.picture_as_pdf_outlined,
-                                        color: Colors.red),
-                                    title: Text(
-                                      'Einverständniserklärung PDF',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.black),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          subject.consentPdfPath!,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[600]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              key: ValueKey<int>(3),
-                              children: [
-                                Text(
-                                  'Keine Aufnahme vorhanden...',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.red),
-                                ),
-                              ],
-                            ),
+                      ? Column(
+                    children: [
+                      Card(
+                        key: ValueKey<int>(2),
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 25),
+                        child: ListTile(
+                          leading: Icon(Icons.audiotrack,
+                              color: Colors.blue),
+                          title: Text(
+                            Strings.recordedAudioFile,
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.black),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _audioFilePath!,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600]),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Länge: $durationText',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Card(
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 25),
+                        child: ListTile(
+                          leading: Icon(Icons.description,
+                              color: Colors.green),
+                          title: Text(
+                            Strings.csvFileResults,
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.black),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                csvFilePath,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Card(
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 25),
+                        child: ListTile(
+                          leading: Icon(Icons.picture_as_pdf_outlined,
+                              color: Colors.red),
+                          title: Text(
+                            Strings.consentFormPdf,
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.black),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                subject.consentPdfPath!,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                      : Column(
+                    key: ValueKey<int>(3),
+                    children: [
+                      Text(
+                        Strings.noRecordingAvailable,
+                        style: TextStyle(
+                            fontSize: 16, color: Colors.red),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20),
                 IconButton(
@@ -365,7 +357,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                           onPressed: _deleteRecording,
                           icon: Icon(Icons.delete, color: Colors.white),
                           label: Text(
-                            'Aufnahme löschen',
+                            Strings.deleteRecording,
                             style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -379,7 +371,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                           onPressed: _sendEmail,
                           icon: Icon(Icons.email, color: Colors.white),
                           label: Text(
-                            'Daten versenden',
+                            Strings.sendData,
                             style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -395,18 +387,18 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
         ),
         floatingActionButton: _audioFilePath != null
             ? FutureBuilder(
-                future: Future.delayed(const Duration(seconds: 8)),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return FloatingActionButton(
-                      onPressed: _navigateToNextScreen,
-                      child: const Icon(Icons.arrow_forward),
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                },
-              )
+          future: Future.delayed(const Duration(seconds: 8)),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return FloatingActionButton(
+                onPressed: _navigateToNextScreen,
+                child: const Icon(Icons.arrow_forward),
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        )
             : null,
       ),
     );
@@ -419,3 +411,4 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }
+

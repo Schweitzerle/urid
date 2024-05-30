@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import '../../models/strings.dart';
 
 class AgencyQuestionnaire {
   final TaskType taskType;
@@ -15,24 +16,25 @@ class AgencyQuestionnaire {
 }
 
 enum TaskType {
-coverPhone,
-holdButton,
-flipPhone,
-volumeButton
+  coverPhone,
+  holdButton,
+  flipPhone,
+  volumeButton
 }
 
 extension ParseToString on TaskType {
   String toNiceString() {
     switch (this) {
       case TaskType.coverPhone:
-        return "Bildschirm abdecken";
+        return Strings.coverPhone;
       case TaskType.holdButton:
-        return "Button gedrückt halten";
+        return Strings.holdButton;
       case TaskType.flipPhone:
-        return "Flip Smartphone";
+        return Strings.flipPhone;
       case TaskType.volumeButton:
-        return "Lautstärketasten";
-      default: return "Konnte Tasktype nicht identifizieren..";
+        return Strings.volumeButton;
+      default:
+        return Strings.unidentifiedTaskType;
     }
   }
 }

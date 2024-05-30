@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,10 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
-import 'package:urid/feature/screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/pass_widget_volume_button.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:video_player/video_player.dart';
@@ -20,6 +15,7 @@ import '../../../models/taskAssigningService.dart';
 import '../../../models/taskTimer.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../../../widgets/pass/view/pass_widget.dart';
 
 class VolumeButtonTaskIDIntro extends StatefulWidget {
   @override
@@ -61,22 +57,22 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
                 title: Strings.volumeTaskTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    Strings.volumeTaskBody,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.volumeTaskBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: Center(
                   child: _controller.value.isInitialized
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          ),
-                        )
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
+                  )
                       : const CircularProgressIndicator(),
                 ),
                 decoration: const PageDecoration(
@@ -91,13 +87,13 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
                 title: Strings.nextStepAutoTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    Strings.nextStepAutoBody,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.nextStepAutoBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: ClipRRect(
                     borderRadius: BorderRadius.circular(16.0),
                     child: Lottie.asset('assets/animations/study.json')),
@@ -112,18 +108,18 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
               PageViewModel(
                 title: Strings.questionnaireTitle,
                 image:
-                    Center(child: Lottie.asset('assets/animations/start.json')),
+                Center(child: Lottie.asset('assets/animations/start.json')),
                 bodyWidget: Column(
                   children: [
                     Card(
                         child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.questionnaireTaskBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            Strings.questionnaireTaskBody,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
                     SizedBox(
                       height: 20,
                     ),
@@ -141,11 +137,11 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
                             SizedBox(width: 8),
                             Text(
                               counterService.counter <= 0
-                                  ? 'Noch 3 Wiederholungen!'
+                                  ? Strings.repetitionsLeft
                                   : counterService.counter == 1
-                                  ? 'Noch 2 Wiederholungen!'
+                                  ? Strings.twoRepetitionsLeft
                                   : counterService.counter >= 2
-                                  ? 'Noch 1 Wiederholung!'
+                                  ? Strings.oneRepetitionLeft
                                   : '',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 18),
@@ -165,7 +161,7 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
               ),
             ],
             showNextButton: false,
-            done: const Text("Fertig"),
+            done: const Text(Strings.finished),
             onDone: () {
               Navigator.pushReplacement(
                 context,
@@ -187,7 +183,7 @@ class VolumeButtonTaskIDPass extends StatefulWidget {
 }
 
 class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
-  bool showHiddenProperties = false;
+  bool showHiddenProperties = true;
   bool gestureEnabled = true;
   late CounterService counterService;
   final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
@@ -205,14 +201,14 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
   void _initializeVolumeController() {
     VolumeController().listener((volume) {
       if (gestureEnabled) {
-      if (volume == 1) {
-        setState(() {
-            showHiddenProperties = true;
+        if (volume == 1) {
+          setState(() {
+            showHiddenProperties = false;
           });
         } else if (volume == 0) {
-        setState(() {
-            if (showHiddenProperties) {
-              showHiddenProperties = false;
+          setState(() {
+            if (!showHiddenProperties) {
+              showHiddenProperties = true;
               stopwatch.stop();
               taskTimer.endTask('Volume', counterService.counter, stopwatch.elapsed);
               taskTimer.getAllTaskDurations().forEach((taskName, durations) {
@@ -251,9 +247,6 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
           }),
         );
         counterService.resetCounter();
-        setState(() {
-          gestureEnabled = true;
-        });
       });
     } else if (resetCounter < 3) {
       setState(() {
@@ -278,12 +271,12 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
             child: RotationTransition(
-              turns: showHiddenProperties
+              turns: !showHiddenProperties
                   ? AlwaysStoppedAnimation(180 / 360)
                   : AlwaysStoppedAnimation(0 / 360),
-              child: PassWidgetVolumeButton(
+              child: PassWidget(
                 pass: DummyData.erikaMusterfrauPassObject(),
-                showHiddenProperties: showHiddenProperties,
+                showHiddenProperties: showHiddenProperties, passType: PassType.volume,
               ),
             ),
           ),

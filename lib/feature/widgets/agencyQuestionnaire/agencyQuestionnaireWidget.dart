@@ -9,6 +9,7 @@ import 'package:urid/feature/screens/EndScreen/endScreen.dart';
 import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
+import '../../models/strings.dart';
 import '../../screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import '../../screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import '../../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
@@ -41,102 +42,89 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     );
   }
 
-  //TODO: reihenfolge überprüfen, vorhin endscreen mal falsch angezuegt
   @override
   Widget build(BuildContext context) {
     final subject = getIt<Subject>();
     print(subject.uuid);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.navigate_next, size: 28),
-        onPressed: () {
-          CountdownDialog.showCountdownDialog(context, 2, () {
-            if (widget.taskType == TaskType.coverPhone) {
-              subject.coverTaskQuestionnaire = agencyQuestionnaire;
-              print('Cover Moveme ${subject.coverTaskQuestionnaire!.movementAgencyQuestionValue}');
-              print('Cover Agency ${subject.coverTaskQuestionnaire!.agencyQuestionValue}');
-              print('Cover Contr ${subject.coverTaskQuestionnaire!.controlFeelingViewChangeQuestionValue}');
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                    switch (widget.taskAssigningService.task) {
-                      case 1:
-                        return ButtonTaskIDIntro();
-                      case 2:
-                        return FlipTaskIDIntro();
-                      case 3:
-                        return AudioRecorderScreen();
-                      case 4:
-                        return VolumeButtonTaskIDIntro();
-                      default:
-                        return EndScreen();
-                    }
-                  }));
-            } else if (widget.taskType == TaskType.holdButton) {
-              subject.buttonTaskQuestionnaire = agencyQuestionnaire;
-              print('Buttn Moveme ${subject.buttonTaskQuestionnaire!.movementAgencyQuestionValue}');
-              print('Butztn Agency ${subject.buttonTaskQuestionnaire!.agencyQuestionValue}');
-              print('Buttn Contr ${subject.buttonTaskQuestionnaire!.controlFeelingViewChangeQuestionValue}');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    switch (widget.taskAssigningService.task) {
-                      case 1:
-                        return FlipTaskIDIntro();
-                      case 2:
-                        return VolumeButtonTaskIDIntro();
-                      case 3:
-                        return CoverTaskIDIntro();
-                      case 4:
-                        return AudioRecorderScreen();
-                      default:
-                        return EndScreen();
-                    }
-                  }));
-            } else if (widget.taskType == TaskType.flipPhone) {
-              subject.flipTaskQuestionnaire = agencyQuestionnaire;
-              print('Flip Moveme ${subject.flipTaskQuestionnaire!.movementAgencyQuestionValue}');
-              print('Flip Agency ${subject.flipTaskQuestionnaire!.agencyQuestionValue}');
-              print('Flip Contr ${subject.flipTaskQuestionnaire!.controlFeelingViewChangeQuestionValue}');
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    switch (widget.taskAssigningService.task) {
-                      case 1:
-                        return VolumeButtonTaskIDIntro();
-                      case 2:
-                        return AudioRecorderScreen();
-                      case 3:
-                        return ButtonTaskIDIntro();
-                      case 4:
-                        return CoverTaskIDIntro();
-                      default:
-                        return EndScreen();
-                    }
-                  }));
-            } else if (widget.taskType == TaskType.volumeButton) {
-              subject.volumeTaskQuestionnaire = agencyQuestionnaire;
-              print('Vol Moveme ${subject.volumeTaskQuestionnaire!.movementAgencyQuestionValue}');
-              print('Vol Agency ${subject.volumeTaskQuestionnaire!.agencyQuestionValue}');
-              print('Vol Contr ${subject.volumeTaskQuestionnaire!.controlFeelingViewChangeQuestionValue}');
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                    switch (widget.taskAssigningService.task) {
-                      case 1:
-                        return AudioRecorderScreen();
-                      case 2:
-                        return CoverTaskIDIntro();
-                      case 3:
-                        return FlipTaskIDIntro();
-                      case 4:
-                        return ButtonTaskIDIntro();
-                      default:
-                        return EndScreen();
-                    }
-                  }));
+    onPressed: () {
+    CountdownDialog.showCountdownDialog(context, 2, () {
+    if (widget.taskType == TaskType.coverPhone) {
+    subject.coverTaskQuestionnaire = agencyQuestionnaire;
+    Navigator.pushReplacement(context,
+    MaterialPageRoute(builder: (context) {
+    switch (widget.taskAssigningService.task) {
+    case 1:
+    return ButtonTaskIDIntro();
+    case 2:
+    return FlipTaskIDIntro();
+    case 3:
+    return AudioRecorderScreen();
+    case 4:
+    return VolumeButtonTaskIDIntro();
+    default:
+    return EndScreen();
+    }
+    }));
+    } else if (widget.taskType == TaskType.holdButton) {
+      subject.buttonTaskQuestionnaire = agencyQuestionnaire;
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            switch (widget.taskAssigningService.task) {
+              case 1:
+                return FlipTaskIDIntro();
+              case 2:
+                return VolumeButtonTaskIDIntro();
+              case 3:
+                return CoverTaskIDIntro();
+              case 4:
+                return AudioRecorderScreen();
+              default:
+                return EndScreen();
             }
-          });
-        },
-      ),
+          }));
+    } else if (widget.taskType == TaskType.flipPhone) {
+      subject.flipTaskQuestionnaire = agencyQuestionnaire;
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) {
+            switch (widget.taskAssigningService.task) {
+              case 1:
+                return VolumeButtonTaskIDIntro();
+              case 2:
+                return AudioRecorderScreen();
+              case 3:
+                return ButtonTaskIDIntro();
+              case 4:
+                return CoverTaskIDIntro();
+              default:
+                return EndScreen();
+            }
+          }));
+    } else if (widget.taskType == TaskType.volumeButton) {
+      subject.volumeTaskQuestionnaire = agencyQuestionnaire;
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) {
+            switch (widget.taskAssigningService.task) {
+              case 1:
+                return AudioRecorderScreen();
+              case 2:
+                return CoverTaskIDIntro();
+              case 3:
+                return FlipTaskIDIntro();
+              case 4:
+                return ButtonTaskIDIntro();
+              default:
+                return EndScreen();
+            }
+          }));
+    }
+    });
+    },
+        ),
       body: CustomWillPopScopeWidget(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 10),
@@ -145,203 +133,212 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        Strings.questionnaireTitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22,),
+                      ),
+                      SizedBox(height: 20,),
+                      Text(
+                        'Task: ${widget.taskType.toNiceString()}',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                   Expanded(
-                    flex: 1,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text('Fragebogen Kontroll- und Sicherheitsgefühl', style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text('Task: ${widget.taskType.toNiceString()}', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Column(
+                          children: [
+                            const Text(
+                              Strings.movementControlQuestion,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SfSlider(
+                              min: 1,
+                              max: 7,
+                              value: agencyQuestionnaire.movementAgencyQuestionValue,
+                              interval: 1,
+                              showTicks: true,
+                              showLabels: true,
+                              tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
+                                switch (actualValue) {
+                                  case 1:
+                                    return Strings.stronglyDisagree;
+                                  case 2:
+                                    return Strings.disagree;
+                                  case 3:
+                                    return Strings.somewhatDisagree;
+                                  case 4:
+                                    return Strings.neutral;
+                                  case 5:
+                                    return Strings.somewhatAgree;
+                                  case 6:
+                                    return Strings.agree;
+                                  case 7:
+                                    return Strings.stronglyAgree;
+                                }
+                                return actualValue.toString();
+                              },
+                              enableTooltip: true,
+                              labelPlacement: LabelPlacement.onTicks,
+                              labelFormatterCallback: (dynamic actualValue, String formattedText) {
+                                switch (actualValue) {
+                                  case 1:
+                                    return '';
+                                  case 2:
+                                    return Strings.disagree;
+                                  case 3:
+                                    return '';
+                                  case 4:
+                                    return Strings.neutral;
+                                  case 5:
+                                    return '';
+                                  case 6:
+                                    return Strings.agree;
+                                  case 7:
+                                    return ' ';
+                                }
+                                return actualValue.toString();
+                              },
+                              onChanged: (dynamic value) {
+                                setState(() {
+                                  agencyQuestionnaire.movementAgencyQuestionValue = value.toInt();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              Strings.controlFeelingQuestion,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SfSlider(
+                              min: 1.0,
+                              max: 7.0,
+                              value: agencyQuestionnaire.agencyQuestionValue,
+                              interval: 1,
+                              showTicks: true,
+                              showLabels: true,
+                              enableTooltip: true,
+                              tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
+                                switch (actualValue) {
+                                  case 1:
+                                    return Strings.veryLow;
+                                  case 2:
+                                    return Strings.low;
+                                  case 3:
+                                    return Strings.somewhatLow;
+                                  case 4:
+                                    return Strings.medium;
+                                  case 5:
+                                    return Strings.somewhatHigh;
+                                  case 6:
+                                    return Strings.high;
+                                  case 7:
+                                    return Strings.veryHigh;
+                                }
+                                return actualValue.toString();
+                              },
+                              labelPlacement: LabelPlacement.onTicks,
+                              labelFormatterCallback: (dynamic actualValue, String formattedText) {
+                                switch (actualValue) {
+                                  case 1:
+                                    return '';
+                                  case 2:
+                                    return Strings.low;
+                                  case 3:
+                                    return '';
+                                  case 4:
+                                    return Strings.medium;
+                                  case 5:
+                                    return '';
+                                  case 6:
+                                    return Strings.high;
+                                  case 7:
+                                    return '';
+                                }
+                                return actualValue.toString();
+                              },
+                              onChanged: (dynamic value) {
+                                setState(() {
+                                  agencyQuestionnaire.agencyQuestionValue = value.toInt();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              Strings.viewChangeQuestion,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SfSlider(
+                              min: 1.0,
+                              max: 7.0,
+                              value: agencyQuestionnaire.controlFeelingViewChangeQuestionValue,
+                              interval: 1,
+                              showTicks: true,
+                              showLabels: true,
+                              enableTooltip: true,
+                              tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
+                                switch (actualValue) {
+                                  case 1:
+                                    return Strings.notAtAll;
+                                  case 2:
+                                    return Strings.slightly;
+                                  case 3:
+                                    return Strings.somewhat;
+                                  case 4:
+                                    return Strings.moderately;
+                                  case 5:
+                                    return Strings.quite;
+                                  case 6:
+                                    return Strings.very;
+                                  case 7:
+                                    return Strings.completely;
+                                }
+                                return actualValue.toString();
+                              },
+                              labelPlacement: LabelPlacement.onTicks,
+                              labelFormatterCallback: (dynamic actualValue, String formattedText) {
+                                switch (actualValue) {
+                                  case 1:
+                                    return '';
+                                  case 2:
+                                    return Strings.slightly;
+                                  case 3:
+                                    return '';
+                                  case 4:
+                                    return Strings.moderately;
+                                  case 5:
+                                    return '';
+                                  case 6:
+                                    return Strings.very;
+                                  case 7:
+                                    return '';
+                                }
+                                return actualValue.toString();
+                              },
+                              onChanged: (dynamic value) {
+                                setState(() {
+                                  agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value.toInt();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      children: [
-                        const Text('1. Es fühlte sich so an, als hätte Sie die Bewegungen während der Aufgabe unter Kontrolle gehabt.'
-                            , style: TextStyle(fontWeight: FontWeight.bold)),
-                        SfSlider(
-                            min: 1,
-                            max: 7,
-                            value: agencyQuestionnaire.movementAgencyQuestionValue,
-                            interval: 1,
-                            showTicks: true,
-                            showLabels: true,
-                            tooltipTextFormatterCallback:  (dynamic actualValue, String formattedText) {
-                              switch (actualValue) {
-                                case 1:
-                                  return 'stimme überhaupt nicht zu';
-                                case 2:
-                                  return 'stimme nicht zu';
-                                case 3:
-                                  return 'stimme eher nicht zu';
-                                case 4:
-                                  return 'weder noch';
-                                case 5:
-                                  return 'stimme eher zu';
-                                case 6:
-                                  return 'stimme zu';
-                                case 7:
-                                  return 'stimme vollkommen zu';
-                              }
-                              return actualValue.toString();
-                            },
-                            enableTooltip: true,
-                            labelPlacement: LabelPlacement.onTicks,
-                            labelFormatterCallback:
-                                (dynamic actualValue, String formattedText) {
-                              switch (actualValue) {
-                                case 1:
-                                  return '';
-                                case 2:
-                                  return 'stimme nicht zu';
-                                case 3:
-                                  return '';
-                                case 4:
-                                  return 'weder noch';
-                                case 5:
-                                  return '';
-                                case 6:
-                                  return 'stimme zu';
-                                case 7:
-                                  return ' ';
-                              }
-                              return actualValue.toString();
-                            },
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                agencyQuestionnaire.movementAgencyQuestionValue = value.toInt();
-                                print(agencyQuestionnaire.movementAgencyQuestionValue);
-                              });
-                            }),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: [
-                        const Text('2. Wie stark war das Gefühl der Kontrolle, das Sie empfunden haben?', style: TextStyle(fontWeight: FontWeight.bold),),
-                        SfSlider(
-                            min: 1.0,
-                            max: 7.0,
-                            value: agencyQuestionnaire.agencyQuestionValue,
-                            interval: 1,
-                            showTicks: true,
-                            showLabels: true,
-                            enableTooltip: true,
-                            tooltipTextFormatterCallback:  (dynamic actualValue, String formattedText) {
-                              switch (actualValue) {
-                                case 1:
-                                  return 'sehr niedrig';
-                                case 2:
-                                  return 'niedrig';
-                                case 3:
-                                  return 'eher niedrig';
-                                case 4:
-                                  return 'mittel';
-                                case 5:
-                                  return 'eher hoch';
-                                case 6:
-                                  return 'hoch';
-                                case 7:
-                                  return 'sehr hoch';
-                              }
-                              return actualValue.toString();
-                            },
-                            labelPlacement: LabelPlacement.onTicks,
-                            labelFormatterCallback:
-                                (dynamic actualValue, String formattedText) {
-                              switch (actualValue) {
-                                case 1:
-                                  return '';
-                                case 2:
-                                  return 'niedrig';
-                                case 3:
-                                  return '';
-                                case 4:
-                                  return 'mittel';
-                                case 5:
-                                  return '';
-                                case 6:
-                                  return 'hoch';
-                                case 7:
-                                  return '';
-                              }
-                              return actualValue.toString();
-                            },
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                agencyQuestionnaire.agencyQuestionValue = value.toInt();
-                                print(agencyQuestionnaire.agencyQuestionValue);
-                              });
-                            }),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: [
-                        const Text('3. Geben Sie an, wie sehr es sich anfühlte, als würde die gerade durchgeführteInteraktionsform den Wechsel zwischen den beiden Ansichten verursachen.'
-                            , style: TextStyle(fontWeight: FontWeight.bold)),
-                        SfSlider(
-                            min: 1.0,
-                            max: 7.0,
-                            value: agencyQuestionnaire.controlFeelingViewChangeQuestionValue,
-                            interval: 1,
-                            showTicks: true,
-                            showLabels: true,
-                            enableTooltip: true,
-                            tooltipTextFormatterCallback:  (dynamic actualValue, String formattedText) {
-                              switch (actualValue) {
-                                case 1:
-                                  return 'überhaupt nicht';
-                                case 2:
-                                  return 'wenig';
-                                case 3:
-                                  return 'leicht';
-                                case 4:
-                                  return 'eher';
-                                case 5:
-                                  return 'ziemlich';
-                                case 6:
-                                  return 'sehr';
-                                case 7:
-                                  return 'vollkommen';
-                              }
-                              return actualValue.toString();
-                            },
-                            labelPlacement: LabelPlacement.onTicks,
-                            labelFormatterCallback:
-                                (dynamic actualValue, String formattedText) {
-                              switch (actualValue) {
-                                case 1:
-                                  return '';
-                                case 2:
-                                  return 'wenig';
-                                case 3:
-                                  return '';
-                                case 4:
-                                  return 'eher';
-                                case 5:
-                                  return '';
-                                case 6:
-                                  return 'sehr';
-                                case 7:
-                                  return '';
-                              }
-                              return actualValue.toString();
-                            },
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value.toInt();
-                                print(agencyQuestionnaire.controlFeelingViewChangeQuestionValue);
-                              });
-                            }),
-                      ],
-                    ),
-                  )
+
                 ],
               ),
             ),
@@ -351,3 +348,5 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     );
   }
 }
+
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../../models/strings.dart';
 
 class EndScreen extends StatelessWidget {
   @override
@@ -25,13 +26,13 @@ class EndScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Vielen Dank für Ihre Teilnahme an unserer Studie!',
+                        Strings.endScreenThankYouTitle,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 40),
                       Text(
-                        'Sie können das Smartphone nun dem Studienleiter zurückgeben. \n\n Wir wünschen Ihnen noch einen schönen Tag!',
+                        Strings.endScreenThankYouBody,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18),
                       ),

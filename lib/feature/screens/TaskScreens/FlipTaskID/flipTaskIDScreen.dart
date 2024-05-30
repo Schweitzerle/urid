@@ -8,7 +8,6 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
-import 'package:urid/feature/screens/TaskScreens/FlipTaskID/pass_widget_flip.dart';
 import 'package:video_player/video_player.dart';
 import '../../../models/counterService.dart';
 import '../../../models/strings.dart';
@@ -16,6 +15,7 @@ import '../../../models/taskAssigningService.dart';
 import '../../../models/taskTimer.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../../../widgets/pass/view/pass_widget.dart';
 
 class FlipTaskIDIntro extends StatefulWidget {
   @override
@@ -56,22 +56,22 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
                 title: Strings.flipTaskTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    Strings.flipTaskBody,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.flipTaskBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: Center(
                   child: _controller.value.isInitialized
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          ),
-                        )
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
+                  )
                       : const CircularProgressIndicator(),
                 ),
                 decoration: const PageDecoration(
@@ -86,13 +86,13 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
                 title: Strings.nextStepAutoTitle,
                 bodyWidget: const Card(
                     child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    Strings.nextStepAutoBody,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                )),
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        Strings.nextStepAutoBody,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )),
                 image: ClipRRect(
                     borderRadius: BorderRadius.circular(16.0),
                     child: Lottie.asset('assets/animations/study.json')),
@@ -107,18 +107,18 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
               PageViewModel(
                 title: Strings.questionnaireTitle,
                 image:
-                    Center(child: Lottie.asset('assets/animations/start.json')),
+                Center(child: Lottie.asset('assets/animations/start.json')),
                 bodyWidget: Column(
                   children: [
                     const Card(
                         child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.questionnaireTaskBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            Strings.questionnaireTaskBody,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        )),
                     const SizedBox(
                       height: 20,
                     ),
@@ -136,11 +136,11 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
                             SizedBox(width: 8),
                             Text(
                               counterService.counter <= 0
-                                  ? 'Noch 3 Wiederholungen!'
+                                  ? Strings.repetitionsLeft
                                   : counterService.counter == 1
-                                  ? 'Noch 2 Wiederholungen!'
+                                  ? Strings.twoRepetitionsLeft
                                   : counterService.counter >= 2
-                                  ? 'Noch 1 Wiederholung!'
+                                  ? Strings.oneRepetitionLeft
                                   : '',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 18),
@@ -160,7 +160,7 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
               ),
             ],
             showNextButton: false,
-            done: const Text("Fertig"),
+            done: const Text(Strings.finished),
             onDone: () {
               Navigator.pushReplacement(
                 context,
@@ -182,7 +182,7 @@ class FlipTaskIDPass extends StatefulWidget {
 }
 
 class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
-  bool showHiddenProperties = false;
+  bool showHiddenProperties = true;
   bool gestureEnabled = true;
   late CounterService counterService;
   final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
@@ -203,31 +203,31 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
     _streamSubscriptions.add(
         gyroscopeEventStream(samplingPeriod: sensorInterval)
             .listen((GyroscopeEvent event) {
-      if (gestureEnabled) {
-        if (event.x > 2.0) {
-          setState(() {
-            if (showHiddenProperties) {
-              showHiddenProperties = false;
-              stopwatch.stop();
-              taskTimer.endTask('Flip', counterService.counter, stopwatch.elapsed);
-              taskTimer.getAllTaskDurations().forEach((taskName, durations) {
-                for (int i = 0; i < durations.length; i++) {
-                  print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+          if (gestureEnabled) {
+            if (event.x > 2.0) {
+              setState(() {
+                if (!showHiddenProperties) {
+                  showHiddenProperties = true;
+                  stopwatch.stop();
+                  taskTimer.endTask('Flip', counterService.counter, stopwatch.elapsed);
+                  taskTimer.getAllTaskDurations().forEach((taskName, durations) {
+                    for (int i = 0; i < durations.length; i++) {
+                      print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+                    }
+                  });
+                  _handleResetCounter();
                 }
               });
-              _handleResetCounter();
+            } else if (event.x < -2.0) {
+              setState(() {
+                showHiddenProperties = false;
+              });
             }
-          });
-        } else if (event.x < -2.0) {
-          setState(() {
-            showHiddenProperties = true;
-          });
-        }
-      }
-    }));
+          }
+        }));
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
+  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzen / im Moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -244,9 +244,6 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
           }),
         );
         counterService.resetCounter();
-        setState(() {
-          gestureEnabled = true;
-        });
       });
     } else if (resetCounter < 3) {
       setState(() {
@@ -279,14 +276,14 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
               child: RotationTransition(
-            turns: showHiddenProperties
-                ? AlwaysStoppedAnimation(180 / 360)
-                : AlwaysStoppedAnimation(0 / 360),
-            child: PassWidgetFlip(
-              pass: DummyData.erikaMusterfrauPassObject(),
-              showHiddenProperties: showHiddenProperties,
-            ),
-          )),
+                turns: !showHiddenProperties
+                    ? AlwaysStoppedAnimation(180 / 360)
+                    : AlwaysStoppedAnimation(0 / 360),
+                child: PassWidget(
+                  pass: DummyData.erikaMusterfrauPassObject(),
+                  showHiddenProperties: showHiddenProperties, passType: PassType.flip,
+                ),
+              )),
         ),
       ),
     );
