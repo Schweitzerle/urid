@@ -1,0 +1,1 @@
+// TODO Add texts from task description in app
