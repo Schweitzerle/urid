@@ -184,7 +184,7 @@ class _ConsentFormState extends State<ConsentForm> {
                     case 3:
                       return VolumeButtonTaskIDIntro();
                     case 4:
-                      return FlipTaskIDIntro();
+                      return FlipTaskIDOverview();
                     default:
                       return EndScreen();
                   }

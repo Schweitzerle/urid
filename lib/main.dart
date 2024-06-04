@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
 import 'package:urid/feature/screens/IntroScreen/introScreen.dart';
-import 'package:urid/feature/widgets/signaturePDF.dart';
+import 'package:urid/feature/widgets/consentForm.dart';
 import 'feature/models/counterService.dart';
 import 'feature/models/taskTimer.dart';
 

@@ -67,14 +67,6 @@ flutter:
   generate: true
 
   assets:
-    - assets/animations/study.json
-    - assets/animations/break.json
-    - assets/animations/coopWork.json
-    - assets/animations/hello.json
-    - assets/animations/privacy.json
-    - assets/animations/interaction.json
-    - assets/animations/start.json
-    - assets/animations/survey.json
     - assets/animations/thanks.json
     - assets/animations/error.json
     - assets/videos/cover.mp4

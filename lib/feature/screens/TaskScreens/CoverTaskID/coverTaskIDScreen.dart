@@ -54,109 +54,144 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
           child: IntroductionScreen(
             pages: [
               PageViewModel(
-                title: Strings.coverTaskTitle,
+                titleWidget: Container(),
                 bodyWidget: const Card(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.coverTaskBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
-                image: Center(
-                  child: _controller.value.isInitialized
-                      ? ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    ),
-                  )
-                      : const CircularProgressIndicator(),
-                ),
-                decoration: const PageDecoration(
-                  bodyFlex: 5,
-                  imageFlex: 3,
-                  bodyAlignment: Alignment.topCenter,
-                  imageAlignment: Alignment.center,
-                  imagePadding: EdgeInsets.all(8),
-                ),
-              ),
-              PageViewModel(
-                title: Strings.nextStepTitle,
-                bodyWidget: const Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        Strings.nextStepBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )),
-                image: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Lottie.asset('assets/animations/study.json')),
-                decoration: const PageDecoration(
-                  bodyFlex: 5,
-                  imageFlex: 3,
-                  bodyAlignment: Alignment.topCenter,
-                  imageAlignment: Alignment.center,
-                  imagePadding: EdgeInsets.all(8),
-                ),
-              ),
-              PageViewModel(
-                title: Strings.questionnaireTitle,
-                image:
-                Center(child: Lottie.asset('assets/animations/start.json')),
-                bodyWidget: Column(
-                  children: [
-                    const Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            Strings.questionnaireTaskBody,
+                      child: Column(
+                        children: [
+                          Text(
+                            Strings.coverTaskTitle,
                             textAlign: TextAlign.center,
+                            style:
+                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            Strings.coverTaskBody,
+                            textAlign: TextAlign.justify,
                             style: TextStyle(fontSize: 18),
                           ),
-                        )),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.repeat,
-                              size: 24,
-                              color: Colors.black54,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              counterService.counter <= 0
-                                  ? Strings.repetitionsLeft
-                                  : counterService.counter == 1
-                                  ? Strings.twoRepetitionsLeft
-                                  : counterService.counter >= 2
-                                  ? Strings.oneRepetitionLeft
-                                  : '',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
+                        ],
+                      ),
+                    )),
+                decoration: const PageDecoration(
+                  bodyAlignment: Alignment.center,
+                ),
+              ),
+              PageViewModel(
+                title: Strings.tutorial,
+                bodyWidget: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: _controller.value.isInitialized
+                        ? ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: VideoPlayer(_controller),
                       ),
                     )
+                        : const CircularProgressIndicator(),
+                  ),
+                ),
+                decoration: const PageDecoration(
+                  bodyAlignment: Alignment.center,
+                ),
+              ),
+              PageViewModel(
+                titleWidget: Container(),
+                bodyWidget: const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            Strings.nextStepTitle,
+                            textAlign: TextAlign.center,
+                            style:
+                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            Strings.nextStepBody,
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    )),
+                decoration: const PageDecoration(
+                  bodyAlignment: Alignment.center,
+                ),
+              ),
+              PageViewModel(
+                titleWidget: Container(),
+                bodyWidget: Column(
+                  children: [
+                    Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                Strings.questionnaireTitle,
+                                textAlign: TextAlign.center,
+                                style:
+                                TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 40,
+                              ),
+                              Text(
+                                Strings.questionnaireTaskBody,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(fontSize: 18),
+                              ),
+
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Card(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.repeat,
+                                        size: 24,
+                                        color: Colors.black54,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        counterService.counter <= 0
+                                            ? Strings.repetitionsLeft
+                                            : counterService.counter == 1
+                                            ? Strings.twoRepetitionsLeft
+                                            : counterService.counter >= 2
+                                            ? Strings.oneRepetitionLeft
+                                            : '',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )),
+
                   ],
                 ),
                 decoration: const PageDecoration(
-                  bodyFlex: 5,
-                  imageFlex: 3,
-                  bodyAlignment: Alignment.topCenter,
-                  imagePadding: EdgeInsets.all(8),
+                  bodyAlignment: Alignment.center,
                 ),
               ),
             ],
@@ -176,6 +211,116 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
     );
   }
 }
+
+class CoverTaskIDOverview extends StatefulWidget {
+  @override
+  _CoverTaskIDOverviewState createState() => _CoverTaskIDOverviewState();
+}
+
+class _CoverTaskIDOverviewState extends State<CoverTaskIDOverview> {
+  final CounterService counterService = GetIt.instance.get<CounterService>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomWillPopScopeWidget(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40),
+          child: IntroductionScreen(
+            pages: [
+              PageViewModel(
+                titleWidget: Container(),
+                bodyWidget: Column(
+                  children: [
+                    Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                Strings.coverTaskTitle,
+                                textAlign: TextAlign.center,
+                                style:
+                                TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 40,
+                              ),
+                              Text(
+                                Strings.coverTaskOverview,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(fontSize: 18),
+                              ),
+
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Card(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.repeat,
+                                        size: 24,
+                                        color: Colors.black54,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        counterService.counter <= 0
+                                            ? Strings.repetitionsLeft
+                                            : counterService.counter == 1
+                                            ? Strings.twoRepetitionsLeft
+                                            : counterService.counter >= 2
+                                            ? Strings.oneRepetitionLeft
+                                            : '',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+                decoration: const PageDecoration(
+                  bodyAlignment: Alignment.center,
+                ),
+              ),
+            ],
+            showNextButton: false,
+            done: const Text(Strings.finished),
+            onDone: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return CoverTaskIDPass();
+                }),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 
 class CoverTaskIDPass extends StatefulWidget {
   @override
@@ -215,7 +360,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
-            return CoverTaskIDIntro();
+            return CoverTaskIDOverview();
           }),
         );
       });

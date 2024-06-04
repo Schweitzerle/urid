@@ -8,7 +8,7 @@ import 'package:urid/feature/models/taskAssigningService.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import '../../models/strings.dart';
 import '../../models/subject.dart';
-import '../../widgets/signaturePDF.dart';
+import '../../widgets/consentForm.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -18,7 +18,8 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final TaskAssigningService taskAssigningService = GetIt.instance<TaskAssigningService>();
+  final TaskAssigningService taskAssigningService =
+      GetIt.instance<TaskAssigningService>();
 
   @override
   void initState() {
@@ -37,156 +38,183 @@ class _IntroScreenState extends State<IntroScreen> {
       child: IntroductionScreen(
         pages: [
           PageViewModel(
-            title: Strings.welcomeTitle,
+            titleWidget: Container(),
             bodyWidget: const Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.welcomeBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                child: Column(
+                  children: [
+                    Text(
+                      Strings.welcomeTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.welcomeBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/hello.json')),
             decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
+              bodyAlignment: Alignment.center,
             ),
           ),
           PageViewModel(
-            title: Strings.confidentialityTitle,
+            titleWidget: Container(),
             bodyWidget: const Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.confidentialityBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                child: Column(
+                  children: [
+                    Text(
+                      Strings.studyProcessTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.studyProcessBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/privacy.json')),
             decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
+              bodyAlignment: Alignment.center,
             ),
           ),
           PageViewModel(
-            title: Strings.studyProcessTitle,
+            titleWidget: Container(),
             bodyWidget: const Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.studyProcessBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                child: Column(
+                  children: [
+                    Text(
+                      Strings.interactionMethodsTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.interactionMethodsBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/study.json')),
             decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
+              bodyAlignment: Alignment.center,
             ),
           ),
           PageViewModel(
-            title: Strings.interactionMethodsTitle,
+            titleWidget: Container(),
             bodyWidget: const Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.interactionMethodsBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                child: Column(
+                  children: [
+                    Text(
+                      Strings.questionnaireTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.questionnaireBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/interaction.json')),
             decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
+              bodyAlignment: Alignment.center,
             ),
           ),
           PageViewModel(
-            title: Strings.questionnaireTitle,
+            titleWidget: Container(),
             bodyWidget: const Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.questionnaireBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                child: Column(
+                  children: [
+                    Text(
+                      Strings.interviewTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.interviewBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/survey.json')),
             decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
+              bodyAlignment: Alignment.center,
             ),
           ),
           PageViewModel(
-            title: Strings.interviewTitle,
+            titleWidget: Container(),
             bodyWidget: const Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.interviewBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                child: Column(
+                  children: [
+                    Text(
+                      Strings.confidentialityTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.confidentialityBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
             ),
-            image: Center(child: Lottie.asset('assets/animations/coopWork.json')),
             decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
-            ),
-          ),
-          PageViewModel(
-            title: Strings.readyTitle,
-            bodyWidget: const Card(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  Strings.readyBody,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            image: Center(child: Lottie.asset('assets/animations/start.json')),
-            decoration: const PageDecoration(
-              bodyFlex: 5,
-              imageFlex: 3,
-              bodyAlignment: Alignment.topCenter,
-              imageAlignment: Alignment.center,
-              imagePadding: EdgeInsets.all(8),
+              bodyAlignment: Alignment.center,
             ),
           ),
         ],
         showNextButton: true,
         next: const Icon(Icons.arrow_forward),
-        done: const Text(Strings.done),
+        done: const Text(Strings.start),
         onDone: () async {
           await taskAssigningService.incrementCounter();
           registerCurrentSubject();

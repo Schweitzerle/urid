@@ -59,7 +59,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     case 1:
     return ButtonTaskIDIntro();
     case 2:
-    return FlipTaskIDIntro();
+    return FlipTaskIDOverview();
     case 3:
     return AudioRecorderScreen();
     case 4:
@@ -75,7 +75,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
           MaterialPageRoute(builder: (context) {
             switch (widget.taskAssigningService.task) {
               case 1:
-                return FlipTaskIDIntro();
+                return FlipTaskIDOverview();
               case 2:
                 return VolumeButtonTaskIDIntro();
               case 3:
@@ -114,7 +114,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
               case 2:
                 return CoverTaskIDIntro();
               case 3:
-                return FlipTaskIDIntro();
+                return FlipTaskIDOverview();
               case 4:
                 return ButtonTaskIDIntro();
               default:

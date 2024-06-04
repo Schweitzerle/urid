@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:lottie/lottie.dart';
 
 import '../models/taskAssigningService.dart';
 
@@ -20,6 +19,7 @@ class CountdownDialog extends StatefulWidget {
 
   static Future<void> showCountdownDialog(BuildContext context, int countdownSeconds, Function onCountdownComplete) async {
     await showDialog(
+      barrierColor: Color(0xff1f0407),
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -36,7 +36,7 @@ class _CountdownDialogState extends State<CountdownDialog> with SingleTickerProv
   late int _currentCountdown;
   final TaskAssigningService taskAssigningService = GetIt.instance<TaskAssigningService>();
   late AnimationController _animationController;
-  late Animation<Offset> _slideAnimation;
+  late Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -46,17 +46,14 @@ class _CountdownDialogState extends State<CountdownDialog> with SingleTickerProv
     _startCountdown();
 
     _animationController = AnimationController(
-      duration: const Duration(seconds: 1),
       vsync: this,
+      duration: const Duration(seconds: 1),
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 1.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_animationController);
 
     _animationController.forward();
   }
@@ -82,16 +79,17 @@ class _CountdownDialogState extends State<CountdownDialog> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _slideAnimation,
+    return FadeTransition(
+      opacity: _opacityAnimation,
       child: AlertDialog(
-        title: Text('Pause'),
+        title: const Text('Pause', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Lottie.asset('assets/animations/break.json'),
             SizedBox(height: 14),
-            Text('Nächste Task in $_currentCountdown Sekunden...'),
+            Text('$_currentCountdown Sekunden...', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.center,),
+            SizedBox(height: 24),
+            Text('...bis zur nächsten Task'),
           ],
         ),
       ),
