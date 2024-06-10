@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/screens/EndScreen/endScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
@@ -29,11 +31,13 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   Timer? _timer;
   String csvFilePath = '';
   final subject = GetIt.instance<Subject>();
+  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
 
   @override
   void initState() {
     super.initState();
     _initializeRecorder();
+    _createCsvFile();
   }
 
   Future<void> _initializeRecorder() async {
@@ -90,24 +94,24 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     });
   }
 
-  Future<void> _sendEmail() async {
+  Future<void> _createCsvFile() async {
     List<List<dynamic>> rows = [
-    [
-    "UUID",
-    "Task",
-    "CoverTask_Movement",
-    "CoverTask_Agency",
-    "CoverTask_ControlFeeling",
-    "ButtonTask_Movement",
-    "ButtonTask_Agency",
-    "ButtonTask_ControlFeeling",
-    "FlipTask_Movement",
-    "FlipTask_Agency",
-      "FlipTask_ControlFeeling",
-      "VolumeTask_Movement",
-      "VolumeTask_Agency",
-      "VolumeTask_ControlFeeling"
-    ],
+      [
+        "UUID",
+        "Task",
+        "CoverTask_Movement",
+        "CoverTask_Agency",
+        "CoverTask_ControlFeeling",
+        "ButtonTask_Movement",
+        "ButtonTask_Agency",
+        "ButtonTask_ControlFeeling",
+        "FlipTask_Movement",
+        "FlipTask_Agency",
+        "FlipTask_ControlFeeling",
+        "VolumeTask_Movement",
+        "VolumeTask_Agency",
+        "VolumeTask_ControlFeeling"
+      ],
       [
         subject.uuid,
         subject.taskAssigningService.task,
@@ -135,56 +139,46 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     });
     File csvFile = File(csvFilePath);
     await csvFile.writeAsString(csvData);
+  }
 
+  Future<void> _sendEmail(RoundedLoadingButtonController controller) async {
     final pdfFilePath = subject.consentPdfPath;
 
-    final List<String> attachmentPaths = [_audioFilePath!, csvFilePath];
+    final List<File> attachments = [];
+    if (_audioFilePath != null) {
+      attachments.add(File(_audioFilePath!));
+    }
+    attachments.add(File(csvFilePath));
     if (pdfFilePath != null) {
-      attachmentPaths.add(pdfFilePath);
+      attachments.add(File(pdfFilePath));
     }
 
-    final Email email = Email(
-      body:
-      'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.',
-      subject: 'Interview Data',
-      recipients: ['julianschweizer9@gmail.com'],
-      attachmentPaths: attachmentPaths,
-      isHTML: false,
-    );
+    final smtpServer = gmail('julianschweizer9@gmail.com', Strings.googleAppPassword);
+
+    final message = Message()
+      ..from = Address('julianschweizer9@gmail.com', 'Julian Schweizer')
+      ..recipients.add('julianschweizer9@gmail.com')
+      ..subject = 'Interview Data'
+      ..text = 'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.'
+      ..attachments.addAll(attachments.map((file) => FileAttachment(file)));
 
     try {
-      await FlutterEmailSender.send(email);
-    } catch (error) {
-      print('Error sending email: $error');
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+      controller.success();
+      await Future.delayed(Duration(seconds: 2));
+      _navigateToNextScreen();
+    } on MailerException catch (e) {
+      print('Message not sent. \n${e.toString()}');
+      controller.error();
+      await Future.delayed(Duration(seconds: 2));
+      controller.reset();
     }
   }
 
   void _navigateToNextScreen() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(Strings.confirmation),
-          content: Text(Strings.navigateToNextScreenConfirmation),
-          actions: <Widget>[
-            TextButton(
-              child: Text(Strings.cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(Strings.yes),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => EndScreen()));
-              },
-            ),
-          ],
-        );
-      },
-    );
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => EndScreen()));
   }
 
   @override
@@ -367,15 +361,23 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: _sendEmail,
-                          icon: Icon(Icons.email, color: Colors.white),
-                          label: Text(
-                            Strings.sendData,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                        child: RoundedLoadingButton(
+                          controller: _btnController,
+                          onPressed: () => _sendEmail(_btnController),
+                          successColor: Colors.green,
+                          errorColor: Colors.red,
+                          child: Wrap(
+                            children: [
+                              Icon(
+                                Icons.email,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                Strings.sendData,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -385,21 +387,6 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
             ),
           ),
         ),
-        floatingActionButton: _audioFilePath != null
-            ? FutureBuilder(
-          future: Future.delayed(const Duration(seconds: 8)),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return FloatingActionButton(
-                onPressed: _navigateToNextScreen,
-                child: const Icon(Icons.arrow_forward),
-              );
-            } else {
-              return SizedBox.shrink();
-            }
-          },
-        )
-            : null,
       ),
     );
   }
@@ -411,4 +398,3 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }
-

@@ -4,8 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
+import 'package:urid/feature/models/taskCounterService.dart';
 import 'package:urid/feature/screens/IntroScreen/introScreen.dart';
-import 'package:urid/feature/widgets/consentForm.dart';
 import 'feature/models/counterService.dart';
 import 'feature/models/taskTimer.dart';
 
@@ -19,6 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Intl.systemLocale = await findSystemLocale();
   GetIt.I.registerSingleton<CounterService>(CounterService());
+  GetIt.I.registerSingleton<TaskCounterService>(TaskCounterService());
   GetIt.I.registerSingleton<TaskAssigningService>(TaskAssigningService());
   GetIt.I.registerSingleton<TaskTimer>(TaskTimer());
   runApp(const MyApp());

@@ -1,8 +1,7 @@
-import 'package:clay_containers/widgets/clay_container.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
 import 'package:urid/feature/screens/EndScreen/endScreen.dart';
@@ -10,6 +9,7 @@ import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import '../../models/strings.dart';
+import '../../models/taskCounterService.dart';
 import '../../screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import '../../screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import '../../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
@@ -20,7 +20,8 @@ class AgencyQuestionnaireWidget extends StatefulWidget {
   final TaskType taskType;
   final TaskAssigningService taskAssigningService;
 
-  const AgencyQuestionnaireWidget({super.key, required this.taskType, required this.taskAssigningService});
+  const AgencyQuestionnaireWidget(
+      {super.key, required this.taskType, required this.taskAssigningService});
 
   @override
   State<AgencyQuestionnaireWidget> createState() =>
@@ -29,6 +30,7 @@ class AgencyQuestionnaireWidget extends StatefulWidget {
 
 class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
   late AgencyQuestionnaire agencyQuestionnaire;
+  final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
   final GetIt getIt = GetIt.instance;
 
   @override
@@ -42,311 +44,204 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _onDone() {
     final subject = getIt<Subject>();
-    print(subject.uuid);
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.navigate_next, size: 28),
-    onPressed: () {
-    CountdownDialog.showCountdownDialog(context, 2, () {
     if (widget.taskType == TaskType.coverPhone) {
-    subject.coverTaskQuestionnaire = agencyQuestionnaire;
-    Navigator.pushReplacement(context,
-    MaterialPageRoute(builder: (context) {
-    switch (widget.taskAssigningService.task) {
-    case 1:
-    return ButtonTaskIDIntro();
-    case 2:
-    return FlipTaskIDOverview();
-    case 3:
-    return AudioRecorderScreen();
-    case 4:
-    return VolumeButtonTaskIDIntro();
-    default:
-    return EndScreen();
-    }
-    }));
+      subject.coverTaskQuestionnaire = agencyQuestionnaire;
     } else if (widget.taskType == TaskType.holdButton) {
       subject.buttonTaskQuestionnaire = agencyQuestionnaire;
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) {
-            switch (widget.taskAssigningService.task) {
-              case 1:
-                return FlipTaskIDOverview();
-              case 2:
-                return VolumeButtonTaskIDIntro();
-              case 3:
-                return CoverTaskIDIntro();
-              case 4:
-                return AudioRecorderScreen();
-              default:
-                return EndScreen();
-            }
-          }));
     } else if (widget.taskType == TaskType.flipPhone) {
       subject.flipTaskQuestionnaire = agencyQuestionnaire;
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) {
-            switch (widget.taskAssigningService.task) {
-              case 1:
-                return VolumeButtonTaskIDIntro();
-              case 2:
-                return AudioRecorderScreen();
-              case 3:
-                return ButtonTaskIDIntro();
-              case 4:
-                return CoverTaskIDIntro();
-              default:
-                return EndScreen();
-            }
-          }));
     } else if (widget.taskType == TaskType.volumeButton) {
       subject.volumeTaskQuestionnaire = agencyQuestionnaire;
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) {
-            switch (widget.taskAssigningService.task) {
-              case 1:
-                return AudioRecorderScreen();
-              case 2:
-                return CoverTaskIDIntro();
-              case 3:
-                return FlipTaskIDOverview();
-              case 4:
-                return ButtonTaskIDIntro();
-              default:
-                return EndScreen();
-            }
-          }));
     }
+
+    CountdownDialog.showCountdownDialog(context, 2, () {
+      taskCounterService.incrementCounter();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        switch (widget.taskAssigningService.task) {
+          case 1:
+            if (widget.taskType == TaskType.coverPhone)
+              return ButtonTaskIDIntro();
+            else if (widget.taskType == TaskType.holdButton)
+              return FlipTaskIDOverview();
+            else if (widget.taskType == TaskType.flipPhone)
+              return VolumeButtonTaskIDIntro();
+            else
+              return AudioRecorderScreen();
+          case 2:
+            if (widget.taskType == TaskType.coverPhone)
+              return FlipTaskIDOverview();
+            else if (widget.taskType == TaskType.holdButton)
+              return VolumeButtonTaskIDIntro();
+            else if (widget.taskType == TaskType.flipPhone)
+              return AudioRecorderScreen();
+            else
+              return CoverTaskIDIntro();
+          case 3:
+            if (widget.taskType == TaskType.coverPhone)
+              return AudioRecorderScreen();
+            else if (widget.taskType == TaskType.holdButton)
+              return CoverTaskIDIntro();
+            else if (widget.taskType == TaskType.flipPhone)
+              return ButtonTaskIDIntro();
+            else
+              return FlipTaskIDOverview();
+          case 4:
+            if (widget.taskType == TaskType.coverPhone)
+              return VolumeButtonTaskIDIntro();
+            else if (widget.taskType == TaskType.holdButton)
+              return AudioRecorderScreen();
+            else if (widget.taskType == TaskType.flipPhone)
+              return CoverTaskIDIntro();
+            else
+              return ButtonTaskIDIntro();
+          default:
+            return EndScreen();
+        }
+      }));
     });
-    },
-        ),
+  }
+
+  void _updateQuestionValue(int questionIndex, int value) {
+    setState(() {
+      switch (questionIndex) {
+        case 1:
+          agencyQuestionnaire.movementAgencyQuestionValue = value;
+          break;
+        case 2:
+          agencyQuestionnaire.agencyQuestionValue = value;
+          break;
+        case 3:
+          agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value;
+          break;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: CustomWillPopScopeWidget(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 10),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        Strings.questionnaireTitle,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22,),
-                      ),
-                      SizedBox(height: 20,),
-                      Text(
-                        'Task: ${widget.taskType.toNiceString()}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            const Text(
-                              Strings.movementControlQuestion,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SfSlider(
-                              min: 1,
-                              max: 7,
-                              value: agencyQuestionnaire.movementAgencyQuestionValue,
-                              interval: 1,
-                              showTicks: true,
-                              showLabels: true,
-                              tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
-                                switch (actualValue) {
-                                  case 1:
-                                    return Strings.stronglyDisagree;
-                                  case 2:
-                                    return Strings.disagree;
-                                  case 3:
-                                    return Strings.somewhatDisagree;
-                                  case 4:
-                                    return Strings.neutral;
-                                  case 5:
-                                    return Strings.somewhatAgree;
-                                  case 6:
-                                    return Strings.agree;
-                                  case 7:
-                                    return Strings.stronglyAgree;
-                                }
-                                return actualValue.toString();
-                              },
-                              enableTooltip: true,
-                              labelPlacement: LabelPlacement.onTicks,
-                              labelFormatterCallback: (dynamic actualValue, String formattedText) {
-                                switch (actualValue) {
-                                  case 1:
-                                    return '';
-                                  case 2:
-                                    return Strings.disagree;
-                                  case 3:
-                                    return '';
-                                  case 4:
-                                    return Strings.neutral;
-                                  case 5:
-                                    return '';
-                                  case 6:
-                                    return Strings.agree;
-                                  case 7:
-                                    return ' ';
-                                }
-                                return actualValue.toString();
-                              },
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  agencyQuestionnaire.movementAgencyQuestionValue = value.toInt();
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            const Text(
-                              Strings.controlFeelingQuestion,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SfSlider(
-                              min: 1.0,
-                              max: 7.0,
-                              value: agencyQuestionnaire.agencyQuestionValue,
-                              interval: 1,
-                              showTicks: true,
-                              showLabels: true,
-                              enableTooltip: true,
-                              tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
-                                switch (actualValue) {
-                                  case 1:
-                                    return Strings.veryLow;
-                                  case 2:
-                                    return Strings.low;
-                                  case 3:
-                                    return Strings.somewhatLow;
-                                  case 4:
-                                    return Strings.medium;
-                                  case 5:
-                                    return Strings.somewhatHigh;
-                                  case 6:
-                                    return Strings.high;
-                                  case 7:
-                                    return Strings.veryHigh;
-                                }
-                                return actualValue.toString();
-                              },
-                              labelPlacement: LabelPlacement.onTicks,
-                              labelFormatterCallback: (dynamic actualValue, String formattedText) {
-                                switch (actualValue) {
-                                  case 1:
-                                    return '';
-                                  case 2:
-                                    return Strings.low;
-                                  case 3:
-                                    return '';
-                                  case 4:
-                                    return Strings.medium;
-                                  case 5:
-                                    return '';
-                                  case 6:
-                                    return Strings.high;
-                                  case 7:
-                                    return '';
-                                }
-                                return actualValue.toString();
-                              },
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  agencyQuestionnaire.agencyQuestionValue = value.toInt();
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            const Text(
-                              Strings.viewChangeQuestion,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SfSlider(
-                              min: 1.0,
-                              max: 7.0,
-                              value: agencyQuestionnaire.controlFeelingViewChangeQuestionValue,
-                              interval: 1,
-                              showTicks: true,
-                              showLabels: true,
-                              enableTooltip: true,
-                              tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
-                                switch (actualValue) {
-                                  case 1:
-                                    return Strings.notAtAll;
-                                  case 2:
-                                    return Strings.slightly;
-                                  case 3:
-                                    return Strings.somewhat;
-                                  case 4:
-                                    return Strings.moderately;
-                                  case 5:
-                                    return Strings.quite;
-                                  case 6:
-                                    return Strings.very;
-                                  case 7:
-                                    return Strings.completely;
-                                }
-                                return actualValue.toString();
-                              },
-                              labelPlacement: LabelPlacement.onTicks,
-                              labelFormatterCallback: (dynamic actualValue, String formattedText) {
-                                switch (actualValue) {
-                                  case 1:
-                                    return '';
-                                  case 2:
-                                    return Strings.slightly;
-                                  case 3:
-                                    return '';
-                                  case 4:
-                                    return Strings.moderately;
-                                  case 5:
-                                    return '';
-                                  case 6:
-                                    return Strings.very;
-                                  case 7:
-                                    return '';
-                                }
-                                return actualValue.toString();
-                              },
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value.toInt();
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Column(
+            children: [
+              Text(
+                Strings.questionnaireTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-            ),
+              SizedBox(height: 30),
+              Text(
+                'Task: ${widget.taskType.toNiceString()}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: IntroductionScreen(
+                  pages: _getPages(),
+                  onDone: _onDone,
+                  showSkipButton: false,
+                  showNextButton: true,
+                  showBackButton: false,
+                  next: const Icon(Icons.arrow_forward),
+                  done: const Text(Strings.finished, style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+
   }
+
+  Widget _buildCheckboxColumn(int questionIndex, int currentValue, String leftLabel, String rightLabel) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(leftLabel, textAlign: TextAlign.center),
+              SizedBox(height: 10),
+              Column(
+                children: List<Widget>.generate(7, (int index) {
+                  return Column(
+                    children: [
+                      SizedBox(height: 1,),
+                      RoundCheckBox(
+                        isChecked: currentValue == (index + 1),
+                        onTap: (selected) {
+                          if (selected!) {
+                            _updateQuestionValue(questionIndex, index + 1);
+                          }
+                        },
+                      ),
+                      SizedBox(height: 1,),
+                    ],
+                  );
+                }),
+              ),
+              SizedBox(height: 10),
+              Text(rightLabel, textAlign: TextAlign.center),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<PageViewModel> _getPages() {
+    return [
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.movementControlQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxColumn(1, agencyQuestionnaire.movementAgencyQuestionValue, Strings.stronglyDisagree, Strings.stronglyAgree),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.controlFeelingQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxColumn(2, agencyQuestionnaire.agencyQuestionValue, Strings.veryLow, Strings.veryHigh),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.viewChangeQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxColumn(3, agencyQuestionnaire.controlFeelingViewChangeQuestionValue, Strings.notAtAll, Strings.completely),
+          ],
+        ),
+      ),
+    ];
+  }
+
 }
-
-

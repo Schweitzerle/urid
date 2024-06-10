@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:lottie/lottie.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
-import 'package:urid/feature/screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
-import 'package:urid/feature/screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
+import 'package:urid/feature/models/taskCounterService.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaireWidget.dart';
 import 'package:urid/feature/widgets/pass/pass.dart';
@@ -16,7 +14,6 @@ import '../../../models/taskAssigningService.dart';
 import '../../../models/taskTimer.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
-import '../ButtonTaskID/buttonTaskIDScreen.dart';
 
 class CoverTaskIDIntro extends StatefulWidget {
   @override
@@ -25,6 +22,7 @@ class CoverTaskIDIntro extends StatefulWidget {
 
 class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
+  final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
   late VideoPlayerController _controller;
 
   @override
@@ -48,164 +46,162 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Task ${taskCounterService.taskCounter}',), backgroundColor: Theme.of(context).colorScheme.primaryContainer, automaticallyImplyLeading: false,),
       body: CustomWillPopScopeWidget(
-        child: Padding(
-          padding: EdgeInsets.only(top: 40),
-          child: IntroductionScreen(
-            pages: [
-              PageViewModel(
-                titleWidget: Container(),
-                bodyWidget: const Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            Strings.coverTaskTitle,
-                            textAlign: TextAlign.center,
-                            style:
-                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            Strings.coverTaskBody,
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    )),
-                decoration: const PageDecoration(
-                  bodyAlignment: Alignment.center,
+        child: IntroductionScreen(
+          pages: [
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: const Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          Strings.coverTaskTitle,
+                          textAlign: TextAlign.center,
+                          style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Text(
+                          Strings.coverTaskBody,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  )),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
+              ),
+            ),
+            PageViewModel(
+              title: Strings.tutorial,
+              bodyWidget: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Center(
+                  child: _controller.value.isInitialized
+                      ? ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
+                  )
+                      : const CircularProgressIndicator(),
                 ),
               ),
-              PageViewModel(
-                title: Strings.tutorial,
-                bodyWidget: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: _controller.value.isInitialized
-                        ? ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: AspectRatio(
-                        aspectRatio: _controller.value.aspectRatio,
-                        child: VideoPlayer(_controller),
-                      ),
-                    )
-                        : const CircularProgressIndicator(),
-                  ),
-                ),
-                decoration: const PageDecoration(
-                  bodyAlignment: Alignment.center,
-                ),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
               ),
-              PageViewModel(
-                titleWidget: Container(),
-                bodyWidget: const Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            Strings.nextStepTitle,
-                            textAlign: TextAlign.center,
-                            style:
-                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            Strings.nextStepBody,
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    )),
-                decoration: const PageDecoration(
-                  bodyAlignment: Alignment.center,
-                ),
+            ),
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: const Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          Strings.nextStepTitle,
+                          textAlign: TextAlign.center,
+                          style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Text(
+                          Strings.nextStepBody,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  )),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
               ),
-              PageViewModel(
-                titleWidget: Container(),
-                bodyWidget: Column(
-                  children: [
-                    Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                Strings.questionnaireTitle,
-                                textAlign: TextAlign.center,
-                                style:
-                                TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 40,
-                              ),
-                              Text(
-                                Strings.questionnaireTaskBody,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(fontSize: 18),
-                              ),
+            ),
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: Column(
+                children: [
+                  Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              Strings.questionnaireTitle,
+                              textAlign: TextAlign.center,
+                              style:
+                              TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                              Strings.questionnaireTaskBody,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(fontSize: 18),
+                            ),
 
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Card(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.repeat,
-                                        size: 24,
-                                        color: Colors.black54,
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        counterService.counter <= 0
-                                            ? Strings.repetitionsLeft
-                                            : counterService.counter == 1
-                                            ? Strings.twoRepetitionsLeft
-                                            : counterService.counter >= 2
-                                            ? Strings.oneRepetitionLeft
-                                            : '',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Card(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.repeat,
+                                      size: 24,
+                                      color: Colors.black54,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      counterService.counter <= 0
+                                          ? Strings.repetitionsLeft
+                                          : counterService.counter == 1
+                                          ? Strings.twoRepetitionsLeft
+                                          : counterService.counter >= 2
+                                          ? Strings.oneRepetitionLeft
+                                          : '',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
-                        )),
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
 
-                  ],
-                ),
-                decoration: const PageDecoration(
-                  bodyAlignment: Alignment.center,
-                ),
+                ],
               ),
-            ],
-            showNextButton: false,
-            done: Text(Strings.finished),
-            onDone: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return CoverTaskIDPass();
-                }),
-              );
-            },
-          ),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
+              ),
+            ),
+          ],
+          showNextButton: false,
+          done: Text(Strings.finished),
+          onDone: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return CoverTaskIDPass();
+              }),
+            );
+          },
         ),
       ),
     );
@@ -219,6 +215,7 @@ class CoverTaskIDOverview extends StatefulWidget {
 
 class _CoverTaskIDOverviewState extends State<CoverTaskIDOverview> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
+  final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
 
   @override
   void initState() {
@@ -233,6 +230,7 @@ class _CoverTaskIDOverviewState extends State<CoverTaskIDOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Task ${taskCounterService.taskCounter}',), backgroundColor: Theme.of(context).colorScheme.primaryContainer, automaticallyImplyLeading: false,),
       body: CustomWillPopScopeWidget(
         child: Padding(
           padding: const EdgeInsets.only(top: 40),

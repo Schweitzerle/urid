@@ -2,15 +2,19 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:urid/feature/screens/ErrorScreen/errorScreen.dart';
+import 'package:urid/feature/widgets/customWillPopScope.dart';
 import 'dart:io';
 import '../models/subject.dart';
 import '../models/taskAssigningService.dart';
-import '../screens/EndScreen/endScreen.dart';
 import '../screens/TaskScreens/ButtonTaskID/buttonTaskIDScreen.dart';
 import '../screens/TaskScreens/CoverTaskID/coverTaskIDScreen.dart';
 import '../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
@@ -118,7 +122,6 @@ class _ConsentFormState extends State<ConsentForm> {
     );
   }
 
-
   Future<void> _saveConsentPDFAndNavigateNext() async {
     PdfDocument document = PdfDocument();
 
@@ -157,123 +160,210 @@ class _ConsentFormState extends State<ConsentForm> {
 
   void _navigateToNextScreen() {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(Strings.confirmationTitle),
-        content: Text(Strings.confirmationContent),
-        actions: <Widget>[
-          TextButton(
-            child: Text(Strings.cancel),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text(Strings.yes),
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  switch (taskAssigningService.task) {
-                    case 1:
-                      return CoverTaskIDIntro();
-                    case 2:
-                      return ButtonTaskIDIntro();
-                    case 3:
-                      return VolumeButtonTaskIDIntro();
-                    case 4:
-                      return FlipTaskIDOverview();
-                    default:
-                      return EndScreen();
-                  }
-                }),
-              );
-            },
-          ),
-        ],
-      );
-        },
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(Strings.confirmationTitle),
+          content: Text(Strings.confirmationContent, textAlign: TextAlign.justify,),
+          actions: <Widget>[
+            TextButton(
+              child: Text(Strings.cancel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(Strings.yes),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    switch (taskAssigningService.task) {
+                      case 1:
+                        return CoverTaskIDIntro();
+                      case 2:
+                        return ButtonTaskIDIntro();
+                      case 3:
+                        return VolumeButtonTaskIDIntro();
+                      case 4:
+                        return FlipTaskIDIntro();
+                      default:
+                        return ErrorScreen();
+                    }
+                  }),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: _isSigned && _signatureData != null
-          ? FloatingActionButton(
-        onPressed: _saveConsentPDFAndNavigateNext,
-        child: Icon(Icons.arrow_forward),
-      )
-          : null,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      Strings.consentTitle,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      Strings.consentDescription,
-                      style: TextStyle(fontSize: 18),
-                      textAlign: TextAlign.start,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      '${Strings.dateLabel} $formattedDate',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
+      appBar: AppBar(title: Text(Strings.consentTitle,), backgroundColor: Theme.of(context).colorScheme.primaryContainer,),
+      body: CustomWillPopScopeWidget(
+        child: IntroductionScreen(
+          pages: [
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        Strings.consentInfo1Title,
+                        textAlign: TextAlign.center,
+                        style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Text(
+                        Strings.consentInfo1Description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
+              ),
             ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    Strings.signatureLabel,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  InkWell(
-                    onTap: _showSignaturePad,
-                    child: Container(
-                      width: double.infinity,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        Strings.consentInfo2Title,
+                        textAlign: TextAlign.center,
+                        style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      child: _isSigned && _signatureData != null
-                          ? Image.memory(_signatureData!)
-                          : Center(
-                        child: Text(
-                          Strings.tapToSign,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Text(
+                        Strings.consentInfo2Description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
+              ),
+            ),
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        Strings.consentInfo3Title,
+                        textAlign: TextAlign.center,
+                        style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Text(
+                        Strings.consentInfo3Description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              decoration: const PageDecoration(
+                bodyAlignment: Alignment.center,
+              ),
+            ),
+            PageViewModel(
+              titleWidget: Container(),
+              bodyWidget: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Strings.consentTitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        Strings.consentDescription,
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.justify,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        '${Strings.dateLabel} $formattedDate',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        Strings.signatureLabel,
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                        onTap: _showSignaturePad,
+                        child: Container(
+                          width: double.infinity,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: _isSigned && _signatureData != null
+                              ? Image.memory(_signatureData!)
+                              : Center(
+                            child: Text(
+                              Strings.tapToSign,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
+              decoration: PageDecoration(
+                titlePadding: EdgeInsets.zero
+              )
             ),
           ],
+          onDone: _saveConsentPDFAndNavigateNext,
+          showSkipButton: false,
+          showNextButton: true,
+          next: const Icon(Icons.arrow_forward),
+          done: const Text(Strings.finished, style: TextStyle(fontWeight: FontWeight.w600)),
         ),
       ),
     );
   }
 }
-

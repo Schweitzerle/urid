@@ -87,7 +87,13 @@ class _CountdownDialogState extends State<CountdownDialog> with SingleTickerProv
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 14),
-            Text('$_currentCountdown Sekunden...', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.center,),
+            Container(
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(90)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('$_currentCountdown Sekunden...', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Theme.of(context).colorScheme.onPrimary), textAlign: TextAlign.center,),
+                )
+            ),
             SizedBox(height: 24),
             Text('...bis zur nächsten Task'),
           ],

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:lottie/lottie.dart';
 import 'package:uuid/uuid.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
@@ -29,6 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Einführung',), backgroundColor: Theme.of(context).colorScheme.primaryContainer,),
       body: introSliderPages(context),
     );
   }

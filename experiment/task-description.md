@@ -5,18 +5,31 @@
 1 Willkommen zu unserer Studie
 Body = Vielen Dank, dass Sie an unserer Studie teilnehmen.\n\nIn den nächsten Schritten erfahren Sie mehr über den Ablauf und Ihre Aufgaben. Viel Spaß bei der Studie!
 2 Überblick über die Studie
-Body = In dieser Studie untersuchen wir, wie verschiedene Interaktionsformen das Sicherheits- und Kontrollgefühl bei der bewussten Informationsfreigabe auf einem gemeinsam genutzen Smartphone beeinflussen. Dies geschieht im Kontext eines digitalen Universitätsausweises.
+Body = In dieser Studie wird untersucht, wie verschiedene Interaktionsformen das Sicherheits- und Kontrollgefühl bei der bewussten Informationsfreigabe auf einem gemeinsam genutzen Smartphone beeinflussen. Dies geschieht im Kontext eines digitalen Universitätsausweises.
+
 3 Interaktionsmethoden
 Body = Es werden insgesamt vier verschiedene Interaktionsmöglichkeiten getestet. Es beginnt immer mit einem Intro-Screen, auf welchem Sie nähere Anweisungen zu der Geste finden, gefolgt von der Interaktion selbst. Jede Geste wird dann dreimal wiederholt.
 4 Fragebogen zu Kontroll- und Sicherheitsgefühl
 Body = Nach den drei absolvierten Durchläufen werden Sie dazu aufgerufen, einen Fragebogen innerhalb der App auszufüllen, um Ihr Kontroll- und Sicherheitsgefühl zu bewerten.
 5 Interview
-Body = Nach der Absolvierung der vier Gesten führen wir ein kurzes Interview, um Ihre Meinungen und Erfahrungen weiter zu erfassen. Vielen Dank für Ihre Teilnahme!
+Body = Nach der Absolvierung der vier Gesten wrid ein kurzes Interview geführt, um Ihre Meinungen und Erfahrungen weiter zu erfassen. Vielen Dank für Ihre Teilnahme!
 6 Vertraulichkeit und Sicherheit
 Body = Ihre Daten werden vertraulich behandelt und ausschließlich zu Forschungszwecken genutzt.\n\nStellen Sie sicher, dass Sie sich während der gesamten Studie sicher fühlen und bei Fragen oder Unsicherheiten jederzeit auf den Versuchsleiter zukommen. Viel Erfolg!
 
 //ConsentForm
-// TODO Split up in multiple Screens
+1 Erhebung der Bildschirmaktivität
+Body = Im Rahmen dieser Studie wird die Bildschirmaktivität aufgezeichnet. Dies umfasst alle Interaktionen, die auf dem Gerät während der Durchführung der Aufgaben vorgenommen werden. Die Daten werden ausschließlich zu Forschungszwecken verwendet und streng vertraulich behandelt.
+2 Erhebung derFragebögen
+Body = Diese Studie beinhaltet das Ausfüllen verschiedener Fragebögen. Diese Fragebögen dienen dazu, subjektive Erfahrungen und Wahrnehmungen während der Aufgaben zu erfassen. Alle Antworten werden anonymisiert und vertraulich behandelt.
+3 Erhebung des Interviews
+Body = Im Rahmen dieser Studie wird ein Interview durchgeführt, um tiefere Einblicke in die Erfahrungen und Wahrnehmungen während der Aufgaben zu gewinnen. Es wird nur der Ton des Interviews aufgezeichnet und analysiert, um die Forschungsergebnisse zu ergänzen. Alle Antworten werden vertraulich behandelt und nur für wissenschaftliche Zwecke verwendet.
+4 Einverständniserklärung
+Body =  
+Ich erkläre mich hiermit einverstanden, an der Studie teilzunehmen, die folgende Erhebungen umfasst:
+• Aufzeichnung meiner Bildschirmaktivität während der Durchführung der Aufgaben.
+• Ausfüllen verschiedener Fragebögen, die meine subjektiven Erfahrungen und Wahrnehmungen erfassen.
+• Teilnahme an einem Interview, bei dem der Ton aufgezeichnet wird.
+Diese Einverständniserklärung gilt bis auf Widerruf. Ich habe das Recht, meine Einwilligung jederzeit zu widerrufen.
 
 //CoverTaskIDScreen
 1 Bildschirm Abdecken
