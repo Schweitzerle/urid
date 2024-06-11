@@ -134,6 +134,7 @@ class PassWidget extends StatelessWidget {
       ),
     );
   }
+
 }
 
 // BlankPassWidgets für Videos
