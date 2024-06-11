@@ -7,7 +7,6 @@ import 'package:urid_api_client/urid_api_client.dart';
 
 import '../../../widgets/pass/pass.dart';
 
-
 class PassWidgetCover extends StatelessWidget {
   final URIDPass pass;
 
@@ -28,7 +27,8 @@ class PassWidgetCover extends StatelessWidget {
       );
     }
     return Center(
-      child: Text("${"Die Gültigkeit dieses Ausweises konnte nicht geprüft werden."}."),
+      child: Text(
+          "${"Die Gültigkeit dieses Ausweises konnte nicht geprüft werden."}."),
     );
   }
 
@@ -118,3 +118,17 @@ class PassWidgetCover extends StatelessWidget {
     );
   }
 }
+
+
+// BlankPassWidgets für Videos
+/*
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isAndroid && pass.properties["smartID"] != null) {
+      return Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Container(height: MediaQuery.of(context).size.height, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: Colors.black), child: Center(child: Text('A', style: TextStyle(color: Colors.white, fontSize: 180, fontWeight: FontWeight.bold),),),),
+      ); }
+    return Container(height: 200, color: Colors.red,);
+  }
+ */

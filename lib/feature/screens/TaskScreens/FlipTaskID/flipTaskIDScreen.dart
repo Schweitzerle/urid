@@ -350,7 +350,7 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
         gyroscopeEventStream(samplingPeriod: sensorInterval)
             .listen((GyroscopeEvent event) {
           if (gestureEnabled) {
-            if (event.x > 2.0) {
+            if (event.x > 4.0) {
               setState(() {
                 if (!showHiddenProperties) {
                   showHiddenProperties = true;
@@ -364,7 +364,7 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
                   _handleResetCounter();
                 }
               });
-            } else if (event.x < -2.0) {
+            } else if (event.x < -4.0) {
               setState(() {
                 showHiddenProperties = false;
               });

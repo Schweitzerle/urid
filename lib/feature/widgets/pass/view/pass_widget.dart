@@ -43,8 +43,8 @@ class PassWidget extends StatelessWidget {
       );
     }
     return Center(
-      child: Text(
-          "Die Gültigkeit dieses Ausweises konnte nicht geprüft werden."),
+      child:
+          Text("Die Gültigkeit dieses Ausweises konnte nicht geprüft werden."),
     );
   }
 
@@ -90,9 +90,7 @@ class PassWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              color: Theme
-                  .of(context)
-                  .primaryColor,
+              color: Theme.of(context).primaryColor,
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 PassWidgetHeader(pass: pass),
                 const SizedBox(height: 8),
@@ -119,9 +117,7 @@ class PassWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            color: Theme
-                .of(context)
-                .primaryColor,
+            color: Theme.of(context).primaryColor,
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               PassWidgetHeader(pass: pass),
               const SizedBox(height: 8),
@@ -139,3 +135,24 @@ class PassWidget extends StatelessWidget {
     );
   }
 }
+
+// BlankPassWidgets für Videos
+/*
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isAndroid && pass.properties["smartID"] != null) {
+      return showHiddenProperties ? Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Container(height: MediaQuery.of(context).size.height, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: Colors.black), child: Center(child: Text('A', style: TextStyle(color: Colors.white, fontSize: 180, fontWeight: FontWeight.bold),),),),
+      ) : RotationTransition(
+        turns: !showHiddenProperties
+            ? AlwaysStoppedAnimation(180 / 360)
+            : AlwaysStoppedAnimation(0 / 360),
+        child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Container(height: MediaQuery.of(context).size.height, decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: Colors.grey), child: Center(child: Text('B', style: TextStyle(color: Colors.white, fontSize: 180, fontWeight: FontWeight.bold),),),),));
+    }
+    return showHiddenProperties ? Container(height: 200, color: Colors.red,) : Container(height: 200,color: Colors.black,);
+  }
+
+ */
