@@ -3,7 +3,7 @@
 
 //IntroScreen
 1 Willkommen zu unserer Studie
-Body = Vielen Dank, dass Sie an unserer Studie teilnehmen.\n\nIn den nächsten Schritten erfahren Sie mehr über den Ablauf und Ihre Aufgaben. Viel Spaß bei der Studie!
+Body = Vielen Dank, dass Sie an der Studie teilnehmen.\n\nIn den nächsten Schritten erfahren Sie mehr über den Ablauf und Ihre Aufgaben. Viel Spaß bei der Studie!
 2 Überblick über die Studie
 Body = In dieser Studie wird untersucht, wie verschiedene Interaktionsformen das Sicherheits- und Kontrollgefühl bei der bewussten Informationsfreigabe auf einem gemeinsam genutzen Smartphone beeinflussen. Dies geschieht im Kontext eines digitalen Universitätsausweises.
 
@@ -14,7 +14,8 @@ Body = Nach den drei absolvierten Durchläufen werden Sie dazu aufgerufen, einen
 5 Interview
 Body = Nach der Absolvierung der vier Gesten wrid ein kurzes Interview geführt, um Ihre Meinungen und Erfahrungen weiter zu erfassen. Vielen Dank für Ihre Teilnahme!
 6 Vertraulichkeit und Sicherheit
-Body = Ihre Daten werden vertraulich behandelt und ausschließlich zu Forschungszwecken genutzt.\n\nStellen Sie sicher, dass Sie sich während der gesamten Studie sicher fühlen und bei Fragen oder Unsicherheiten jederzeit auf den Versuchsleiter zukommen. Viel Erfolg!
+Body = Ihre Daten werden vertraulich behandelt und ausschließlich zu Forschungszwecken genutzt.
+Stellen Sie sicher, dass Sie sich während der gesamten Studie sicher fühlen und bei Fragen oder Unsicherheiten jederzeit auf den Versuchsleiter zukommen. Viel Erfolg!
 
 //ConsentForm
 1 Erhebung der Bildschirmaktivität
