@@ -103,6 +103,35 @@ class _IntroScreenState extends State<IntroScreen> {
                 child: Column(
                   children: [
                     Text(
+                      Strings.taskTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      Strings.taskBody,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            decoration: const PageDecoration(
+              bodyAlignment: Alignment.center,
+            ),
+          ),
+          PageViewModel(
+            titleWidget: Container(),
+            bodyWidget: const Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(
                       Strings.interactionMethodsTitle,
                       textAlign: TextAlign.center,
                       style:

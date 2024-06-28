@@ -52,7 +52,7 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
           pages: [
             PageViewModel(
               titleWidget: Container(),
-              bodyWidget: const Card(
+              bodyWidget: Card(
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
@@ -66,10 +66,18 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
                         SizedBox(
                           height: 40,
                         ),
-                        Text(
-                          Strings.coverTaskBody,
+                        RichText(
                           textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 18),
+                          text: const TextSpan(
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(text: Strings.coverTaskBody),
+                              TextSpan(text: Strings.coverTaskBodyBold, style: TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -254,12 +262,20 @@ class _CoverTaskIDOverviewState extends State<CoverTaskIDOverview> {
                               SizedBox(
                                 height: 40,
                               ),
-                              Text(
-                                Strings.coverTaskOverview,
+                              RichText(
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(fontSize: 18),
+                                text: const TextSpan(
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.black
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(text: Strings.taskOverviewPrefix),
+                                    TextSpan(text: Strings.coverTaskOverview, style: TextStyle(fontStyle: FontStyle.italic)),
+                                    TextSpan(text: Strings.taskOverviewPostfix),
+                                  ],
+                                ),
                               ),
-
                               const SizedBox(
                                 height: 20,
                               ),

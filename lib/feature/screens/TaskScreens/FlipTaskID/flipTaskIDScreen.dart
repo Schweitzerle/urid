@@ -54,24 +54,33 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
           pages: [
             PageViewModel(
               titleWidget: Container(),
-              bodyWidget: const Card(
+              bodyWidget: Card(
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           Strings.flipTaskTitle,
                           textAlign: TextAlign.center,
                           style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Text(
-                          Strings.flipTaskBody,
+                        RichText(
                           textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 18),
+                          text: const TextSpan(
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(text: Strings.flipTaskBody),
+                              TextSpan(text: Strings.flipTaskBodyBold, style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(text: Strings.flipTaskBodyPostfix),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -107,15 +116,6 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
-                          Strings.nextStepAutoTitle,
-                          textAlign: TextAlign.center,
-                          style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
                         Text(
                           Strings.nextStepAutoBody,
                           textAlign: TextAlign.justify,
@@ -257,12 +257,20 @@ class _FlipTaskIDOverviewState extends State<FlipTaskIDOverview> {
                               SizedBox(
                                 height: 40,
                               ),
-                              Text(
-                                Strings.flipTaskOverview,
+                              RichText(
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(fontSize: 18),
+                                text: const TextSpan(
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.black
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(text: Strings.taskOverviewPrefix),
+                                    TextSpan(text: Strings.flipTaskOverview, style: TextStyle(fontStyle: FontStyle.italic)),
+                                    TextSpan(text: Strings.taskOverviewPostfix),
+                                  ],
+                                ),
                               ),
-
                               const SizedBox(
                                 height: 20,
                               ),

@@ -9,16 +9,18 @@ class Strings {
   static const String twoRepetitionsLeft = "Noch 2 Wiederholungen!";
   static const String oneRepetitionLeft = "Noch 1 Wiederholung!";
   static const String questionnaireTitle =
-      "Fragebogen zu Kontroll- und Sicherheitsgefühl";
+      "Fragebogen";
   static const String publicView = "Öffentliche Ansicht";
   static const String privateView = "Private Ansicht";
-  static const String nextStepAutoTitle = "Automatische Weiterleitung";
   static const String nextStepAutoBody =
-      "Nachdem Sie die Geste erfolgreich ausgeführt haben, werden Sie automatisch zum nächsten Schritt der Studie weitergeleitet.";
+      "Nach dem Testen der Interaktionsformen werden Sie automatisch zum nächsten Schritt der Studie weitergeleitet.";
   static const String questionnaireTaskBody =
-      "Nach den drei Interaktionen füllen Sie bitte den Fragebogen in der App aus, um Ihre Erfahrungen und Ihr Sicherheitsgefühl zu bewerten. Klicken Sie danach auf 'Weiter', um fortzufahren.";
+      "Füllen Sie jetzt bitte den folgenden Fragebogen aus. Alle Fragen beziehen sich dabei auf die zuletzt verwendete Interaktionsform.";
   static const String finished = "Weiter";
   static const String tutorial = "Tutorial";
+  static const String taskOverviewPrefix = "Führen Sie die Interaktion";
+  static const String taskOverviewPostfix = " erneut aus.";
+
 
   // Strings for EndScreen
   static const String endScreenThankYouTitle =
@@ -32,23 +34,25 @@ class Strings {
       "Bitte wenden Sie sich an die Studienleitung für Unterstützung.";
 
   // Strings for IntroScreen
-  static const String welcomeTitle = "Willkommen zu der Studie";
+  static const String welcomeTitle = "Hallo";
   static const String welcomeBody =
-      "Vielen Dank, dass Sie an der Studie teilnehmen.\n\nIn den nächsten Schritten erfahren Sie mehr über den Ablauf und Ihre Aufgaben. Viel Spaß bei der Studie!";
-  static const String studyProcessTitle = "Überblick über die Studie";
+      "Vielen Dank, dass Sie an dieser Studie teilnehmen. Wir führen Sie Schritt für Schritt durch das Experiment.";
+  static const String studyProcessTitle = "Überblick";
   static const String studyProcessBody =
-      "In dieser Studie wird untersucht, wie verschiedene Interaktionsformen das Sicherheits- und Kontrollgefühl bei der bewussten Informationsfreigabe auf einem gemeinsam genutzen Smartphone beeinflussen. Dies geschieht im Kontext eines digitalen Universitätsausweises.";
-  static const String confidentialityTitle = "Vertraulichkeit und Sicherheit";
+      "Diese Studie findet im Rahmen der Bachelorarbeit von Julian Schweizer am Lehrstuhl für Medieninformatik statt. Wir untersuchen das Sicherheits- und Kontrollgefühl bei der Interaktion mit digitalen Ausweisen. Sie können bei diesem Experiment keine Fehler machen: Wir testen nicht Sie, sondern ausschließlich die vorgeschlagenen Interaktionsformen.";
+  static const String taskTitle = "Ihre Aufgabe";
+  static const String taskBody = "Im Rahmen der Studie werden Sie einen digitalen Ausweis sehen. Stellen Sie sich vor, dieser Ausweis würde Ihnen gehören. Sie müssen sich im Kontext einer Sichtkontrolle mit diesem Ausweis gegenüber einer anderen Person identifizieren. Der Ausweis beinhaltet neben öffentlichen Informationen auch private Inhalte, die Sie dabei nicht mit der anderen Person teilen möchten. Die verschiedenen Interaktionsformen dienen der bewussten Freigabe des öffentlichen Teils des Ausweises.";
+  static const String confidentialityTitle = "Vertraulichkeit";
   static const String confidentialityBody =
-      "Ihre Daten werden vertraulich behandelt und ausschließlich zu Forschungszwecken genutzt.\n\nStellen Sie sicher, dass Sie sich während der gesamten Studie sicher fühlen und bei Fragen oder Unsicherheiten jederzeit auf den Versuchsleiter zukommen. Viel Erfolg!";
-  static const String interactionMethodsTitle = "Interaktionsmethoden";
+      "Auf den nächsten Seiten informieren wir Sie über alle Daten, die wir während des Experiments aufzeichnen. Alle diese Daten werden anonymisiert gespeichert und ausschließlich zu Forschungszwecken verwendet. Zur späteren Auswertung wird eine zufällige ID generiert und mit den gespeicherten Daten verknüpft. Sie können sich jederzeit mit Fragen an den Versuchsleiter wenden.";
+  static const String interactionMethodsTitle = "Ablauf";
   static const String interactionMethodsBody =
-      "Es werden insgesamt vier verschiedene Interaktionsmöglichkeiten getestet. Es beginnt immer mit einem Intro-Screen, auf welchem Sie nähere Anweisungen zu der Geste finden, gefolgt von der Interaktion selbst. Jede Geste wird dann dreimal wiederholt.";
+      "Während des Experiments haben Sie Gelegenheit, vier verschiedene Möglichkeiten zur Freigabe des digitalen Ausweises zu testen. Wir beschreiben Ihnen jedes Mal die jeweilige Interaktionsform und Sie nutzen diese anschließend insgesamt dreimal.";
   static const String questionnaireBody =
-      "Nach den drei absolvierten Durchläufen werden Sie dazu aufgerufen, einen Fragebogen innerhalb der App auszufüllen, um Ihr Kontroll- und Sicherheitsgefühl zu bewerten.";
+      "Im Anschluss an jeden Durchlauf füllen Sie direkt am Smartphone einen kurzen Fragebogen durch. Mit diesem Fragebogen messen wir Ihr Kontroll- und Sicherheitsgefühl gegenüber der jeweiligen Interaktionsform.";
   static const String interviewTitle = "Interview";
   static const String interviewBody =
-      "Nach der Absolvierung der vier Gesten wrid ein kurzes Interview geführt, um Ihre Meinungen und Erfahrungen weiter zu erfassen. Vielen Dank für Ihre Teilnahme!";
+      "Am Ende des Experiments befragen wir Sie kurz zu Ihren Meinungen und Erfahrungen in Bezug auf die getesteten Interaktionsformen. Haben Sie noch Fragen zum Studienablauf?";
   static const String readyTitle = "Bereit?";
   static const String readyBody =
       "Wenn Sie bereit sind, beginnen wir mit der ersten Aufgabe. Denken Sie daran, auf Ihr Sicherheitsgefühl und Ihre Kontrolle während der Nutzung des Mitarbeiterausweises zu achten. Viel Erfolg!";
@@ -73,34 +77,45 @@ class Strings {
   // Strings for ButtonTaskIDIntro
   static const String buttonTaskTitle = "Drücken und Halten";
   static const String buttonTaskBody =
-      "In der kommenden Task sehen Sie die private Ansicht des digitalen Universitätsausweises. Ihre Aufgabe ist es, den Ausweis an einer beliebigen Stelle zu drücken und gedrückt zu halten. Solange Sie gedrückt halten, befindet sich der Ausweis in der öffentlichen Ansicht. Teilen Sie Informationen mit mir und kehren dann wieder in die private Ansicht zurückt.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+  static const String buttonTaskBodyBold =
+      " Drücken und Halten Sie dabei den Ausweis an einer beliebige Stelle, um die privaten Informationen im Ausweis auszublenden.";
   static const String buttonTaskOverview =
-      "Führen Sie erneut die Geste aus, bei der Sie den Ausweis solange gedrückt halten, um in die öffentliche Ansicht des Ausweises zu gelangen.";
+      " Drücken und Halten";
 
   // Strings for CoverTaskIDIntro
-  static const String coverTaskTitle = "Bildschirm Abdecken";
+  static const String coverTaskTitle = "Verstecken von privaten Inhalten";
   static const String coverTaskBody =
-      "In der folgenden Task sehen Sie die private Ansicht des digitalen Univeritätsausweises. Ihre Aufgabe ist es, bewusst Informationen mit mir zu teilen. Dies erfolgt durch das Abdecken des relevanten Teils des Bildschirms mit Ihrer Hand.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+  static const String coverTaskBodyBold =
+      " Verdecken Sie dabei mit Ihrer Hand die privaten Informationen des Ausweises.";
   static const String coverTaskOverview =
-      "Führen Sie erneut die Abdeck-Geste aus, um zwischen den zwei Ansichten des Ausweises zu wechseln.";
+      " Bildschirm Abdecken";
   static const String nextStepTitle = "Nächster Schritt";
   static const String nextStepBody =
-      "Nachdem Sie die Geste ausgeführt haben, müssen Sie auf dem digitalen Universitätsausweis doppelklicken. Es erscheint ein Button unten rechts auf dem Bildschirm. Drücken Sie auf den Button und Sie werden zum nächsten Schritt weitergeleitet.";
+      "Klicken Sie nach Abschluss der Interaktion doppelt auf den Ausweis, um den Button anzuzeigen, mit dem Sie zum nächsten Schritt des Experiments gelangen.";
 
   // Strings for FlipTaskIDIntro
   static const String flipTaskTitle = "Flippen/Neigen";
   static const String flipTaskBody =
-      "In der folgenden Task sehen Sie die private Ansicht des digitalen Universitätsausweises. Ihre Aufgabe ist es, den Ausweis durch eine Flip/Neigungsgeste nach vorne zu neigen, um in die öffentliche Ansicht zu gelangen. Wenn Sie das Smartphone wieder nach hinten zu sich flippen/neigen, geht der Ausweis zurück in die private Ansicht.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+  static const String flipTaskBodyBold =
+      " Kippen Sie das Smartphone nach vorne, um die privaten Informationen im Ausweis auszublenden.";
+  static const String flipTaskBodyPostfix =
+      " Wenn Sie das Smartphone wieder zurückkippen, werden die privaten Informationen wieder sichtbar.";
   static const String flipTaskOverview =
-      "Führen Sie erneut die Flip/Neigungs-Geste aus, um zwischen den zwei Ansichten des Ausweises zu wechseln.";
+      " Flippen/Neigen";
 
   // Strings for VolumeButtonTaskIDIntro
-  static const String volumeTaskTitle = "Lautstärkeknöpfe";
+  static const String volumeTaskTitle = "Schalter betätigen";
   static const String volumeTaskBody =
-      "In der aufkommenden Task sehen Sie die private Ansicht des digitalen Universitätsausweises. Ihre Aufgabe ist es, den Ausweis durch das Gedrückthalten der physischen Lautstärke-erhöhen-Taste in die öffentliche Ansicht zu navigieren. Wenn Sie die physische Lautstärke-verringern-Taste gedrückt halten, geht der Ausweis zurück in die private Ansicht.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+  static const String volumeTaskBodyBold =
+      " Halten Sie die Taste zum Erhöhen der Lautstärke für eine gewisse Zeit gedrückt, um die privaten Informationen im Ausweis auszublenden.";
+  static const String volumeTaskBodyPostfix =
+      " Wenn Sie die Taste zum Verringern der Lautstärke für eine gewisse Zeit gedrückt halten, werden die privaten Informationen wieder sichtbar.";
   static const String volumeTaskOverview =
-      "Führen Sie erneut die Geste aus, bei der Sie die physischen Knöpfe des Smartphones gedrückt halten, um zwischen den zwei Ansichten des Ausweises zu wechseln.";
-
+  " Schalter betätigen";
   // Strings for CountdownDialog
   static const String pauseTitle = "Pause";
   static const String nextTaskIn = "Nächste Aufgabe in";
@@ -113,28 +128,24 @@ class Strings {
 
   // Strings for ConsentForm
   // PageView 1
-  static const String consentInfo1Title = 'Erhebung der Bildschirmaktivität';
+  static const String consentInfo1Title = 'Aufzeichnung der Interaktionsaktivität';
   static const String consentInfo1Description =
-      'Im Rahmen dieser Studie wird die Bildschirmaktivität aufgezeichnet. Dies umfasst alle Interaktionen, die auf dem Gerät während der Durchführung der Aufgaben vorgenommen werden. Die Daten werden ausschließlich zu Forschungszwecken verwendet und streng vertraulich behandelt.';
+      'Wir zeichnen Zeitpunkt, Dauer und Art aller Interaktionen auf, die Sie während des Experiments am Smartphone durchführen. Dazu gehören die Verwendung des Touch-Screens, die Betätigung von Hardware-Buttons, sowie die Position- und Lageveränderungen des Geräts. Zugriff auf die Rohdaten haben ausschließlich der Versuchsleiter sowie die Betreuer und Gutachter der Arbeit. Die Auswertung erfolgt durch den Versuchsleiter. Die Ergebnisse werden in aggregierter Form gespeichert.';
 
   // PageView 2
-  static const String consentInfo2Title = 'Erhebung der Fragebögen';
+  static const String consentInfo2Title = 'Fragebögen';
   static const String consentInfo2Description =
-      'Diese Studie beinhaltet das Ausfüllen verschiedener Fragebögen. Diese Fragebögen dienen dazu, subjektive Erfahrungen und Wahrnehmungen während der Aufgaben zu erfassen. Alle Antworten werden anonymisiert und vertraulich behandelt.';
+      'Ihre Angaben aus dem Fragebogen werden anonymisiert gespeichert. Zugriff auf die Rohdaten haben ausschließlich der Versuchsleiter sowie die Betreuer und Gutachter der Arbeit. Die Auswertung erfolgt durch den Versuchsleiter. Die Ergebnisse werden in aggregierter Form gespeichert.';
 
   // PageView 3
-  static const String consentInfo3Title = 'Erhebung des Interviews';
+  static const String consentInfo3Title = 'Interviews';
   static const String consentInfo3Description =
-      'Im Rahmen dieser Studie wird ein Interview durchgeführt, um tiefere Einblicke in die Erfahrungen und Wahrnehmungen während der Aufgaben zu gewinnen. Es wird nur der Ton des Interviews aufgezeichnet und analysiert, um die Forschungsergebnisse zu ergänzen. Alle Antworten werden vertraulich behandelt und nur für wissenschaftliche Zwecke verwendet.';
+      'Wir zeichnen das Interview als Audio-Mitschnitt auf. Der Mitschnitt dient der späteren Transkription und Auswertung der Interviews. Zugriff auf die Aufzeichnungen hat ausschließlich der Versuchsleiter. Die Aufzeichnungen werden nach der Transkription und Auswertung gelöscht. Die Auswertung der im Interview gesammelten Erkenntnisse erfolgt anonymisiert.';
 
   // PageView 4
   static const String consentTitle = "Einverständniserklärung";
   static const String consentDescription =
-      "Ich erkläre mich hiermit einverstanden, an der Studie teilzunehmen, die folgende Erhebungen umfasst:\n\n"
-      "• Aufzeichnung meiner Bildschirmaktivität während der Durchführung der Aufgaben.\n"
-      "• Ausfüllen verschiedener Fragebögen, die meine subjektiven Erfahrungen und Wahrnehmungen erfassen.\n"
-      "• Teilnahme an einem Interview, bei dem der Ton aufgezeichnet wird.\n\n"
-      "Diese Einverständniserklärung gilt bis auf Widerruf. Ich habe das Recht, meine Einwilligung jederzeit zu widerrufen.";
+      "Ich erkläre mich damit einverstanden, an der Studie teilzunehmen. Ich willige dazu in die mir beschriebene Speicherung und Auswertung der genannten Daten ein. Ich kann mein Einverständnis jederzeit durch eine formlose E-Mail an den Versuchsleiter widerrufen.";
 
   static const String dateLabel = "Datum: ";
   static const String signatureLabel = "Unterschrift:";

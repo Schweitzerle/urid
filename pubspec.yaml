@@ -22,13 +22,13 @@ dependencies:
     path: packages/urid_api_client
   qr_flutter: ^4.1.0
   cached_network_image: ^3.3.1
-  intl: any
+  intl: ^0.19.0
   introduction_screen: ^3.1.14
   lottie: ^3.1.0
-  syncfusion_flutter_sliders: ^25.2.5
+  syncfusion_flutter_sliders: ^26.1.39
   clay_containers: ^0.3.4
   get_it: ^7.7.0
-  sensors_plus: ^4.0.2
+  sensors_plus: ^5.0.1
   local_auth: ^2.2.0
   local_auth_android: ^1.0.38
   vibration: ^1.8.4
@@ -50,9 +50,9 @@ dependencies:
   flutter_pdfview: ^1.3.2
   printing: ^5.12.0
   open_file: ^3.3.2
-  syncfusion_flutter_pdf: ^25.2.6
-  syncfusion_flutter_signaturepad: ^25.2.6
-  syncfusion_flutter_datagrid: ^25.2.6
+  syncfusion_flutter_pdf: ^26.1.39
+  syncfusion_flutter_signaturepad: ^26.1.39
+  syncfusion_flutter_datagrid: ^26.1.39
   desktop_window: ^0.4.0
   mailer: ^6.1.0
   rounded_loading_button_plus: ^3.0.1
@@ -61,7 +61,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 
 flutter:

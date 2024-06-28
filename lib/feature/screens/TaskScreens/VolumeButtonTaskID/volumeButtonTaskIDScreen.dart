@@ -55,24 +55,33 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
           pages: [
             PageViewModel(
               titleWidget: Container(),
-              bodyWidget: const Card(
+              bodyWidget: Card(
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           Strings.volumeTaskTitle,
                           textAlign: TextAlign.center,
                           style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Text(
-                          Strings.volumeTaskBody,
+                        RichText(
                           textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 18),
+                          text: const TextSpan(
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(text: Strings.volumeTaskBody),
+                              TextSpan(text: Strings.volumeTaskBodyBold, style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(text: Strings.volumeTaskBodyPostfix),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -108,15 +117,6 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text(
-                          Strings.nextStepAutoTitle,
-                          textAlign: TextAlign.center,
-                          style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
                         Text(
                           Strings.nextStepAutoBody,
                           textAlign: TextAlign.justify,
@@ -257,12 +257,20 @@ class _VolumeTaskIDOverviewState extends State<VolumeTaskIDOverview> {
                               SizedBox(
                                 height: 40,
                               ),
-                              Text(
-                                Strings.volumeTaskOverview,
+                              RichText(
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(fontSize: 18),
+                                text: const TextSpan(
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.black
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(text: Strings.taskOverviewPrefix),
+                                    TextSpan(text: Strings.volumeTaskOverview, style: TextStyle(fontStyle: FontStyle.italic)),
+                                    TextSpan(text: Strings.taskOverviewPostfix),
+                                  ],
+                                ),
                               ),
-
                               const SizedBox(
                                 height: 20,
                               ),

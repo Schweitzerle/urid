@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:urid/application/dummyData/dummy_data.dart';
@@ -53,24 +54,32 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
           pages: [
             PageViewModel(
               titleWidget: Container(),
-              bodyWidget: const Card(
+              bodyWidget: Card(
                   child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       Strings.buttonTaskTitle,
                       textAlign: TextAlign.center,
                       style:
                       TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
-                    Text(
-                      Strings.buttonTaskBody,
+                    RichText(
                       textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 18),
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(text: Strings.buttonTaskBody),
+                          TextSpan(text: Strings.buttonTaskBodyBold, style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -106,15 +115,6 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text(
-                      Strings.nextStepAutoTitle,
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
                     Text(
                       Strings.nextStepAutoBody,
                       textAlign: TextAlign.justify,
@@ -255,12 +255,20 @@ class _ButtonTaskIDOverviewState extends State<ButtonTaskIDOverview> {
                               SizedBox(
                                 height: 40,
                               ),
-                              Text(
-                                Strings.buttonTaskOverview,
+                              RichText(
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(fontSize: 18),
+                                text: const TextSpan(
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.black
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(text: Strings.taskOverviewPrefix),
+                                    TextSpan(text: Strings.buttonTaskOverview, style: TextStyle(fontStyle: FontStyle.italic)),
+                                    TextSpan(text: Strings.taskOverviewPostfix),
+                                  ],
+                                ),
                               ),
-
                               const SizedBox(
                                 height: 20,
                               ),
