@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_window
   flutter_volume_controller
-  printing
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

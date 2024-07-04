@@ -5,6 +5,7 @@ import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:urid/feature/models/subject.dart';
 import 'package:urid/feature/models/taskAssigningService.dart';
 import 'package:urid/feature/screens/EndScreen/endScreen.dart';
+import 'package:urid/feature/screens/ErrorScreen/errorScreen.dart';
 import 'package:urid/feature/screens/interviewScreen/interviewScreen.dart';
 import 'package:urid/feature/widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
@@ -64,14 +65,14 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
             if (widget.taskType == TaskType.coverPhone)
               return ButtonTaskIDIntro();
             else if (widget.taskType == TaskType.holdButton)
-              return FlipTaskIDOverview();
+              return FlipTaskIDIntro();
             else if (widget.taskType == TaskType.flipPhone)
               return VolumeButtonTaskIDIntro();
             else
               return AudioRecorderScreen();
           case 2:
             if (widget.taskType == TaskType.coverPhone)
-              return FlipTaskIDOverview();
+              return FlipTaskIDIntro();
             else if (widget.taskType == TaskType.holdButton)
               return VolumeButtonTaskIDIntro();
             else if (widget.taskType == TaskType.flipPhone)
@@ -86,7 +87,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
             else if (widget.taskType == TaskType.flipPhone)
               return ButtonTaskIDIntro();
             else
-              return FlipTaskIDOverview();
+              return FlipTaskIDIntro();
           case 4:
             if (widget.taskType == TaskType.coverPhone)
               return VolumeButtonTaskIDIntro();
@@ -97,7 +98,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
             else
               return ButtonTaskIDIntro();
           default:
-            return EndScreen();
+            return ErrorScreen();
         }
       }));
     });

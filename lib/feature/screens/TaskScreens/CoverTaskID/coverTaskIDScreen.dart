@@ -14,6 +14,7 @@ import '../../../models/taskAssigningService.dart';
 import '../../../models/taskTimer.dart';
 import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
+import '../../../widgets/pass/view/pass_widget.dart';
 
 class CoverTaskIDIntro extends StatefulWidget {
   @override
