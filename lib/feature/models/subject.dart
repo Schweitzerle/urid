@@ -1,5 +1,6 @@
 import 'package:urid/feature/models/taskAssigningService.dart';
 import '../widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
+import '../widgets/demograficQuestionnaire/demograficQuestionnaire.dart';
 
 class Subject {
   final String uuid;
@@ -10,13 +11,19 @@ class Subject {
   AgencyQuestionnaire? volumeTaskQuestionnaire;
   String? audioFilePath;
   String? consentPdfPath;
+  String? csvFilePath;
+  DemographicQuestionnaire? demographicQuestionnaire;
+
 
   Subject(
       this.coverTaskQuestionnaire,
       this.buttonTaskQuestionnaire,
       this.flipTaskQuestionnaire,
       this.volumeTaskQuestionnaire,
-      this.audioFilePath, this.consentPdfPath, {
+      this.audioFilePath, this.consentPdfPath,
+      this.demographicQuestionnaire,
+      this.csvFilePath,
+      {
         required this.uuid,
         required this.taskAssigningService,
       });

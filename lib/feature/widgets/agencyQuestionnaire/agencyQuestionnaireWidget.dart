@@ -205,7 +205,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
             Text(
               Strings.movementControlQuestion,
               style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
             SizedBox(height: 10),
             _buildCheckboxColumn(1, agencyQuestionnaire.movementAgencyQuestionValue, Strings.stronglyDisagree, Strings.stronglyAgree),
@@ -220,7 +220,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
             Text(
               Strings.controlFeelingQuestion,
               style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
             SizedBox(height: 10),
             _buildCheckboxColumn(2, agencyQuestionnaire.agencyQuestionValue, Strings.veryLow, Strings.veryHigh),
@@ -235,7 +235,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
             Text(
               Strings.viewChangeQuestion,
               style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
             SizedBox(height: 10),
             _buildCheckboxColumn(3, agencyQuestionnaire.controlFeelingViewChangeQuestionValue, Strings.notAtAll, Strings.completely),

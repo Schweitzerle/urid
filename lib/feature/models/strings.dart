@@ -2,31 +2,34 @@ class Strings {
   // General strings used in multiple classes
   static const String yes = "Ja";
   static const String no = "Nein";
+  static const String ok = 'OK';
   static const String cancel = "Abbrechen";
   static const String next = "Weiter";
   static const String start = "Start";
   static const String repetitionsLeft = "Noch 3 Wiederholungen!";
   static const String twoRepetitionsLeft = "Noch 2 Wiederholungen!";
   static const String oneRepetitionLeft = "Noch 1 Wiederholung!";
-  static const String questionnaireTitle =
-      "Fragebogen";
+  static const String questionnaireTitle = "Fragebogen";
   static const String publicView = "Öffentliche Ansicht";
   static const String privateView = "Private Ansicht";
   static const String nextStepAutoBody =
-      "Nach dem Testen der Interaktionsformen werden Sie automatisch zum nächsten Schritt der Studie weitergeleitet.";
+      "Nach dem Testen der Interaktionsformen werden Sie automatisch "
+      "zum nächsten Schritt der Studie weitergeleitet.";
   static const String questionnaireTaskBody =
-      "Füllen Sie jetzt bitte den folgenden Fragebogen aus. Alle Fragen beziehen sich dabei auf die zuletzt verwendete Interaktionsform.";
+      "Füllen Sie nach Abschluss bitte den folgenden Fragebogen aus. Alle Fragen beziehen sich dabei auf die zuletzt verwendete Interaktionsform. \n\n"
+      "Wenn Sie auf \"Weiter\" klicken gelangen Sie zur Task.";
   static const String finished = "Weiter";
   static const String tutorial = "Tutorial";
   static const String taskOverviewPrefix = "Führen Sie die Interaktion";
-  static const String taskOverviewPostfix = " erneut aus.";
-
+  static const String taskOverviewPostfix = " erneut aus. \n\n"
+  "Klicken Sie auf \"Weiter\" um die Task erneut auszuführen.";
 
   // Strings for EndScreen
   static const String endScreenThankYouTitle =
       "Vielen Dank für Ihre Teilnahme an der Studie!";
   static const String endScreenThankYouBody =
-      "Sie können das Smartphone nun dem Studienleiter zurückgeben. \n\Ich wünschen Ihnen noch einen schönen Tag!";
+      "Sie können das Smartphone nun dem Studienleiter zurückgeben. \n\n"
+      "Ich wünschen Ihnen noch einen schönen Tag!";
 
   // Strings for ErrorScreen
   static const String errorScreenTitle = "Ups, etwas ist schiefgelaufen!";
@@ -36,26 +39,46 @@ class Strings {
   // Strings for IntroScreen
   static const String welcomeTitle = "Hallo";
   static const String welcomeBody =
-      "Vielen Dank, dass Sie an dieser Studie teilnehmen. Wir führen Sie Schritt für Schritt durch das Experiment.";
+      "Vielen Dank, dass Sie an dieser Studie teilnehmen. "
+      "Wir führen Sie Schritt für Schritt durch das Experiment.";
   static const String studyProcessTitle = "Überblick";
   static const String studyProcessBody =
-      "Diese Studie findet im Rahmen der Bachelorarbeit von Julian Schweizer am Lehrstuhl für Medieninformatik statt. Wir untersuchen das Sicherheits- und Kontrollgefühl bei der Interaktion mit digitalen Ausweisen. Sie können bei diesem Experiment keine Fehler machen: Wir testen nicht Sie, sondern ausschließlich die vorgeschlagenen Interaktionsformen.";
+      "Diese Studie findet im Rahmen der Bachelorarbeit von Julian Schweizer "
+      "am Lehrstuhl für Medieninformatik statt. \n\n"
+      "Wir untersuchen das Sicherheits- und Kontrollgefühl bei der Interaktion mit digitalen Ausweisen. "
+      "Sie können bei diesem Experiment keine Fehler machen: "
+      "Wir testen nicht Sie, sondern ausschließlich die vorgeschlagenen Interaktionsformen.";
   static const String taskTitle = "Ihre Aufgabe";
-  static const String taskBody = "Im Rahmen der Studie werden Sie einen digitalen Ausweis sehen. Stellen Sie sich vor, dieser Ausweis würde Ihnen gehören. Sie müssen sich im Kontext einer Sichtkontrolle mit diesem Ausweis gegenüber einer anderen Person identifizieren. Der Ausweis beinhaltet neben öffentlichen Informationen auch private Inhalte, die Sie dabei nicht mit der anderen Person teilen möchten. Die verschiedenen Interaktionsformen dienen der bewussten Freigabe des öffentlichen Teils des Ausweises.";
+  static const String taskBody =
+      "Im Rahmen der Studie werden Sie einen digitalen Ausweis sehen. "
+      "Stellen Sie sich vor, dieser Ausweis würde Ihnen gehören. \n\n"
+      "Sie müssen sich im Kontext einer Sichtkontrolle mit diesem Ausweis gegenüber einer anderen Person identifizieren. "
+      "Der Ausweis beinhaltet neben öffentlichen Informationen auch private Inhalte, "
+      "die Sie dabei nicht mit der anderen Person teilen möchten. \n\n"
+      "Die verschiedenen Interaktionsformen dienen der bewussten Freigabe des öffentlichen Teils des Ausweises.";
   static const String confidentialityTitle = "Vertraulichkeit";
   static const String confidentialityBody =
-      "Auf den nächsten Seiten informieren wir Sie über alle Daten, die wir während des Experiments aufzeichnen. Alle diese Daten werden anonymisiert gespeichert und ausschließlich zu Forschungszwecken verwendet. Zur späteren Auswertung wird eine zufällige ID generiert und mit den gespeicherten Daten verknüpft. Sie können sich jederzeit mit Fragen an den Versuchsleiter wenden.";
+      "Auf den nächsten Seiten informieren wir Sie über alle Daten, die wir während des Experiments aufzeichnen. \n\n"
+      "Alle diese Daten werden anonymisiert gespeichert und ausschließlich zu Forschungszwecken verwendet. \n\n"
+      "Zur späteren Auswertung wird eine zufällige ID generiert und mit den gespeicherten Daten verknüpft. \n\n"
+      "Sie können sich jederzeit mit Fragen an den Versuchsleiter wenden. \n\n"
+      "Klicken Sie auf \"Weiter\" um zur Einverständniserklärung zu gelangen.";
   static const String interactionMethodsTitle = "Ablauf";
   static const String interactionMethodsBody =
-      "Während des Experiments haben Sie Gelegenheit, vier verschiedene Möglichkeiten zur Freigabe des digitalen Ausweises zu testen. Wir beschreiben Ihnen jedes Mal die jeweilige Interaktionsform und Sie nutzen diese anschließend insgesamt dreimal.";
+      "Während des Experiments haben Sie Gelegenheit, vier verschiedene Möglichkeiten zur Freigabe des digitalen Ausweises zu testen. \n\n"
+      "Wir beschreiben Ihnen jedes Mal die jeweilige Interaktionsform und Sie nutzen diese anschließend insgesamt dreimal.";
   static const String questionnaireBody =
-      "Im Anschluss an jeden Durchlauf füllen Sie direkt am Smartphone einen kurzen Fragebogen durch. Mit diesem Fragebogen messen wir Ihr Kontroll- und Sicherheitsgefühl gegenüber der jeweiligen Interaktionsform.";
+      "Im Anschluss an jeden Durchlauf füllen Sie direkt am Smartphone einen kurzen Fragebogen durch. \n\n"
+      "Mit diesem Fragebogen messen wir Ihr Kontroll- und Sicherheitsgefühl gegenüber der jeweiligen Interaktionsform.";
   static const String interviewTitle = "Interview";
   static const String interviewBody =
-      "Am Ende des Experiments befragen wir Sie kurz zu Ihren Meinungen und Erfahrungen in Bezug auf die getesteten Interaktionsformen. Haben Sie noch Fragen zum Studienablauf?";
+      "Am Ende des Experiments befragen wir Sie kurz zu Ihren Meinungen und Erfahrungen in Bezug auf die getesteten Interaktionsformen. \n\n"
+      "Haben Sie noch Fragen zum Studienablauf?";
   static const String readyTitle = "Bereit?";
   static const String readyBody =
-      "Wenn Sie bereit sind, beginnen wir mit der ersten Aufgabe. Denken Sie daran, auf Ihr Sicherheitsgefühl und Ihre Kontrolle während der Nutzung des Mitarbeiterausweises zu achten. Viel Erfolg!";
+      "Wenn Sie bereit sind, beginnen wir mit der ersten Aufgabe. \n\n"
+      "Denken Sie daran, auf Ihr Sicherheitsgefühl und Ihre Kontrolle während der Nutzung des Mitarbeiterausweises zu achten. \n\n"
+      "Viel Erfolg!";
   static const String doneIntro = "Start";
   static const String nextIntro = "Nächster";
 
@@ -69,7 +92,8 @@ class Strings {
   static const String sendData = "Daten versenden";
   static const String confirmation = "Bestätigung";
   static const String navigateToNextScreenConfirmation =
-      "Möchten Sie wirklich zum nächsten Bildschirm wechseln? Nicht versendete Daten gehen verloren!";
+      "Möchten Sie wirklich zum nächsten Bildschirm wechseln? "
+      "Nicht versendete Daten gehen verloren!";
   static const String sendingData = "Daten werden gesendet...";
   static const String sentData = "Daten gesendet";
   static const String errorSendingData = "Fehler beim Senden der Daten";
@@ -77,45 +101,53 @@ class Strings {
   // Strings for ButtonTaskIDIntro
   static const String buttonTaskTitle = "Drücken und Halten";
   static const String buttonTaskBody =
-      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, "
+      "der öffentliche und private Informationen enthält. \n\n"
+      "Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
   static const String buttonTaskBodyBold =
       " Drücken und Halten Sie dabei den Ausweis an einer beliebige Stelle, um die privaten Informationen im Ausweis auszublenden.";
-  static const String buttonTaskOverview =
-      " Drücken und Halten";
+  static const String buttonTaskOverview = " Drücken und Halten";
 
   // Strings for CoverTaskIDIntro
   static const String coverTaskTitle = "Verstecken von privaten Inhalten";
   static const String coverTaskBody =
-      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, "
+      "der öffentliche und private Informationen enthält. \n\n"
+      "Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
   static const String coverTaskBodyBold =
       " Verdecken Sie dabei mit Ihrer Hand die privaten Informationen des Ausweises.";
-  static const String coverTaskOverview =
-      " Bildschirm Abdecken";
+  static const String coverTaskOverview = " Bildschirm Abdecken";
   static const String nextStepTitle = "Nächster Schritt";
   static const String nextStepBody =
-      "Klicken Sie nach Abschluss der Interaktion doppelt auf den Ausweis, um den Button anzuzeigen, mit dem Sie zum nächsten Schritt des Experiments gelangen.";
+      "Klicken Sie nach Abschluss der Interaktion doppelt auf den Ausweis, "
+      "um den Button anzuzeigen, mit dem Sie zum nächsten Schritt des Experiments gelangen.";
 
   // Strings for FlipTaskIDIntro
   static const String flipTaskTitle = "Flippen/Neigen";
   static const String flipTaskBody =
-      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, "
+      "der öffentliche und private Informationen enthält. \n\n"
+      "Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
   static const String flipTaskBodyBold =
       " Kippen Sie das Smartphone nach vorne, um die privaten Informationen im Ausweis auszublenden.";
   static const String flipTaskBodyPostfix =
       " Wenn Sie das Smartphone wieder zurückkippen, werden die privaten Informationen wieder sichtbar.";
-  static const String flipTaskOverview =
-      " Flippen/Neigen";
+  static const String flipTaskOverview = " Flippen/Neigen";
 
   // Strings for VolumeButtonTaskIDIntro
   static const String volumeTaskTitle = "Schalter betätigen";
   static const String volumeTaskBody =
-      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, der öffentliche und private Informationen enthält. Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
+      "Auf den folgenden Bildschirmen sehen Sie einen digitalen Ausweis, "
+      "der öffentliche und private Informationen enthält. \n\n"
+      "Weisen Sie sich gegenüber dem Versuchsleiter mit diesem Ausweis aus.";
   static const String volumeTaskBodyBold =
-      " Halten Sie die Taste zum Erhöhen der Lautstärke für eine gewisse Zeit gedrückt, um die privaten Informationen im Ausweis auszublenden.";
+      " Halten Sie die Taste zum Erhöhen der Lautstärke für eine gewisse Zeit gedrückt, "
+      "um die privaten Informationen im Ausweis auszublenden.";
   static const String volumeTaskBodyPostfix =
-      " Wenn Sie die Taste zum Verringern der Lautstärke für eine gewisse Zeit gedrückt halten, werden die privaten Informationen wieder sichtbar.";
-  static const String volumeTaskOverview =
-  " Schalter betätigen";
+      " Wenn Sie die Taste zum Verringern der Lautstärke für eine gewisse Zeit gedrückt halten, "
+      "werden die privaten Informationen wieder sichtbar.";
+  static const String volumeTaskOverview = " Schalter betätigen";
+
   // Strings for CountdownDialog
   static const String pauseTitle = "Pause";
   static const String nextTaskIn = "Nächste Aufgabe in";
@@ -124,28 +156,41 @@ class Strings {
   // Strings for CustomWillPopScopeWidget
   static const String exitConfirmationTitle = "Bitte bestätigen!";
   static const String exitConfirmationContent =
-      "Wollen Sie den Vorgang wirklich beenden? Bitte konsultieren Sie zuerst den Versuchsleiter!";
+      "Wollen Sie den Vorgang wirklich beenden? "
+      "Bitte konsultieren Sie zuerst den Versuchsleiter!";
 
   // Strings for ConsentForm
   // PageView 1
   static const String consentInfo1Title = 'Aufzeichnung der Interaktionsaktivität';
   static const String consentInfo1Description =
-      'Wir zeichnen Zeitpunkt, Dauer und Art aller Interaktionen auf, die Sie während des Experiments am Smartphone durchführen. Dazu gehören die Verwendung des Touch-Screens, die Betätigung von Hardware-Buttons, sowie die Position- und Lageveränderungen des Geräts. Zugriff auf die Rohdaten haben ausschließlich der Versuchsleiter sowie die Betreuer und Gutachter der Arbeit. Die Auswertung erfolgt durch den Versuchsleiter. Die Ergebnisse werden in aggregierter Form gespeichert.';
+      'Wir zeichnen Zeitpunkt, Dauer und Art aller Interaktionen auf, die Sie während des Experiments am Smartphone durchführen. \n\n'
+      'Dazu gehören die Verwendung des Touch-Screens, die Betätigung von Hardware-Buttons, sowie die Position- und Lageveränderungen des Geräts. \n\n'
+      'Zugriff auf die Rohdaten haben ausschließlich der Versuchsleiter sowie die Betreuer und Gutachter der Arbeit. \n\n'
+      'Die Auswertung erfolgt durch den Versuchsleiter. Die Ergebnisse werden in aggregierter Form gespeichert.';
 
   // PageView 2
   static const String consentInfo2Title = 'Fragebögen';
   static const String consentInfo2Description =
-      'Ihre Angaben aus dem Fragebogen werden anonymisiert gespeichert. Zugriff auf die Rohdaten haben ausschließlich der Versuchsleiter sowie die Betreuer und Gutachter der Arbeit. Die Auswertung erfolgt durch den Versuchsleiter. Die Ergebnisse werden in aggregierter Form gespeichert.';
+      'Ihre Angaben aus dem Fragebogen werden anonymisiert gespeichert. \n\n'
+      'Zugriff auf die Rohdaten haben ausschließlich der Versuchsleiter sowie die Betreuer und Gutachter der Arbeit. \n\n'
+      'Die Auswertung erfolgt durch den Versuchsleiter. Die Ergebnisse werden in aggregierter Form gespeichert.';
 
   // PageView 3
   static const String consentInfo3Title = 'Interviews';
   static const String consentInfo3Description =
-      'Wir zeichnen das Interview als Audio-Mitschnitt auf. Der Mitschnitt dient der späteren Transkription und Auswertung der Interviews. Zugriff auf die Aufzeichnungen hat ausschließlich der Versuchsleiter. Die Aufzeichnungen werden nach der Transkription und Auswertung gelöscht. Die Auswertung der im Interview gesammelten Erkenntnisse erfolgt anonymisiert.';
+      'Wir zeichnen das Interview als Audio-Mitschnitt auf. \n\n'
+      'Der Mitschnitt dient der späteren Transkription und Auswertung der Interviews. \n\n'
+      'Zugriff auf die Aufzeichnungen hat ausschließlich der Versuchsleiter. \n\n'
+      'Die Aufzeichnungen werden nach der Transkription und Auswertung gelöscht. \n\n'
+      'Die Auswertung der im Interview gesammelten Erkenntnisse erfolgt anonymisiert.';
 
   // PageView 4
   static const String consentTitle = "Einverständniserklärung";
   static const String consentDescription =
-      "Ich erkläre mich damit einverstanden, an der Studie teilzunehmen. Ich willige dazu in die mir beschriebene Speicherung und Auswertung der genannten Daten ein. Ich kann mein Einverständnis jederzeit durch eine formlose E-Mail an den Versuchsleiter widerrufen.";
+      "Ich erkläre mich damit einverstanden, an der Studie teilzunehmen. \n\n"
+      "Ich willige dazu in die mir beschriebene Speicherung und Auswertung der genannten Daten ein. \n\n"
+      "Ich kann mein Einverständnis jederzeit durch eine formlose E-Mail an den Versuchsleiter widerrufen.";
+  static const String signatureHint = "Bitte unterschreiben Sie, bevor Sie fortfahren.";
 
   static const String dateLabel = "Datum: ";
   static const String signatureLabel = "Unterschrift:";
@@ -155,7 +200,8 @@ class Strings {
   static const String save = "Speichern";
   static const String confirmationTitle = "Bestätigung";
   static const String confirmationContent =
-      "Möchten Sie wirklich zum nächsten Bildschirm wechseln? Stellen Sie sicher, dass Sie die Einverständniserklärung unterzeichnet haben!";
+      "Möchten Sie wirklich zum nächsten Bildschirm wechseln? \n\n"
+      "Stellen Sie sicher, dass Sie die Einverständniserklärung unterzeichnet haben!";
 
   // Strings for AgencyQuestionnaireWidget
   static const String movementControlQuestion =
@@ -202,6 +248,17 @@ class Strings {
   static const String volumeHoldToHide =
       "Lautstärke+ gedrückt halten, um Inhalte auszublenden";
 
+  //DemographicQuestionnaireScreen
+  static const String introductionTitle = 'Einführung';
+  static const String introductionBody = 'Bitte füllen Sie den folgenden demografischen Fragebogen aus. Sie können so viel in die Textfelder schreiben, wie Sie wollen.';
+  static const String ageLabel = 'Bitte geben Sie Ihr Alter an:';
+  static const String walletUsageLabel = 'Nutzen Sie Google Wallet oder andere Wallets?';
+  static const String digitalPassUsageLabel = 'Nutzen Sie digitale Pässe?';
+  static const String statusLabel = 'Was ist Ihr aktueller Status? (Student, Arbeiter, Sonstiges)';
+  static const String smartphoneLabel = 'Welches Smartphone benutzen Sie?';
+  static const String conclusionTitle = 'Abschluss';
+  static const String conclusionBody = 'Wenn Sie mit allen Antworten zufrieden sind, geben Sie das Smartphone bitte an den Versuchsleiter zurück.';
+  
   // TaskType strings
   static const String coverPhone = "Bildschirm abdecken";
   static const String holdButton = "Button gedrückt halten";

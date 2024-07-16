@@ -10,7 +10,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:urid/feature/models/subject.dart';
+import 'package:urid/feature/screens/DataSendingScreen/dataSendingScreen.dart';
 import 'package:urid/feature/screens/EndScreen/endScreen.dart';
+import 'package:urid/feature/screens/demographicQuestionnaireScreen/demographicSurveyScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import 'package:urid/feature/models/taskTimer.dart';
 
@@ -29,15 +31,13 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   StreamSubscription? _recorderSubscription;
   Duration _recordDuration = Duration.zero;
   Timer? _timer;
-  String csvFilePath = '';
   final subject = GetIt.instance<Subject>();
-  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
 
   @override
   void initState() {
     super.initState();
     _initializeRecorder();
-    _createCsvFile();
+    _showDialog();
   }
 
   Future<void> _initializeRecorder() async {
@@ -67,6 +67,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     setState(() {
       _isRecording = true;
       _audioFilePath = null;
+      subject.audioFilePath = null;
       _recordDuration = Duration.zero;
     });
 
@@ -78,6 +79,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     setState(() {
       _isRecording = false;
       _audioFilePath = path;
+      subject.audioFilePath = path;
     });
 
     _recorderSubscription?.cancel();
@@ -90,95 +92,37 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     }
     setState(() {
       _audioFilePath = null;
+      subject.audioFilePath = null;
       _recordDuration = Duration.zero;
     });
   }
 
-  Future<void> _createCsvFile() async {
-    List<List<dynamic>> rows = [
-      [
-        "UUID",
-        "Task",
-        "CoverTask_Movement",
-        "CoverTask_Agency",
-        "CoverTask_ControlFeeling",
-        "ButtonTask_Movement",
-        "ButtonTask_Agency",
-        "ButtonTask_ControlFeeling",
-        "FlipTask_Movement",
-        "FlipTask_Agency",
-        "FlipTask_ControlFeeling",
-        "VolumeTask_Movement",
-        "VolumeTask_Agency",
-        "VolumeTask_ControlFeeling"
-      ],
-      [
-        subject.uuid,
-        subject.taskAssigningService.task,
-        subject.coverTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.coverTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.coverTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire?.agencyQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? ""
-      ]
-    ];
-
-    rows.addAll(taskTimer.getCsvRows());
-
-    String csvData = const ListToCsvConverter().convert(rows);
-    Directory tempDir = await getTemporaryDirectory();
-    setState(() {
-      csvFilePath = '${tempDir.path}/subject_data.csv';
-    });
-    File csvFile = File(csvFilePath);
-    await csvFile.writeAsString(csvData);
-  }
-
-  Future<void> _sendEmail(RoundedLoadingButtonController controller) async {
-    final pdfFilePath = subject.consentPdfPath;
-
-    final List<File> attachments = [];
-    if (_audioFilePath != null) {
-      attachments.add(File(_audioFilePath!));
-    }
-    attachments.add(File(csvFilePath));
-    if (pdfFilePath != null) {
-      attachments.add(File(pdfFilePath));
-    }
-
-    final smtpServer = gmail('julianschweizer9@gmail.com', Strings.googleAppPassword);
-
-    final message = Message()
-      ..from = Address('julianschweizer9@gmail.com', 'Julian Schweizer')
-      ..recipients.add('julianschweizer9@gmail.com')
-      ..subject = 'Interview Data'
-      ..text = 'Subject CSV-Daten und Audio File von Studie von Proband ${subject.uuid} und Taskreihenfolge ${subject.taskAssigningService.task}.'
-      ..attachments.addAll(attachments.map((file) => FileAttachment(file)));
-
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-      controller.success();
-      await Future.delayed(Duration(seconds: 2));
-      _navigateToNextScreen();
-    } on MailerException catch (e) {
-      print('Message not sent. \n${e.toString()}');
-      controller.error();
-      await Future.delayed(Duration(seconds: 2));
-      controller.reset();
-    }
-  }
 
   void _navigateToNextScreen() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => EndScreen()));
+        .push(MaterialPageRoute(builder: (context) => DemographicSurveyScreen()));
+  }
+
+  Future<void> _showDialog() async {
+    await Future.delayed(Duration.zero);  // Ensure the dialog is shown after the build
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Hinweis"),
+          content: Text("Sie können das Handy nun wieder dem Versuchsleiter geben."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -197,8 +141,8 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          centerTitle: true,
           title: Text(Strings.interviewTitle),
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
         body: Center(
           child: Padding(
@@ -267,58 +211,6 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                           ),
                         ),
                       ),
-                      Card(
-                        elevation: 4,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 25),
-                        child: ListTile(
-                          leading: Icon(Icons.description,
-                              color: Colors.green),
-                          title: Text(
-                            Strings.csvFileResults,
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.black),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                csvFilePath,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600]),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Card(
-                        elevation: 4,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 25),
-                        child: ListTile(
-                          leading: Icon(Icons.picture_as_pdf_outlined,
-                              color: Colors.red),
-                          title: Text(
-                            Strings.consentFormPdf,
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.black),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                subject.consentPdfPath!,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600]),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                     ],
                   )
                       : Column(
@@ -361,20 +253,17 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: RoundedLoadingButton(
-                          controller: _btnController,
-                          onPressed: () => _sendEmail(_btnController),
-                          successColor: Colors.green,
-                          errorColor: Colors.red,
+                        child: ElevatedButton(
+                          onPressed: () => _navigateToNextScreen(),
                           child: Wrap(
                             children: [
                               Icon(
-                                Icons.email,
+                                Icons.navigate_next,
                                 color: Colors.white,
                               ),
                               SizedBox(width: 8),
                               Text(
-                                Strings.sendData,
+                                Strings.next,
                                 style: TextStyle(color: Colors.white),
                               ),
                             ],

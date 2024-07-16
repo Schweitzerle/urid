@@ -69,10 +69,10 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                       height: 40,
                     ),
                     RichText(
-                      textAlign: TextAlign.justify,
+                      textAlign: TextAlign.start,
                       text: const TextSpan(
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 20.0,
                           color: Colors.black
                         ),
                         children: <TextSpan>[
@@ -85,7 +85,7 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 ),
               )),
               decoration: const PageDecoration(
-                bodyAlignment: Alignment.center,
+                  titlePadding: EdgeInsets.zero
               ),
             ),
             PageViewModel(
@@ -105,7 +105,7 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 ),
               ),
               decoration: const PageDecoration(
-                bodyAlignment: Alignment.center,
+                  titlePadding: EdgeInsets.zero
               ),
             ),
             PageViewModel(
@@ -116,15 +116,24 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 child: Column(
                   children: [
                     Text(
+                      Strings.nextStepTitle,
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
                       Strings.nextStepAutoBody,
-                      textAlign: TextAlign.justify,
+                      textAlign: TextAlign.start,
                       style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
               )),
               decoration: const PageDecoration(
-                bodyAlignment: Alignment.center,
+                  titlePadding: EdgeInsets.zero
               ),
             ),
             PageViewModel(
@@ -147,39 +156,36 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                         ),
                         Text(
                           Strings.questionnaireTaskBody,
-                          textAlign: TextAlign.justify,
+                          textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 18),
                         ),
 
                         const SizedBox(
                           height: 20,
                         ),
-                        Card(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.repeat,
-                                  size: 24,
-                                  color: Colors.black54,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  counterService.counter <= 0
-                                      ? Strings.repetitionsLeft
-                                      : counterService.counter == 1
-                                      ? Strings.twoRepetitionsLeft
-                                      : counterService.counter >= 2
-                                      ? Strings.oneRepetitionLeft
-                                      : '',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.repeat,
+                                size: 24,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                counterService.counter <= 0
+                                    ? Strings.repetitionsLeft
+                                    : counterService.counter == 1
+                                    ? Strings.twoRepetitionsLeft
+                                    : counterService.counter >= 2
+                                    ? Strings.oneRepetitionLeft
+                                    : '',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
                         )
                       ],
@@ -189,7 +195,7 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
                 ],
               ),
               decoration: const PageDecoration(
-                bodyAlignment: Alignment.center,
+                  titlePadding: EdgeInsets.zero
               ),
             ),
           ],
@@ -256,10 +262,10 @@ class _ButtonTaskIDOverviewState extends State<ButtonTaskIDOverview> {
                                 height: 40,
                               ),
                               RichText(
-                                textAlign: TextAlign.justify,
+                                textAlign: TextAlign.start,
                                 text: const TextSpan(
                                   style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 20.0,
                                       color: Colors.black
                                   ),
                                   children: <TextSpan>[
@@ -272,32 +278,29 @@ class _ButtonTaskIDOverviewState extends State<ButtonTaskIDOverview> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Card(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.repeat,
-                                        size: 24,
-                                        color: Colors.black54,
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        counterService.counter <= 0
-                                            ? Strings.repetitionsLeft
-                                            : counterService.counter == 1
-                                            ? Strings.twoRepetitionsLeft
-                                            : counterService.counter >= 2
-                                            ? Strings.oneRepetitionLeft
-                                            : '',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.repeat,
+                                      size: 24,
+                                      color: Colors.black54,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      counterService.counter <= 0
+                                          ? Strings.repetitionsLeft
+                                          : counterService.counter == 1
+                                          ? Strings.twoRepetitionsLeft
+                                          : counterService.counter >= 2
+                                          ? Strings.oneRepetitionLeft
+                                          : '',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ],
                                 ),
                               )
                             ],
@@ -306,7 +309,7 @@ class _ButtonTaskIDOverviewState extends State<ButtonTaskIDOverview> {
                   ],
                 ),
                 decoration: const PageDecoration(
-                  bodyAlignment: Alignment.center,
+                    titlePadding: EdgeInsets.zero
                 ),
               ),
             ],

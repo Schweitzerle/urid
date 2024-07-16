@@ -82,20 +82,15 @@ class _CountdownDialogState extends State<CountdownDialog> with SingleTickerProv
     return FadeTransition(
       opacity: _opacityAnimation,
       child: AlertDialog(
-        title: const Text('Pause', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+        title: const Text('Pause', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 14),
-            Container(
-              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(90)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('$_currentCountdown Sekunden...', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Theme.of(context).colorScheme.onPrimary), textAlign: TextAlign.center,),
-                )
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('$_currentCountdown Sekunden', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,), textAlign: TextAlign.center,),
             ),
-            SizedBox(height: 24),
-            Text('...bis zur nächsten Task'),
           ],
         ),
       ),

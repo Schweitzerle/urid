@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'UUID',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9C004B)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF000000)),
         useMaterial3: true,
       ),
       home: const IntroScreen(),
