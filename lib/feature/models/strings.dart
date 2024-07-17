@@ -19,6 +19,7 @@ class Strings {
       "Füllen Sie nach Abschluss bitte den folgenden Fragebogen aus. Alle Fragen beziehen sich dabei auf die zuletzt verwendete Interaktionsform. \n\n"
       "Wenn Sie auf \"Weiter\" klicken gelangen Sie zur Task.";
   static const String finished = "Weiter";
+  static const String nextTask = "Nächste Task";
   static const String tutorial = "Tutorial";
   static const String taskOverviewPrefix = "Führen Sie die Interaktion";
   static const String taskOverviewPostfix = " erneut aus. \n\n"
@@ -205,11 +206,22 @@ class Strings {
 
   // Strings for AgencyQuestionnaireWidget
   static const String movementControlQuestion =
-      "1. Es fühlte sich so an, als hätten Sie die Bewegungen während der Aufgabe unter Kontrolle gehabt.";
+      "1. Es fühlte sich so an, als hätte ich die Gesteninteraktion während der Aufgabe unter Kontrolle gehabt.";
   static const String controlFeelingQuestion =
-      "2. Wie stark war das Gefühl der Kontrolle, das Sie empfunden haben?";
+      "3. Ich hatte das Gefühl, während der ganzen Aufgabe die Kontrolle zu haben.";
   static const String viewChangeQuestion =
-      "3. Geben Sie an, wie sehr es sich anfühlte, als würde die gerade durchgeführte Interaktionsform den Wechsel zwischen den beiden Ansichten verursachen.";
+      "2. Es fühlte sich so an, als würde ich mit der gerade durchgeführten Interaktionsform den Wechsel zwischen den beiden Ansichten verursachen.";
+  static const String taskAwarenessQuestion =
+      "4. Ich war mir während der gesamten Aufgabe meiner Handlungen bewusst.";
+  static const String interactionFeedbackQuestion =
+      "5. Die Rückmeldungen auf meine Interaktionen fühlten sich direkt und natürlich an.";
+  static const String dataPrivacyQuestion =
+      "6. Ich hatte das Gefühl, dass meine persönlichen Daten während der Aufgabe sicher sind.";
+  static const String controlOverSharedContentQuestion =
+      "7. Es fühlte sich so an, als hätte ich die Kontrolle darüber gehabt, wann und welche Informationen geteilt werden.";
+
+
+  static const String cantJudgeLabel = "Kann ich nicht bewerten";
   static const String stronglyDisagree = "Stimme überhaupt nicht zu";
   static const String disagree = "Stimme nicht zu";
   static const String somewhatDisagree = "Stimme eher nicht zu";
@@ -250,15 +262,16 @@ class Strings {
 
   //DemographicQuestionnaireScreen
   static const String introductionTitle = 'Einführung';
-  static const String introductionBody = 'Bitte füllen Sie den folgenden demografischen Fragebogen aus. Sie können so viel in die Textfelder schreiben, wie Sie wollen.';
-  static const String ageLabel = 'Bitte geben Sie Ihr Alter an:';
-  static const String walletUsageLabel = 'Nutzen Sie Google Wallet oder andere Wallets?';
-  static const String digitalPassUsageLabel = 'Nutzen Sie digitale Pässe?';
-  static const String statusLabel = 'Was ist Ihr aktueller Status? (Student, Arbeiter, Sonstiges)';
-  static const String smartphoneLabel = 'Welches Smartphone benutzen Sie?';
+  static const String introductionBody = 'Im folgenden werden demografische Daten erhoben. Alle Daten werden anonym behandelt. Sie können die Fragen nun nacheinander abhandeln.';
+  static const String ageLabel = 'Wie alt sind Sie?';
+  static const String walletUsageLabel = 'Nutzen Sie Google Wallet oder andere Wallets auf Ihrem Smartphone?';
+  static const String digitalPassUsageLabel = 'Verwenden Sie digitale Pässe auf Ihrem Smartphone? Wenn ja, wie nutzen Sie diese? Wenn nein, was hält Sie davon ab?';
+  static const String statusLabel = 'Was ist Ihr aktueller Status? (z.B. Student, Professor, Wissenschaftlicher Mitarbeiter, Sonstiges)';
+  static const String smartphoneLabel = 'Welches Smartphone-Modell verwenden Sie?';
   static const String conclusionTitle = 'Abschluss';
-  static const String conclusionBody = 'Wenn Sie mit allen Antworten zufrieden sind, geben Sie das Smartphone bitte an den Versuchsleiter zurück.';
-  
+  static const String conclusionBody = 'Wenn Sie mit allen Antworten zufrieden sind, geben Sie das Smartphone bitte an den Versuchsleiter zurück. \n\n'
+      'Vielen Dank für Ihre Teilnahme an der Studie!';
+
   // TaskType strings
   static const String coverPhone = "Bildschirm abdecken";
   static const String holdButton = "Button gedrückt halten";

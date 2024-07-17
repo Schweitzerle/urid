@@ -3,15 +3,23 @@ import '../../models/strings.dart';
 
 class AgencyQuestionnaire {
   final TaskType taskType;
-  int movementAgencyQuestionValue;
-  int agencyQuestionValue;
+  int movementControlQuestionValue;
+  int controlFeelingQuestionValue;
   int controlFeelingViewChangeQuestionValue;
+  int taskAwarenessQuestionValue;
+  int interactionFeedbackQuestionValue;
+  int dataPrivacyQuestionValue;
+  int controlOverSharedContentQuestionValue;
 
   AgencyQuestionnaire({
     required this.taskType,
-    required this.movementAgencyQuestionValue,
-    required this.agencyQuestionValue,
+    required this.movementControlQuestionValue,
+    required this.controlFeelingQuestionValue,
     required this.controlFeelingViewChangeQuestionValue,
+    required this.taskAwarenessQuestionValue,
+    required this.interactionFeedbackQuestionValue,
+    required this.dataPrivacyQuestionValue,
+    required this.controlOverSharedContentQuestionValue,
   });
 }
 

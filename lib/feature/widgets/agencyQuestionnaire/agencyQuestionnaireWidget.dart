@@ -31,7 +31,8 @@ class AgencyQuestionnaireWidget extends StatefulWidget {
 
 class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
   late AgencyQuestionnaire agencyQuestionnaire;
-  final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
+  final TaskCounterService taskCounterService =
+      GetIt.instance.get<TaskCounterService>();
   final GetIt getIt = GetIt.instance;
 
   @override
@@ -39,9 +40,13 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     super.initState();
     agencyQuestionnaire = AgencyQuestionnaire(
       taskType: widget.taskType,
-      movementAgencyQuestionValue: 4,
-      agencyQuestionValue: 4,
-      controlFeelingViewChangeQuestionValue: 4,
+      movementControlQuestionValue: 3,
+      controlFeelingQuestionValue: 3,
+      controlFeelingViewChangeQuestionValue: 3,
+      taskAwarenessQuestionValue: 3,
+      interactionFeedbackQuestionValue: 3,
+      dataPrivacyQuestionValue: 3,
+      controlOverSharedContentQuestionValue: 3,
     );
   }
 
@@ -108,13 +113,21 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     setState(() {
       switch (questionIndex) {
         case 1:
-          agencyQuestionnaire.movementAgencyQuestionValue = value;
+          agencyQuestionnaire.movementControlQuestionValue = value;
           break;
         case 2:
-          agencyQuestionnaire.agencyQuestionValue = value;
+          agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value;
           break;
         case 3:
-          agencyQuestionnaire.controlFeelingViewChangeQuestionValue = value;
+          agencyQuestionnaire.controlFeelingQuestionValue = value;
+        case 4:
+          agencyQuestionnaire.taskAwarenessQuestionValue = value;
+        case 5:
+          agencyQuestionnaire.interactionFeedbackQuestionValue = value;
+        case 6:
+          agencyQuestionnaire.dataPrivacyQuestionValue = value;
+        case 7:
+          agencyQuestionnaire.controlOverSharedContentQuestionValue = value;
           break;
       }
     });
@@ -123,20 +136,19 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(Strings.questionnaireTitle),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        automaticallyImplyLeading: false,
+      ),
       body: CustomWillPopScopeWidget(
         child: Padding(
-          padding: const EdgeInsets.only(top: 40.0),
+          padding: const EdgeInsets.only(top: 30.0),
           child: Column(
             children: [
               Text(
-                Strings.questionnaireTitle,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              SizedBox(height: 30),
-              Text(
                 'Task: ${widget.taskType.toNiceString()}',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Expanded(
                 child: IntroductionScreen(
@@ -146,7 +158,8 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
                   showNextButton: true,
                   showBackButton: false,
                   next: const Icon(Icons.arrow_forward),
-                  done: const Text(Strings.finished, style: TextStyle(fontWeight: FontWeight.w600)),
+                  done: const Text(Strings.nextTask,
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ),
             ],
@@ -154,40 +167,93 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
         ),
       ),
     );
-
   }
 
-  Widget _buildCheckboxColumn(int questionIndex, int currentValue, String leftLabel, String rightLabel) {
+  Widget _buildCheckboxRow(
+      int questionIndex,
+      int currentValue,
+      String leftLabel,
+      String middleLabel,
+      String rightLabel,
+      String bottomLabel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(leftLabel, textAlign: TextAlign.center),
-              SizedBox(height: 10),
-              Column(
-                children: List<Widget>.generate(7, (int index) {
-                  return Column(
-                    children: [
-                      SizedBox(height: 1,),
-                      RoundCheckBox(
-                        isChecked: currentValue == (index + 1),
-                        onTap: (selected) {
-                          if (selected!) {
-                            _updateQuestionValue(questionIndex, index + 1);
-                          }
-                        },
-                      ),
-                      SizedBox(height: 1,),
-                    ],
-                  );
-                }),
+        SizedBox(
+          height: 80,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List<Widget>.generate(5, (int index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: RoundCheckBox(
+                isChecked: currentValue == index + 1,
+                onTap: (selected) {
+                  if (selected!) {
+                    _updateQuestionValue(questionIndex, index + 1);
+                  }
+                },
               ),
-              SizedBox(height: 10),
-              Text(rightLabel, textAlign: TextAlign.center),
+            );
+          }),
+        ),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+                flex: 5,
+                child: Text(
+                  leftLabel,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 11),
+                )),
+            Expanded(
+                flex: 3,
+                child: SizedBox(
+                  width: 20,
+                )),
+            Expanded(
+                flex: 5,
+                child: Text(
+                  middleLabel,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 11),
+                )),
+            Expanded(
+                flex: 3,
+                child: SizedBox(
+                  width: 20,
+                )),
+            Expanded(
+                flex: 5,
+                child: Text(
+                  rightLabel,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 11),
+                )),
+          ],
+        ),
+        SizedBox(height: 100),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              RoundCheckBox(
+                isChecked: currentValue == -1,
+                onTap: (selected) {
+                  if (selected!) {
+                    _updateQuestionValue(questionIndex, -1);
+                  }
+                },
+              ),
+              SizedBox(width: 10),
+              Text(
+                bottomLabel,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 11),
+              ),
             ],
           ),
         ),
@@ -208,22 +274,13 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
               textAlign: TextAlign.start,
             ),
             SizedBox(height: 10),
-            _buildCheckboxColumn(1, agencyQuestionnaire.movementAgencyQuestionValue, Strings.stronglyDisagree, Strings.stronglyAgree),
-          ],
-        ),
-      ),
-      PageViewModel(
-        titleWidget: Container(),
-        bodyWidget: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              Strings.controlFeelingQuestion,
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.start,
-            ),
-            SizedBox(height: 10),
-            _buildCheckboxColumn(2, agencyQuestionnaire.agencyQuestionValue, Strings.veryLow, Strings.veryHigh),
+            _buildCheckboxRow(
+                1,
+                agencyQuestionnaire.movementControlQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
           ],
         ),
       ),
@@ -238,11 +295,121 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
               textAlign: TextAlign.start,
             ),
             SizedBox(height: 10),
-            _buildCheckboxColumn(3, agencyQuestionnaire.controlFeelingViewChangeQuestionValue, Strings.notAtAll, Strings.completely),
+            _buildCheckboxRow(
+                2,
+                agencyQuestionnaire.controlFeelingViewChangeQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.controlFeelingQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxRow(
+                3,
+                agencyQuestionnaire.controlFeelingQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.taskAwarenessQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxRow(
+                4,
+                agencyQuestionnaire.taskAwarenessQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.interactionFeedbackQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxRow(
+                5,
+                agencyQuestionnaire.interactionFeedbackQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.dataPrivacyQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxRow(
+                6,
+                agencyQuestionnaire.dataPrivacyQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
+          ],
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              Strings.controlOverSharedContentQuestion,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 10),
+            _buildCheckboxRow(
+                7,
+                agencyQuestionnaire.controlOverSharedContentQuestionValue,
+                Strings.stronglyDisagree,
+                Strings.neutral,
+                Strings.stronglyAgree,
+                Strings.cantJudgeLabel),
           ],
         ),
       ),
     ];
   }
-
 }

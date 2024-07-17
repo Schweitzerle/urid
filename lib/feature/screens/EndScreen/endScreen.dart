@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:urid/feature/widgets/customWillPopScope.dart';
 import '../../models/strings.dart';
 
 class EndScreen extends StatefulWidget {
@@ -30,42 +31,41 @@ class _EndScreenState extends State<EndScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Lottie.asset(
-              'assets/animations/thanks.json',
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        Strings.endScreenThankYouTitle,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 40),
-                      Text(
-                        Strings.endScreenThankYouBody,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Card(
-                        color: Colors.white,
-                        child: Padding(
+      body: CustomWillPopScopeWidget(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Lottie.asset(
+                'assets/animations/thanks.json',
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          Strings.endScreenThankYouTitle,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 40),
+                        Text(
+                          Strings.endScreenThankYouBody,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child:
                               Text(
@@ -74,14 +74,14 @@ class _EndScreenState extends State<EndScreen> {
                                 textAlign: TextAlign.center,
                               ),
 
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

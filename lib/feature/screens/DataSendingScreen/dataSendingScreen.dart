@@ -7,6 +7,7 @@ import 'package:mailer/smtp_server/gmail.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:urid/feature/models/subject.dart';
+import 'package:urid/feature/widgets/customWillPopScope.dart';
 import '../../models/strings.dart';
 import '../../models/taskTimer.dart';
 import '../EndScreen/endScreen.dart';
@@ -33,18 +34,34 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
       [
         "UUID",
         "Task",
-        "CoverTask_Movement",
-        "CoverTask_Agency",
+        "CoverTask_MovementControl",
         "CoverTask_ControlFeeling",
-        "ButtonTask_Movement",
-        "ButtonTask_Agency",
+        "CoverTask_ControlFeelingViewChange",
+        "CoverTask_TaskAwareness",
+        "CoverTask_InteractionFeedback",
+        "CoverTask_DataPrivacy",
+        "CoverTask_ControlOverSharedContent",
+        "ButtonTask_MovementControl",
         "ButtonTask_ControlFeeling",
-        "FlipTask_Movement",
-        "FlipTask_Agency",
+        "ButtonTask_ControlFeelingViewChange",
+        "ButtonTask_TaskAwareness",
+        "ButtonTask_InteractionFeedback",
+        "ButtonTask_DataPrivacy",
+        "ButtonTask_ControlOverSharedContent",
+        "FlipTask_MovementControl",
         "FlipTask_ControlFeeling",
-        "VolumeTask_Movement",
-        "VolumeTask_Agency",
+        "FlipTask_ControlFeelingViewChange",
+        "FlipTask_TaskAwareness",
+        "FlipTask_InteractionFeedback",
+        "FlipTask_DataPrivacy",
+        "FlipTask_ControlOverSharedContent",
+        "VolumeTask_MovementControl",
         "VolumeTask_ControlFeeling",
+        "VolumeTask_ControlFeelingViewChange",
+        "VolumeTask_TaskAwareness",
+        "VolumeTask_InteractionFeedback",
+        "VolumeTask_DataPrivacy",
+        "VolumeTask_ControlOverSharedContent",
         "",
         "",
         "DemoQuest_Age",
@@ -56,18 +73,34 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
       [
         subject.uuid,
         subject.taskAssigningService.task,
-        subject.coverTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.coverTaskQuestionnaire?.agencyQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.movementControlQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.controlFeelingQuestionValue ?? "",
         subject.coverTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.buttonTaskQuestionnaire?.agencyQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.taskAwarenessQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.interactionFeedbackQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.dataPrivacyQuestionValue ?? "",
+        subject.coverTaskQuestionnaire?.controlOverSharedContentQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire?.movementControlQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire?.controlFeelingQuestionValue ?? "",
         subject.buttonTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.flipTaskQuestionnaire?.agencyQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire?.taskAwarenessQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire?.interactionFeedbackQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire?.dataPrivacyQuestionValue ?? "",
+        subject.buttonTaskQuestionnaire?.controlOverSharedContentQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.movementControlQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.controlFeelingQuestionValue ?? "",
         subject.flipTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire?.movementAgencyQuestionValue ?? "",
-        subject.volumeTaskQuestionnaire?.agencyQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.taskAwarenessQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.interactionFeedbackQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.dataPrivacyQuestionValue ?? "",
+        subject.flipTaskQuestionnaire?.controlOverSharedContentQuestionValue ?? "",
+        subject.volumeTaskQuestionnaire?.movementControlQuestionValue ?? "",
+        subject.volumeTaskQuestionnaire?.controlFeelingQuestionValue ?? "",
         subject.volumeTaskQuestionnaire?.controlFeelingViewChangeQuestionValue ?? "",
+        subject.volumeTaskQuestionnaire?.taskAwarenessQuestionValue ?? "",
+        subject.volumeTaskQuestionnaire?.interactionFeedbackQuestionValue ?? "",
+        subject.volumeTaskQuestionnaire?.dataPrivacyQuestionValue ?? "",
+        subject.volumeTaskQuestionnaire?.controlOverSharedContentQuestionValue ?? "",
         "",
         "",
         subject.demographicQuestionnaire?.age ?? "",
@@ -136,112 +169,114 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Card(
-                key: ValueKey<int>(2),
-                elevation: 4,
-                margin: EdgeInsets.symmetric(
-                    vertical: 10, horizontal: 25),
-                child: ListTile(
-                  leading: Icon(Icons.audiotrack,
-                      color: Colors.blue),
-                  title: Text(
-                    Strings.recordedAudioFile,
-                    style: TextStyle(
-                        fontSize: 16, color: Colors.black),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subject.audioFilePath!,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 4,
-                margin: EdgeInsets.symmetric(
-                    vertical: 10, horizontal: 25),
-                child: ListTile(
-                  leading: Icon(Icons.description,
-                      color: Colors.green),
-                  title: Text(
-                    Strings.csvFileResults,
-                    style: TextStyle(
-                        fontSize: 16, color: Colors.black),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        csvFilePath,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 4,
-                margin: EdgeInsets.symmetric(
-                    vertical: 10, horizontal: 25),
-                child: ListTile(
-                  leading: Icon(Icons.picture_as_pdf_outlined,
-                      color: Colors.red),
-                  title: Text(
-                    Strings.consentFormPdf,
-                    style: TextStyle(
-                        fontSize: 16, color: Colors.black),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        subject.consentPdfPath!,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              RoundedLoadingButton(
-                controller: _btnController,
-                onPressed: () => _sendEmail(_btnController),
-                successColor: Colors.green,
-                errorColor: Colors.red,
-                child: Wrap(
-                  children: [
-                    Icon(
-                      Icons.email,
-                      color: Colors.white,
+      body: CustomWillPopScopeWidget(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Card(
+                  key: ValueKey<int>(2),
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 25),
+                  child: ListTile(
+                    leading: Icon(Icons.audiotrack,
+                        color: Colors.blue),
+                    title: Text(
+                      Strings.recordedAudioFile,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.black),
                     ),
-                    SizedBox(width: 8),
-                    Text(
-                      Strings.sendData,
-                      style: TextStyle(color: Colors.white),
+                    subtitle: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          subject.audioFilePath!,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600]),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          )
+                Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 25),
+                  child: ListTile(
+                    leading: Icon(Icons.description,
+                        color: Colors.green),
+                    title: Text(
+                      Strings.csvFileResults,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.black),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          csvFilePath,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 25),
+                  child: ListTile(
+                    leading: Icon(Icons.picture_as_pdf_outlined,
+                        color: Colors.red),
+                    title: Text(
+                      Strings.consentFormPdf,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.black),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          subject.consentPdfPath!,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                RoundedLoadingButton(
+                  controller: _btnController,
+                  onPressed: () => _sendEmail(_btnController),
+                  successColor: Colors.green,
+                  errorColor: Colors.red,
+                  child: Wrap(
+                    children: [
+                      Icon(
+                        Icons.email,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        Strings.sendData,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ),
         ),
       ),
     );

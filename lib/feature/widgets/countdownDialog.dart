@@ -19,7 +19,7 @@ class CountdownDialog extends StatefulWidget {
 
   static Future<void> showCountdownDialog(BuildContext context, int countdownSeconds, Function onCountdownComplete) async {
     await showDialog(
-      barrierColor: Color(0xff1f0407),
+      barrierColor: Color(0xff000000),
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {

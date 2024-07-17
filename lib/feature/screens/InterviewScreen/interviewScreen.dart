@@ -104,14 +104,14 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   }
 
   Future<void> _showDialog() async {
-    await Future.delayed(Duration.zero);  // Ensure the dialog is shown after the build
+    await Future.delayed(Duration.zero);
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Hinweis"),
-          content: Text("Sie können das Handy nun wieder dem Versuchsleiter geben."),
+          content: Text("Sie können das Smartphone nun wieder dem Versuchsleiter geben."),
           actions: <Widget>[
             TextButton(
               child: Text("OK"),
@@ -257,14 +257,12 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                           onPressed: () => _navigateToNextScreen(),
                           child: Wrap(
                             children: [
-                              Icon(
-                                Icons.navigate_next,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 8),
                               Text(
                                 Strings.next,
-                                style: TextStyle(color: Colors.white),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.navigate_next,
                               ),
                             ],
                           ),

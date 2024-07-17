@@ -107,7 +107,7 @@ class _ConsentFormState extends State<ConsentForm> {
                           setState(() {
                             _signatureData = bytes.buffer.asUint8List();
                             _isSigned = true;
-                            _signatureError = '';  // Clear the error message
+                            _signatureError = '';
                           });
                         }
                         Navigator.of(context).pop();
@@ -193,6 +193,7 @@ class _ConsentFormState extends State<ConsentForm> {
       appBar: AppBar(
         title: Text(Strings.consentTitle),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        automaticallyImplyLeading: false,
       ),
       body: CustomWillPopScopeWidget(
         child: IntroductionScreen(
@@ -367,9 +368,11 @@ class _ConsentFormState extends State<ConsentForm> {
           showSkipButton: false,
           showNextButton: true,
           next: const Icon(Icons.arrow_forward),
-          done: const Text(
-            Strings.start,
-            style: TextStyle(fontWeight: FontWeight.w600),
+          done: FittedBox(
+            child: const Text(
+              "Zur 1. Task",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
           ),
         ),
       ),

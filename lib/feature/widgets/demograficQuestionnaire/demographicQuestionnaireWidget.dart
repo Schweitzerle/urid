@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import '../../models/strings.dart';
+import '../../models/subject.dart';
 import '../../screens/DataSendingScreen/dataSendingScreen.dart';
 import 'demograficQuestionnaire.dart';
 
@@ -14,6 +16,7 @@ class DemographicQuestionnaireWidget extends StatefulWidget {
 
 class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnaireWidget> {
   late DemographicQuestionnaire demographicQuestionnaire;
+  final GetIt getIt = GetIt.instance;
 
   final TextEditingController ageController = TextEditingController();
   final TextEditingController walletUsageController = TextEditingController();
@@ -47,6 +50,29 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
           break;
       }
     });
+  }
+
+  bool _areAllFieldsFilled() {
+    return ageController.text.isNotEmpty &&
+        walletUsageController.text.isNotEmpty &&
+        digitalPassUsageController.text.isNotEmpty &&
+        statusController.text.isNotEmpty &&
+        smartphoneController.text.isNotEmpty;
+  }
+
+  void _onDonePressed() {
+    if (_areAllFieldsFilled()) {
+      final subject = getIt<Subject>();
+      subject.demographicQuestionnaire = demographicQuestionnaire;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DataSendingScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Bitte füllen Sie alle Felder aus, bevor Sie fortfahren.')),
+      );
+    }
   }
 
   Widget _buildTextInputField(String label, String hint, String key, TextEditingController controller) {
@@ -84,18 +110,13 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
     return CustomWillPopScopeWidget(
       child: IntroductionScreen(
         pages: _getPages(),
-        onDone: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DataSendingScreen()),
-          );
-        },
+        onDone: _onDonePressed,
         showSkipButton: false,
         showNextButton: true,
         showBackButton: false,
         next: const Icon(Icons.arrow_forward),
         done: const Text(
-          Strings.finished,
+          Strings.next,
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
@@ -152,30 +173,6 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
       PageViewModel(
         titleWidget: Container(),
         bodyWidget: _buildTextInputField(
-            Strings.walletUsageLabel,
-            'Walletnutzung...',
-            'walletUsage',
-            walletUsageController
-        ),
-        decoration: const PageDecoration(
-          titlePadding: EdgeInsets.zero,
-        ),
-      ),
-      PageViewModel(
-        titleWidget: Container(),
-        bodyWidget: _buildTextInputField(
-            Strings.digitalPassUsageLabel,
-            'Nutzung digitaler Pässe...',
-            'digitalPassUsage',
-            digitalPassUsageController
-        ),
-        decoration: const PageDecoration(
-          titlePadding: EdgeInsets.zero,
-        ),
-      ),
-      PageViewModel(
-        titleWidget: Container(),
-        bodyWidget: _buildTextInputField(
             Strings.statusLabel,
             'Beschäftigung...',
             'status',
@@ -192,6 +189,30 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
             'Smartphonemodell...',
             'smartphone',
             smartphoneController
+        ),
+        decoration: const PageDecoration(
+          titlePadding: EdgeInsets.zero,
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: _buildTextInputField(
+            Strings.walletUsageLabel,
+            'Walletnutzung...',
+            'walletUsage',
+            walletUsageController
+        ),
+        decoration: const PageDecoration(
+          titlePadding: EdgeInsets.zero,
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: _buildTextInputField(
+            Strings.digitalPassUsageLabel,
+            'Nutzung digitaler Pässe...',
+            'digitalPassUsage',
+            digitalPassUsageController
         ),
         decoration: const PageDecoration(
           titlePadding: EdgeInsets.zero,

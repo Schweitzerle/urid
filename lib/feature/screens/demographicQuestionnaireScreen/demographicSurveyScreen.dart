@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:urid/feature/widgets/customWillPopScope.dart';
 import 'package:urid/feature/widgets/demograficQuestionnaire/demographicQuestionnaireWidget.dart';
 
 class DemographicSurveyScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _DemographicSurveyScreenState extends State<DemographicSurveyScreen> {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         automaticallyImplyLeading: false,
       ),
-      body: DemographicQuestionnaireWidget(),
+      body: CustomWillPopScopeWidget(child: DemographicQuestionnaireWidget()),
     );
   }
 }
