@@ -39,6 +39,9 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
         case 'walletUsage':
           demographicQuestionnaire.walletUsage = value;
           break;
+          case 'walletUsageExtend':
+            demographicQuestionnaire.walletUsageExtend = value;
+            break;
         case 'digitalPassUsage':
           demographicQuestionnaire.digitalPassUsage = value;
           break;
@@ -200,6 +203,18 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
             Strings.walletUsageLabel,
             'Walletnutzung...',
             'walletUsage',
+            walletUsageController
+        ),
+        decoration: const PageDecoration(
+          titlePadding: EdgeInsets.zero,
+        ),
+      ),
+      PageViewModel(
+        titleWidget: Container(),
+        bodyWidget: _buildTextInputField(
+            Strings.walletUsageExtendLabel,
+            'Walletnutzung...',
+            'walletUsageExtend',
             walletUsageController
         ),
         decoration: const PageDecoration(

@@ -206,19 +206,19 @@ class Strings {
 
   // Strings for AgencyQuestionnaireWidget
   static const String movementControlQuestion =
-      "1. Es fühlte sich so an, als hätte ich die Gesteninteraktion während der Aufgabe unter Kontrolle gehabt.";
+      "1. Ich hatte das Gefühl, die Gesteninteraktion während der Aufgabe unter Kontrolle gehabt zu haben.";
   static const String controlFeelingQuestion =
-      "3. Ich hatte das Gefühl, während der ganzen Aufgabe die Kontrolle zu haben.";
+      "3. Ich hatte das Gefühl, stets die Kontrolle über die Anwendung zu haben.";
   static const String viewChangeQuestion =
-      "2. Es fühlte sich so an, als würde ich mit der gerade durchgeführten Interaktionsform den Wechsel zwischen den beiden Ansichten verursachen.";
+      "2. Ich hatte das Gefühl, dass meine Interaktion mit der App der ausschlaggebende Einflussfaktor für den Wechsel zwischen der privaten und öffentlichen Ansicht war.";
   static const String taskAwarenessQuestion =
       "4. Ich war mir während der gesamten Aufgabe meiner Handlungen bewusst.";
   static const String interactionFeedbackQuestion =
-      "5. Die Rückmeldungen auf meine Interaktionen fühlten sich direkt und natürlich an.";
+      "5. Ich hatte das Gefühl, stets direkte und passende Rückmeldung auf meine Interaktion mit der Anwendung zu bekommen.";
   static const String dataPrivacyQuestion =
       "6. Ich hatte das Gefühl, dass meine persönlichen Daten während der Aufgabe sicher sind.";
   static const String controlOverSharedContentQuestion =
-      "7. Es fühlte sich so an, als hätte ich die Kontrolle darüber gehabt, wann und welche Informationen geteilt werden.";
+      "7. Ich hatte das Gefühl, bewusst kontrollieren zu können, welche Informationen mit anderen Menschen geteilt werden.";
 
 
   static const String cantJudgeLabel = "Kann ich nicht bewerten";
@@ -264,9 +264,10 @@ class Strings {
   static const String introductionTitle = 'Einführung';
   static const String introductionBody = 'Im folgenden werden demografische Daten erhoben. Alle Daten werden anonym behandelt. Sie können die Fragen nun nacheinander abhandeln.';
   static const String ageLabel = 'Wie alt sind Sie?';
-  static const String walletUsageLabel = 'Nutzen Sie Google Wallet oder andere Wallets auf Ihrem Smartphone?';
+  static const String walletUsageLabel = 'Nutzen Sie auf Ihrem Smartphone das Apple Wallet oder Google Wallet?';
+  static const String walletUsageExtendLabel = 'Nutzen Sie auf Ihrem Smartphone eine andere Wallet-Anwendung?';
   static const String digitalPassUsageLabel = 'Verwenden Sie digitale Pässe auf Ihrem Smartphone? Wenn ja, wie nutzen Sie diese? Wenn nein, was hält Sie davon ab?';
-  static const String statusLabel = 'Was ist Ihr aktueller Status? (z.B. Student, Professor, Wissenschaftlicher Mitarbeiter, Sonstiges)';
+  static const String statusLabel = 'Welche dieser Rollen beschreibt Ihren aktuellen Status am ehesten? (z.B. Studierende, Professorin/Professor, Mitarbeitende/Mitarbeitender im wissenschaftlichen Bereich, Mitarbeitende/Mitarbeitender im wissenschaftsstützenden Bereich, Sonstiges)';
   static const String smartphoneLabel = 'Welches Smartphone-Modell verwenden Sie?';
   static const String conclusionTitle = 'Abschluss';
   static const String conclusionBody = 'Wenn Sie mit allen Antworten zufrieden sind, geben Sie das Smartphone bitte an den Versuchsleiter zurück. \n\n'

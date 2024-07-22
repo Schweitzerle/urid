@@ -68,7 +68,8 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
         "DemoQuest_PassUsage",
         "DemoQuest_Smartphone",
         "DemoQuest_Status",
-        "DemoQuest_WalletUsage"
+        "DemoQuest_WalletUsage",
+        "DemoQuest_WalletUsageExtend",
       ],
       [
         subject.uuid,
@@ -108,6 +109,7 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
         subject.demographicQuestionnaire?.smartphone ?? "",
         subject.demographicQuestionnaire?.status ?? "",
         subject.demographicQuestionnaire?.walletUsage ?? "",
+        subject.demographicQuestionnaire?.walletUsageExtend ?? "",
       ]
     ];
 
