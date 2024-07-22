@@ -18,7 +18,7 @@
 | Demographic Questionaire |`statusLabel` | 2 | Welche dieser Rollen beschreibt Ihren aktuelle Status am ehersten? (z.B. Studierende, Professorin/Professor, Mitarbeitende/Mitarbeitender im wissenschaftlichen Bereich, Mitarbeitende/Mitarbeitender im wissenschaftsstützenden Bereich, Sonstiges)| |     
 | Demographic Questionaire |`smartphoneLabel` | 3 | Welches Smartphone-Modell verwenden Sie?   | |     
 | Demographic Questionaire | `walletUsageLabel` | 4 | Nutzen Sie auf Ihrem Smartphone das Apple Wallet oder Google Wallet?             | |     
-| Demographic Questionaire | `walletUsageLabel` | 4 | Nutzen Sie auf Ihrem Smartphone eine andere Wallet-Anwendung?         | |     
+| Demographic Questionaire | `alternativeWalletUsageLabel` | 5 | Nutzen Sie auf Ihrem Smartphone eine andere Wallet-Anwendung?         | |     
 | Demographic Questionaire |`digitalPassUsageLabel`| 5 | Verwenden Sie digitale Pässe auf Ihrem Smartphone? Wenn ja, wie nutzen Sie diese? Wenn nein, was hält Sie davon ab?    | | 
                                           
 
