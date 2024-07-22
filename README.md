@@ -1,27 +1,3 @@
 # urid
 
-Das Projekt ist noch sehr chaotisch. Das ist aber irgwie die Weise, welche für mich persönlich am
-Effektivsten ist. Ich habe den groben AppFlow wie ich ihn dir damals geschickt habe so implementiert
-mit vielen Platzhalter Texten und Screens, einfach nur um mir einen besseres Gespür für die App zu
-geben.
-In dem IntroScreen kannst du einfach durchswipen und dann auf done klicken. Dann gelangst du in den
-TaskOverview Screen, welchen ich ja damals so gedacht habe, aber wir ja in dem überarbeitetn AppFlow
-geändert haben. Für Testzwecke ist dieser Screen trotzdem super.
-Dort kannst du dann die verschiedenen Gesten auswählen. Es folgen dann wieder Platzhalter für die
-jeweilige Task-Introduction.
-Dann folgen die jeweiligen Ansichten des Passes mit den Gesten. Ich habe alle schon mal grob
-implementiert aber es ist bis jetzt nur die Button gedrückt halten und Bildschirm abdecken Geste
-fertig. Fertig heißt aber auch nur die Geste selst mit der Pass-Interaktion. Weiferführende Logik
-wie den Zähler der Versuche usw. ist noch nicht implementiert.
-Durch einen Doppelklick auf den Pass (bei allen verschiedenen Gesten) lässt einen
-FloatingActionButton unten rechts erscheinen. Wenn man darauf Klickt gelangt man zu dem
-Questionnaire.
-Dabei habe ich verschieden Designoptionen für die Slider ausgetestet, kannst mir gerne mal deine Meinung sagen,
-welche Designoption du am besten fändest. Dann kann man weiterklicken und man gelangt wieder zum
-TaskOverview Screen.
-Bei dem Fingerprint wird der, nach doppelklick auf den Pass erscheinende, FloatingActionButton als
-FingerprintSensor Auslöser benutzt. Bei diesem Widget kann man auch nicht weiter zum Quiestionnaire.
-Durch den SystemBackButton kommt auch immer ein Dialog, welcher einen den momentanen Screen zum
-vorherigen verlassen lässt.
-Ist alles sehr chatotisch, aber wie gesagt, so arbeite ich komischerweise am besten :D
-Ich hoffe du findest dich einigermaßen zurecht.
+Projekt für eine Abschlussarbeit im Fach Medieninformatik. Mithilfe der App soll das Kontroll- und Sicherheitsgefühl gemessen werden, wenn Informationen bewusst mit anderen Leuten auf einem gemeinsamen Smartphone geteilt werden. Dabei wird in diesem Projekt ein Mitartbeiterausweis von der Universität Regensburg simuliert werlcher eine private und eine öffentlihce Ansicht hat, zwischen denen man durch eine Interaktionsgeste wechseln kann. Dadurch sollen das bewusste Teilen von Informatioenn ermöglicht werden. Es werden vier verschiedene Interaktionsgesten in der Studie getestet. Die App enthält zudem den ganzen Versuchsablauf. Es wird zu Bewinn die Studie und der Kontext erläutert. Dann wird dem Probanden erläutert welche Daten erhoben wertden und es wird ihm eine Einwilligungserklärung vorgelegt. Anschließend werden die vier verschiedneen Interaktionsgesten durchlaufen mit jeweils drei Wiederholungen pro Geste. Nachdem jede Geste drei mal wiederholt wurde füllt der Proband einen Agency Questionnaire aus, indem er Fragen zu seinem Kontroll- und Sicherheitsgefühl während der Geste beschreibt. Nach Abschluss aller Gesten erfolgt ein semistrukturiertes Interview, welches in der App aufgezeichnet wird. Anschließen wird noch ein kurzer demografischer Fragebogen ausgefüllt und zuletzt werden dann alle Daten welche in der Studie erhoben wurden per Email an den Versuchsleiter verschickt (Agency Fragebögen, Demografischer Fragebogen und Interview). 
