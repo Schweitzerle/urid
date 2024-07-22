@@ -14,5 +14,4 @@ class DemographicQuestionnaire {
     this.status,
     this.smartphone,
   });
-
 }
