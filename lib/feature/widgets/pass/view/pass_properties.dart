@@ -107,7 +107,7 @@ class _PassWidgetPropertiesButtonState extends BasePassWidgetPropertiesState<Pas
                 style: DefaultTextStyle.of(context).style.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontSize: 14)),
-            leading: Icon(!widget.showHiddenProperties ? Icons.visibility : Icons.visibility_off,
+            leading: Icon(widget.showHiddenProperties ? Icons.visibility : Icons.visibility_off,
                 color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),

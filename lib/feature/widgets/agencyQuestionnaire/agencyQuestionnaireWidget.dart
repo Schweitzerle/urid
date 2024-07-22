@@ -62,7 +62,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
       subject.volumeTaskQuestionnaire = agencyQuestionnaire;
     }
 
-    CountdownDialog.showCountdownDialog(context, 2, () {
+    CountdownDialog.showCountdownDialog(context, 60, () {
       taskCounterService.incrementCounter();
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         switch (widget.taskAssigningService.task) {

@@ -349,13 +349,12 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
     stopwatch.start();
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzen / im Moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
     print(resetCounter);
     if (resetCounter >= 3) {
-      CountdownDialog.showCountdownDialog(context, 1, () {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -365,7 +364,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
         counterService.resetCounter();
       });
     } else if (resetCounter < 3) {
-      CountdownDialog.showCountdownDialog(context, 1, () {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {

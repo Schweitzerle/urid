@@ -349,7 +349,6 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     stopwatch.start();
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzen im Moment nur für Testzwecke so niedrig vielleicht auch noch einen Future delay bevor der PauseDialog kommt, sieht sonst so hektisch aus
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -358,7 +357,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 1, () {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -371,7 +370,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 1, () {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {

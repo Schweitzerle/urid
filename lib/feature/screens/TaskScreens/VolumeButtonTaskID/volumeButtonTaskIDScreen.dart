@@ -388,7 +388,6 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
     super.dispose();
   }
 
-  //TODO: Dialog Countdown wieder auf 15 bzw. 60 Sekunden setzten / im moment nur für Testzwecke so niedrig
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -397,7 +396,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 1, () {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -410,7 +409,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 1, () {
+      CountdownDialog.showCountdownDialog(context, 15, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
