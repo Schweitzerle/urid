@@ -20,6 +20,7 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
 
   final TextEditingController ageController = TextEditingController();
   final TextEditingController walletUsageController = TextEditingController();
+  final TextEditingController walletUsageExtendController = TextEditingController();
   final TextEditingController digitalPassUsageController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
   final TextEditingController smartphoneController = TextEditingController();
@@ -57,7 +58,7 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
 
   bool _areAllFieldsFilled() {
     return ageController.text.isNotEmpty &&
-        walletUsageController.text.isNotEmpty &&
+        walletUsageController.text.isNotEmpty && walletUsageExtendController.text.isNotEmpty &&
         digitalPassUsageController.text.isNotEmpty &&
         statusController.text.isNotEmpty &&
         smartphoneController.text.isNotEmpty;
@@ -215,7 +216,7 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
             Strings.walletUsageExtendLabel,
             'Walletnutzung...',
             'walletUsageExtend',
-            walletUsageController
+            walletUsageExtendController
         ),
         decoration: const PageDecoration(
           titlePadding: EdgeInsets.zero,
