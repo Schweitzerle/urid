@@ -14,10 +14,11 @@
 | Agency Questionaire | `interactionFeedbackQuestion` | 5 |5. Die Rückmeldungen auf meine Interaktionen fühlten sich direkt und natürlich an.  |Ich hatte das Gefühl, stest direkte und passende Rückmeldung auf meine Interaktion mit der Anwendung zu bekommen. |
 | Agency Questionaire | `dataPrivacyQuestion` | 6 | 6. Ich hatte das Gefühl, dass meine persönlichen Daten während der Aufgabe sicher sind. | - |
 | Agency Questionaire | `controlOverSharedContentQuestion` | 7 | 7. Es fühlte sich so an, als hätte ich die Kontrolle darüber gehabt, wann und welche Informationen geteilt werden. |Ich hatte das Gefühl, bewusst kontrollieren zu können, welche Informationen mit anderen Menschen geteilt werden. |
-| Demographic Questionaire |`ageLabel`   | 1 | Wie alt sind Sie?         | |     
-| Demographic Questionaire |`statusLabel` | 2 | Was ist Ihr aktueller Status? (z.B. Student, Professor, Wissenschaftlicher Mitarbeiter, Sonstiges)| |     
-| Demographic Questionaire |`smartphoneLabel` | 3 |Welches Smartphone-Modell verwenden Sie?   | |     
-| Demographic Questionaire | `walletUsageLabel` | 4 | Nutzen Sie Google Wallet oder andere Wallets auf Ihrem Smartphone?             | |     
+| Demographic Questionaire |`ageLabel`   | 1 | Wie alt sind Sie?         | - |     
+| Demographic Questionaire |`statusLabel` | 2 | Welche dieser Rollen beschreibt Ihren aktuelle Status am ehersten? (z.B. Studierende, Professorin/Professor, Mitarbeitende/Mitarbeitender im wissenschaftlichen Bereich, Mitarbeitende/Mitarbeitender im wissenschaftsstützenden Bereich, Sonstiges)| |     
+| Demographic Questionaire |`smartphoneLabel` | 3 | Welches Smartphone-Modell verwenden Sie?   | |     
+| Demographic Questionaire | `walletUsageLabel` | 4 | Nutzen Sie auf Ihrem Smartphone das Apple Wallet oder Google Wallet?             | |     
+| Demographic Questionaire | `walletUsageLabel` | 4 | Nutzen Sie auf Ihrem Smartphone eine andere Wallet-Anwendung?         | |     
 | Demographic Questionaire |`digitalPassUsageLabel`| 5 | Verwenden Sie digitale Pässe auf Ihrem Smartphone? Wenn ja, wie nutzen Sie diese? Wenn nein, was hält Sie davon ab?    | | 
                                           
 
