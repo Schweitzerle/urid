@@ -11,6 +11,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:urid/feature/screens/ErrorScreen/errorScreen.dart';
+import 'package:urid/feature/screens/demographicQuestionnaireScreen/demographicSurveyScreen.dart';
 import 'package:urid/feature/widgets/customWillPopScope.dart';
 import 'dart:io';
 import '../models/subject.dart';
@@ -171,18 +172,8 @@ class _ConsentFormState extends State<ConsentForm> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) {
-        switch (taskAssigningService.task) {
-          case 1:
-            return CoverTaskIDIntro();
-          case 2:
-            return ButtonTaskIDIntro();
-          case 3:
-            return VolumeButtonTaskIDIntro();
-          case 4:
-            return FlipTaskIDIntro();
-          default:
-            return ErrorScreen();
-        }
+       return DemographicSurveyScreen();
+
       }),
     );
   }

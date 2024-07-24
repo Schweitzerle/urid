@@ -422,6 +422,17 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                 setState(() {
                   if (!showHiddenProperties) {
                     showHiddenProperties = true;
+                    stopwatch.stop();
+                    taskTimer.endTask(
+                        'Button', counterService.counter, stopwatch.elapsed);
+                    taskTimer
+                        .getAllTaskDurations()
+                        .forEach((taskName, durations) {
+                      for (int i = 0; i < durations.length; i++) {
+                        print(
+                            '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+                      }
+                    });
                     _handleResetCounter();
                   }
                 });
@@ -432,6 +443,17 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                 setState(() {
                   if (!showHiddenProperties) {
                     showHiddenProperties = true;
+                    stopwatch.stop();
+                    taskTimer.endTask(
+                        'Button', counterService.counter, stopwatch.elapsed);
+                    taskTimer
+                        .getAllTaskDurations()
+                        .forEach((taskName, durations) {
+                      for (int i = 0; i < durations.length; i++) {
+                        print(
+                            '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
+                      }
+                    });
                     _handleResetCounter();
                   }
                 });

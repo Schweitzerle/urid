@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -83,11 +84,14 @@ class _DemographicQuestionnaireWidgetState extends State<DemographicQuestionnair
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        SizedBox(
+          height: 120,
+          child: AutoSizeText(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
         ),
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
         ConstrainedBox(
           constraints: const BoxConstraints(
             minHeight: 100.0,

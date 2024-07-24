@@ -267,7 +267,7 @@ class Strings {
   static const String walletUsageLabel = 'Nutzen Sie auf Ihrem Smartphone das Apple Wallet oder Google Wallet?';
   static const String walletUsageExtendLabel = 'Nutzen Sie auf Ihrem Smartphone eine andere Wallet-Anwendung?';
   static const String digitalPassUsageLabel = 'Verwenden Sie digitale Pässe auf Ihrem Smartphone? Wenn ja, wie nutzen Sie diese? Wenn nein, was hält Sie davon ab?';
-  static const String statusLabel = 'Welche dieser Rollen beschreibt Ihren aktuellen Status am ehesten? (z.B. Studierende, Professorin/Professor, Mitarbeitende/Mitarbeitender im wissenschaftlichen Bereich, Mitarbeitende/Mitarbeitender im wissenschaftsstützenden Bereich, Sonstiges)';
+  static const String statusLabel = 'Welcher dieser Status trifft am ehesten zu? (z.B. Studierende, Professor/in, Mitarbeitende/r im wissenschaftlichen Bereich, Mitarbeitende/r im wissenschaftsstützenden Bereich, Sonstiges)';
   static const String smartphoneLabel = 'Welches Smartphone-Modell verwenden Sie?';
   static const String conclusionTitle = 'Abschluss';
   static const String conclusionBody = 'Wenn Sie mit allen Antworten zufrieden sind, geben Sie das Smartphone bitte an den Versuchsleiter zurück. \n\n'

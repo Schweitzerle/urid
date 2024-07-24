@@ -57,26 +57,22 @@ abstract class BasePassWidget extends StatelessWidget {
       return SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: InteractiveViewer(
-            maxScale: 3.0,
-            minScale: 0.5,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              color: Theme.of(context).primaryColor,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                PassWidgetHeader(pass: pass),
-                const SizedBox(height: 8),
-                PassWidgetProvider(pass: pass),
-                const SizedBox(height: 8),
-                PassWidgetOwner(pass: pass),
-                const SizedBox(height: 8),
-                buildPassProperties(),
-                const SizedBox(height: 8),
-                PassWidgetValidation(pass: pass),
-              ]),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
+            color: Theme.of(context).primaryColor,
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              PassWidgetHeader(pass: pass),
+              const SizedBox(height: 8),
+              PassWidgetProvider(pass: pass),
+              const SizedBox(height: 8),
+              PassWidgetOwner(pass: pass),
+              const SizedBox(height: 8),
+              buildPassProperties(),
+              const SizedBox(height: 8),
+              PassWidgetValidation(pass: pass),
+            ]),
           ),
         ),
       );

@@ -56,6 +56,7 @@ dependencies:
   mailer: ^6.1.0
   rounded_loading_button_plus: ^3.0.1
   roundcheckbox: ^2.0.5
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -75,4 +76,5 @@ flutter:
     - assets/videos/flip.mp4
     - assets/videos/hold.mp4
     - assets/videos/volume.mp4
+    - assets/pdf/Interviewleitfaden.pdf
 
