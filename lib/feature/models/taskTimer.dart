@@ -41,14 +41,4 @@ class TaskTimer {
   bool _isValidIndex(String taskName, int repeatIndex) {
     return _taskDurations.containsKey(taskName) && repeatIndex >= 0 && repeatIndex < 3;
   }
-
-  List<List<dynamic>> getCsvRows() {
-    List<List<dynamic>> rows = [];
-    _taskDurations.forEach((taskName, durations) {
-      for (int i = 0; i < durations.length; i++) {
-        rows.add(['$taskName-${i + 1}', '${durations[i].inMilliseconds}ms']);
-      }
-    });
-    return rows;
-  }
 }

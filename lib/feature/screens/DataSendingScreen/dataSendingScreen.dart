@@ -70,6 +70,12 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
         "DemoQuest_Status",
         "DemoQuest_WalletUsage",
         "DemoQuest_WalletUsageExtend",
+        "",
+        "",
+        "Button-1", "Button-2", "Button-3",
+        "Cover-1", "Cover-2", "Cover-3",
+        "Flip-1", "Flip-2", "Flip-3",
+        "Volume-1", "Volume-2", "Volume-3",
       ],
       [
         subject.uuid,
@@ -110,10 +116,22 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
         subject.demographicQuestionnaire?.status ?? "",
         subject.demographicQuestionnaire?.walletUsage ?? "",
         subject.demographicQuestionnaire?.walletUsageExtend ?? "",
+        "",
+        "",
+        taskTimer.getTaskDuration('Button', 0).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Button', 1).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Button', 2).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Cover', 0).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Cover', 1).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Cover', 2).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Flip', 0).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Flip', 1).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Flip', 2).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Volume', 0).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Volume', 1).inMilliseconds.toString() + "ms",
+        taskTimer.getTaskDuration('Volume', 2).inMilliseconds.toString() + "ms",
       ]
     ];
-
-    rows.addAll(taskTimer.getCsvRows());
 
     String csvData = const ListToCsvConverter().convert(rows);
     Directory tempDir = await getTemporaryDirectory();

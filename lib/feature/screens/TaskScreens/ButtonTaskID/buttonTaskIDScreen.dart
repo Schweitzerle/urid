@@ -357,7 +357,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 10, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -370,7 +370,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 10, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -381,6 +381,13 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     }
   }
 
+  void _stopTask() {
+    stopwatch.stop();
+    taskTimer.endTask('Button', counterService.counter, stopwatch.elapsed);
+    print('${taskTimer.getTaskDuration('Button', counterService.counter)} duration: ${stopwatch.elapsed.inMilliseconds}ms');
+    _handleResetCounter();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -388,87 +395,55 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
-              child: GestureDetector(
-            onTapDown: (details) {
-              if (gestureEnabled) {
-                setState(() {
-                  showHiddenProperties = false;
-                });
-              }
-            },
-            onTapUp: (details) {
-              if (gestureEnabled) {
-                setState(() {
-                  if (!showHiddenProperties) {
-                    showHiddenProperties = true;
-                    stopwatch.stop();
-                    taskTimer.endTask(
-                        'Button', counterService.counter, stopwatch.elapsed);
-                    taskTimer
-                        .getAllTaskDurations()
-                        .forEach((taskName, durations) {
-                      for (int i = 0; i < durations.length; i++) {
-                        print(
-                            '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
-                      }
-                    });
-                    _handleResetCounter();
-                  }
-                });
-              }
-            },
-            onVerticalDragEnd: (details) {
-              if (gestureEnabled) {
-                setState(() {
-                  if (!showHiddenProperties) {
-                    showHiddenProperties = true;
-                    stopwatch.stop();
-                    taskTimer.endTask(
-                        'Button', counterService.counter, stopwatch.elapsed);
-                    taskTimer
-                        .getAllTaskDurations()
-                        .forEach((taskName, durations) {
-                      for (int i = 0; i < durations.length; i++) {
-                        print(
-                            '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
-                      }
-                    });
-                    _handleResetCounter();
-                  }
-                });
-              }
-            },
-            onHorizontalDragEnd: (details) {
-              if (gestureEnabled) {
-                setState(() {
-                  if (!showHiddenProperties) {
-                    showHiddenProperties = true;
-                    stopwatch.stop();
-                    taskTimer.endTask(
-                        'Button', counterService.counter, stopwatch.elapsed);
-                    taskTimer
-                        .getAllTaskDurations()
-                        .forEach((taskName, durations) {
-                      for (int i = 0; i < durations.length; i++) {
-                        print(
-                            '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
-                      }
-                    });
-                    _handleResetCounter();
-                  }
-                });
-              }
-            },
-            child: RotationTransition(
-              turns: !showHiddenProperties
-                  ? AlwaysStoppedAnimation(180 / 360)
-                  : AlwaysStoppedAnimation(0 / 360),
-              child: PassWidget(
-                pass: DummyData.erikaMusterfrauPassObject(),
-                showHiddenProperties: showHiddenProperties, passType: PassType.button,
+            child: GestureDetector(
+              onTapDown: (details) {
+                if (gestureEnabled) {
+                  setState(() {
+                    showHiddenProperties = false;
+                  });
+                }
+              },
+              onTapUp: (details) {
+                if (gestureEnabled) {
+                  setState(() {
+                    if (!showHiddenProperties) {
+                      showHiddenProperties = true;
+                      _stopTask();
+                    }
+                  });
+                }
+              },
+              onVerticalDragEnd: (details) {
+                if (gestureEnabled) {
+                  setState(() {
+                    if (!showHiddenProperties) {
+                      showHiddenProperties = true;
+                      _stopTask();
+                    }
+                  });
+                }
+              },
+              onHorizontalDragEnd: (details) {
+                if (gestureEnabled) {
+                  setState(() {
+                    if (!showHiddenProperties) {
+                      showHiddenProperties = true;
+                      _stopTask();
+                    }
+                  });
+                }
+              },
+              child: RotationTransition(
+                turns: !showHiddenProperties
+                    ? AlwaysStoppedAnimation(180 / 360)
+                    : AlwaysStoppedAnimation(0 / 360),
+                child: PassWidget(
+                  pass: DummyData.erikaMusterfrauPassObject(),
+                  showHiddenProperties: showHiddenProperties, passType: PassType.button,
+                ),
               ),
             ),
-          )),
+          ),
         ),
       ),
     );

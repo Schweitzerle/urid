@@ -368,13 +368,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
             if (!showHiddenProperties) {
               showHiddenProperties = true;
               stopwatch.stop();
-              taskTimer.endTask('Volume', counterService.counter, stopwatch.elapsed);
-              taskTimer.getAllTaskDurations().forEach((taskName, durations) {
-                for (int i = 0; i < durations.length; i++) {
-                  print('$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
-                }
-              });
-              _handleResetCounter();
+              _stopTask();
             }
           });
         }
@@ -388,6 +382,13 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
     super.dispose();
   }
 
+  void _stopTask() {
+    stopwatch.stop();
+    taskTimer.endTask('Volume', counterService.counter, stopwatch.elapsed);
+    print('${taskTimer.getTaskDuration('Volume', counterService.counter)} duration: ${stopwatch.elapsed.inMilliseconds}ms');
+    _handleResetCounter();
+  }
+
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -396,7 +397,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 10, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -409,7 +410,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
       setState(() {
         gestureEnabled = false;
       });
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 10, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {

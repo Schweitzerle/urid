@@ -349,12 +349,19 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
     stopwatch.start();
   }
 
+  void _stopTask() {
+    stopwatch.stop();
+    taskTimer.endTask('Cover', counterService.counter, stopwatch.elapsed);
+    print('${taskTimer.getTaskDuration('Cover', counterService.counter)} duration: ${stopwatch.elapsed.inMilliseconds}ms');
+    _handleResetCounter();
+  }
+
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
     print(resetCounter);
     if (resetCounter >= 3) {
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 10, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -364,7 +371,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
         counterService.resetCounter();
       });
     } else if (resetCounter < 3) {
-      CountdownDialog.showCountdownDialog(context, 15, () {
+      CountdownDialog.showCountdownDialog(context, 10, () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
@@ -400,17 +407,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
                 ),
                 onPressed: () {
                   stopwatch.stop();
-                  taskTimer.endTask(
-                      'Cover', counterService.counter, stopwatch.elapsed);
-                  taskTimer
-                      .getAllTaskDurations()
-                      .forEach((taskName, durations) {
-                    for (int i = 0; i < durations.length; i++) {
-                      print(
-                          '$taskName-${i + 1} duration: ${durations[i].inMilliseconds}ms');
-                    }
-                  });
-                  _handleResetCounter();
+                 _stopTask();
                 })
             : null,
         body: CustomWillPopScopeWidget(
