@@ -21,6 +21,7 @@ import '../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import '../screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import '../models/strings.dart';
 
+//Klasse um die Einverständniserklärung zu repräsentieren
 class ConsentForm extends StatefulWidget {
   @override
   _ConsentFormState createState() => _ConsentFormState();
@@ -36,6 +37,7 @@ class _ConsentFormState extends State<ConsentForm> {
   final String formattedDate = DateFormat('dd.MM.yyyy').format(DateTime.now());
   String _signatureError = '';
 
+  //Unterschriften Dialog anzeigen
   void _showSignaturePad() {
     showDialog<Widget>(
       context: context,
@@ -124,6 +126,7 @@ class _ConsentFormState extends State<ConsentForm> {
     );
   }
 
+  //Einverständniserklärung speichern
   Future<void> _saveConsentPDFAndNavigateNext() async {
     if (!_isSigned || _signatureData == null) {
       setState(() {

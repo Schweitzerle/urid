@@ -12,6 +12,7 @@ import '../../models/strings.dart';
 import '../../models/taskTimer.dart';
 import '../EndScreen/endScreen.dart';
 
+//Screen auf welchem die gesammelten Daten gesammelt und gesendet werden
 class DataSendingScreen extends StatefulWidget {
   @override
   _DataSendingScreenState createState() => _DataSendingScreenState();
@@ -29,6 +30,7 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
     _createCsvFile();
   }
 
+  //CSV-Datei aus allen erhobenen Daten erstellen
   Future<void> _createCsvFile() async {
     List<List<dynamic>> rows = [
       [
@@ -132,7 +134,6 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
         taskTimer.getTaskDuration('Volume', 2).inMilliseconds.toString() + "ms",
       ]
     ];
-
     String csvData = const ListToCsvConverter().convert(rows);
     Directory tempDir = await getTemporaryDirectory();
     setState(() {
@@ -142,6 +143,7 @@ class _DataSendingScreenState extends State<DataSendingScreen> {
     await csvFile.writeAsString(csvData);
   }
 
+  //Email an meine eigene Mail versenden mit den drei anhängenden Dateien
   Future<void> _sendEmail(RoundedLoadingButtonController controller) async {
     final pdfFilePath = subject.consentPdfPath;
 

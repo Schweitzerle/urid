@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-
+//Klasse um die Wiederholungen einer einzelnen Task zu repräsentieren
 class CounterService {
   int _counter = 0;
 

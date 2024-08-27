@@ -1,3 +1,4 @@
+//Klasse um interne Daten zu sammeln, ob Gesten einen unerwartete Hohe Taskperfomarncezeit haben, nur für Debugging Zwecke bestimmt
 class TaskTimer {
   final Map<String, List<Duration>> _taskDurations = {};
 

@@ -2,6 +2,7 @@ import 'package:urid/feature/models/taskAssigningService.dart';
 import '../widgets/agencyQuestionnaire/agencyQuestionnaire.dart';
 import '../widgets/demograficQuestionnaire/demograficQuestionnaire.dart';
 
+//Klasse, welche den Probanden repräsentiert und die gesammelten Daten rund um seine Studie
 class Subject {
   final String uuid;
   final TaskAssigningService taskAssigningService;

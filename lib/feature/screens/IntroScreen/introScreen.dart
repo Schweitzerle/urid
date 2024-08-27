@@ -9,6 +9,7 @@ import '../../models/strings.dart';
 import '../../models/subject.dart';
 import '../../widgets/consentForm.dart';
 
+//Introduction-Screen um den Probanden alle wichtigen Informationen für die Studie zu liefern
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
 

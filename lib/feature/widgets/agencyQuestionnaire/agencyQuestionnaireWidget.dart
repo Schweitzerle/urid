@@ -17,6 +17,8 @@ import '../../screens/TaskScreens/FlipTaskID/flipTaskIDScreen.dart';
 import '../../screens/TaskScreens/VolumeButtonTaskID/volumeButtonTaskIDScreen.dart';
 import '../countdownDialog.dart';
 
+
+//Einheitliche Repräsentation des Agency Fragebogens
 class AgencyQuestionnaireWidget extends StatefulWidget {
   final TaskType taskType;
   final TaskAssigningService taskAssigningService;
@@ -50,6 +52,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     );
   }
 
+  //Zuweisung des AgencyQuestionnaires zur jeweiligen Task innerhalb der Subject Klasse
   void _onDone() {
     final subject = getIt<Subject>();
     if (widget.taskType == TaskType.coverPhone) {
@@ -62,6 +65,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
       subject.volumeTaskQuestionnaire = agencyQuestionnaire;
     }
 
+    //Weiterleitung zu dem entsprechenden nächsten Screen/Task mittels des Latin Squares
     CountdownDialog.showCountdownDialog(context, 30, () {
       taskCounterService.incrementCounter();
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
@@ -109,6 +113,7 @@ class _AgencyQuestionnaireWidgetState extends State<AgencyQuestionnaireWidget> {
     });
   }
 
+  //Werte des Agency Fragebogens aktualisieren
   void _updateQuestionValue(int questionIndex, int value) {
     setState(() {
       switch (questionIndex) {

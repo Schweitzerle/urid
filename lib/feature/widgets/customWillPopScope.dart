@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/strings.dart';
 
+//Klasse um versehentliches Auslösen des System-Zurück Buttons zu vermeiden und davor einen Bestätigungsdialog anzuzeigen
 class CustomWillPopScopeWidget extends StatelessWidget {
   final Widget child;
 

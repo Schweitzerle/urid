@@ -14,6 +14,7 @@ import 'package:urid/feature/models/taskTimer.dart';
 
 import '../../models/strings.dart';
 
+//Auf diesem Screen wird das Interview durchgeführt
 class AudioRecorderScreen extends StatefulWidget {
   @override
   _AudioRecorderScreenState createState() => _AudioRecorderScreenState();
@@ -44,11 +45,13 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     _showDialog();
   }
 
+  //Mikrofon Berechtigung checken und Recorder initialisieren
   Future<void> _initializeRecorder() async {
     await Permission.microphone.request();
     await _recorder.openRecorder();
   }
 
+  //PDF Interviewleitfaden auf dem Bildschirm darstellen
   Future<void> _loadPdf() async {
     try {
       final ByteData bytes =
@@ -67,6 +70,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     }
   }
 
+  //Timer starten zur UI-Verbesserung um zu sehen wie lange das Interview schon geht
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {
@@ -75,6 +79,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     });
   }
 
+  //Recording starten
   Future<void> _startRecording() async {
     Directory tempDir = await getTemporaryDirectory();
     String path = '${tempDir.path}/audio_record.aac';
@@ -96,6 +101,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     _startTimer();
   }
 
+  //Recording stoppen
   Future<void> _stopRecording() async {
     String? path = await _recorder.stopRecorder();
     setState(() {
@@ -108,6 +114,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     _timer?.cancel();
   }
 
+  //Audio löschen
   void _deleteRecording() {
     if (_audioFilePath != null) {
       File(_audioFilePath!).delete();
@@ -124,6 +131,7 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
         MaterialPageRoute(builder: (context) => DemographicSurveyScreen()));
   }
 
+  //Dialog zur Aufforderung das Smartphone dem Versuchsleiter zurückzugeben
   Future<void> _showDialog() async {
     await Future.delayed(Duration.zero);
     showDialog(
@@ -158,7 +166,6 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
   @override
   Widget build(BuildContext context) {
     String durationText = _formatDuration(_recordDuration);
-
     return CustomWillPopScopeWidget(
       child: Scaffold(
         appBar: AppBar(

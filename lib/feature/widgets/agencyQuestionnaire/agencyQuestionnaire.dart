@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import '../../models/strings.dart';
 
+//Logische Repräsentation des Agency Fragebogens
 class AgencyQuestionnaire {
   final TaskType taskType;
   int movementControlQuestionValue;

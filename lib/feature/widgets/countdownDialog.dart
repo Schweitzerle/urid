@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 import '../models/taskAssigningService.dart';
 
+//Dialog um Pausen zwischen den verschiedenen Screens einzublenden
 class CountdownDialog extends StatefulWidget {
   final int countdownSeconds;
   final Function onCountdownComplete;
