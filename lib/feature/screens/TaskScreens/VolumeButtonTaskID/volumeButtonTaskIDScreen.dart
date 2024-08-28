@@ -17,12 +17,12 @@ import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 import '../../../widgets/pass/view/pass_widget.dart';
 
+//Screen um die Geste und den Ablauf dieser Task zu erklären
 class VolumeButtonTaskIDIntro extends StatefulWidget {
   @override
   _VolumeButtonTaskIDIntroState createState() =>
       _VolumeButtonTaskIDIntroState();
 }
-
 class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
@@ -217,11 +217,11 @@ class _VolumeButtonTaskIDIntroState extends State<VolumeButtonTaskIDIntro> {
   }
 }
 
+//Klasse um zwischen den Ausführungen der Taskwiederholungen dem Nutzern nochmal kurz erklärt, was er zu tun hat
 class VolumeTaskIDOverview extends StatefulWidget {
   @override
   _VolumeTaskIDOverviewState createState() => _VolumeTaskIDOverviewState();
 }
-
 class _VolumeTaskIDOverviewState extends State<VolumeTaskIDOverview> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
@@ -332,14 +332,16 @@ class _VolumeTaskIDOverviewState extends State<VolumeTaskIDOverview> {
   }
 }
 
+//Klasse mit dem digitalen Ausweis und der eigentlichen Task
 class VolumeButtonTaskIDPass extends StatefulWidget {
   @override
   _VolumeButtonTaskIDPassState createState() => _VolumeButtonTaskIDPassState();
 }
-
 class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
+  //Variablen, um Zustand zu verwalten, ob Finger auf dem Bildschirm liegt
   bool showHiddenProperties = true;
   bool gestureEnabled = true;
+
   late CounterService counterService;
   final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
   final Stopwatch stopwatch = Stopwatch();
@@ -353,17 +355,19 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
     stopwatch.start();
   }
 
+  //Listener um den Zustand der Laustärkeknöpfe abzufangen
   Future<void> _initializeVolumeController() async {
+    //Wenn der Screnn und der Listener initialisiert werden, soll initial die Lautstärke auf 0.1 gestzt werden, sodass der Nutzter immer gleichlang auf den Lautstärke erhöhen Knopf drücken muss, um die Ansicht zu wechseln
     VolumeController().setVolume(.1, showSystemUI: false);
     await Future.delayed(Duration(seconds: 1));
 
     VolumeController().listener((volume) {
       if (gestureEnabled) {
-        if (volume == 1) {
+        if (volume == 1) { //Wenn das Volume auf der maximalen Lautstärke ist, wird die öffentliche Ansicht gezeigt
           setState(() {
             showHiddenProperties = false;
           });
-        } else if (volume == 0) {
+        } else if (volume == 0) { //Wenn das Volume auf der minimalen Lautstärke ist, wird die private Ansicht gezeigt
           setState(() {
             if (!showHiddenProperties) {
               showHiddenProperties = true;
@@ -389,6 +393,7 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
     _handleResetCounter();
   }
 
+  //Wiedrholungscounter händeln
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -428,8 +433,8 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
-            child: RotationTransition(
-              turns: !showHiddenProperties
+          child: RotationTransition( //180° Drehung des Ausweisen in öffentlicher Ansicht
+          turns: !showHiddenProperties
                   ? AlwaysStoppedAnimation(180 / 360)
                   : AlwaysStoppedAnimation(0 / 360),
               child: PassWidget(
@@ -444,14 +449,13 @@ class _VolumeButtonTaskIDPassState extends State<VolumeButtonTaskIDPass> {
   }
 }
 
+//Klasse um den Agency-Questionnaire anzuzeigen
 class VolumeButtonTaskIDQuestionnaire extends StatefulWidget {
   @override
   _VolumeButtonTaskIDQuestionnaireState createState() =>
       _VolumeButtonTaskIDQuestionnaireState();
 }
-
-class _VolumeButtonTaskIDQuestionnaireState
-    extends State<VolumeButtonTaskIDQuestionnaire> {
+class _VolumeButtonTaskIDQuestionnaireState extends State<VolumeButtonTaskIDQuestionnaire> {
   late TaskAssigningService taskAssigningService;
 
   @override

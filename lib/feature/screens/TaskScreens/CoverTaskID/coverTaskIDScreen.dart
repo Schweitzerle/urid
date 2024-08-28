@@ -16,11 +16,11 @@ import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 import '../../../widgets/pass/view/pass_widget.dart';
 
+//Screen um die Geste und den Ablauf dieser Task zu erklären
 class CoverTaskIDIntro extends StatefulWidget {
   @override
   _CoverTaskIDIntroState createState() => _CoverTaskIDIntroState();
 }
-
 class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService =
@@ -210,11 +210,11 @@ class _CoverTaskIDIntroState extends State<CoverTaskIDIntro> {
   }
 }
 
+//Klasse um zwischen den Ausführungen der Taskwiederholungen dem Nutzern nochmal kurz erklärt, was er zu tun hat
 class CoverTaskIDOverview extends StatefulWidget {
   @override
   _CoverTaskIDOverviewState createState() => _CoverTaskIDOverviewState();
 }
-
 class _CoverTaskIDOverviewState extends State<CoverTaskIDOverview> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService =
@@ -331,11 +331,11 @@ class _CoverTaskIDOverviewState extends State<CoverTaskIDOverview> {
   }
 }
 
+//Klasse mit dem digitalen Ausweis und der eigentlichen Task
 class CoverTaskIDPass extends StatefulWidget {
   @override
   _CoverTaskIDPassState createState() => _CoverTaskIDPassState();
 }
-
 class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
   bool showFloatingButton = false;
   final CounterService counterService = GetIt.instance.get<CounterService>();
@@ -356,6 +356,7 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
     _handleResetCounter();
   }
 
+  //Wiedrholungscounter händeln
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -424,12 +425,12 @@ class _CoverTaskIDPassState extends State<CoverTaskIDPass> {
   }
 }
 
+//Klasse um den Agency-Questionnaire anzuzeigen
 class CoverTaskIDQuestionnaire extends StatefulWidget {
   @override
   _CoverTaskIDQuestionnaireState createState() =>
       _CoverTaskIDQuestionnaireState();
 }
-
 class _CoverTaskIDQuestionnaireState extends State<CoverTaskIDQuestionnaire> {
   late TaskAssigningService taskAssigningService;
 

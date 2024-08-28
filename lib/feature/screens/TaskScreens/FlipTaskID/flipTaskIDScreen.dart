@@ -17,11 +17,11 @@ import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 import '../../../widgets/pass/view/pass_widget.dart';
 
+//Screen um die Geste und den Ablauf dieser Task zu erklären
 class FlipTaskIDIntro extends StatefulWidget {
   @override
   _FlipTaskIDIntroState createState() => _FlipTaskIDIntroState();
 }
-
 class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
@@ -216,12 +216,11 @@ class _FlipTaskIDIntroState extends State<FlipTaskIDIntro> {
   }
 }
 
-
+//Klasse um zwischen den Ausführungen der Taskwiederholungen dem Nutzern nochmal kurz erklärt, was er zu tun hat
 class FlipTaskIDOverview extends StatefulWidget {
   @override
   _FlipTaskIDOverviewState createState() => _FlipTaskIDOverviewState();
 }
-
 class _FlipTaskIDOverviewState extends State<FlipTaskIDOverview> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
@@ -332,15 +331,16 @@ class _FlipTaskIDOverviewState extends State<FlipTaskIDOverview> {
   }
 }
 
-
+//Klasse mit dem digitalen Ausweis und der eigentlichen Task
 class FlipTaskIDPass extends StatefulWidget {
   @override
   _FlipTaskIDPassState createState() => _FlipTaskIDPassState();
 }
-
 class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
+  //Variablen, um Zustand zu verwalten, ob Finger auf dem Bildschirm liegt
   bool showHiddenProperties = true;
   bool gestureEnabled = true;
+
   late CounterService counterService;
   final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
   final Stopwatch stopwatch = Stopwatch();
@@ -363,19 +363,21 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
     _handleResetCounter();
   }
 
+  //Listener um den Zustand des Gyroskops abuzfangen
   void _startGyroscopeListener() {
     _streamSubscriptions.add(
         gyroscopeEventStream(samplingPeriod: sensorInterval)
             .listen((GyroscopeEvent event) {
           if (gestureEnabled) {
-            if (event.x > 3.0) {
+            if (event.x > 3.0) { //Wenn Gyroskop veränderung um +3 auf der x-Achse wahrnimmt, wird die öffentliche Ansicht gezeigt
               setState(() {
                 if (!showHiddenProperties) {
                   showHiddenProperties = true;
                  _stopTask();
                 }
               });
-            } else if (event.x < -3.0) {
+            }
+            else if (event.x < -3.0) { //Wenn Gyroskop veränderung um -3 auf der x-Achse wahrnimmt, wird die private Ansicht gezeigt
               setState(() {
                 showHiddenProperties = false;
               });
@@ -384,6 +386,7 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
         }));
   }
 
+  //Wiedrholungscounter händeln
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -431,8 +434,8 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
-              child: RotationTransition(
-                turns: !showHiddenProperties
+          child: RotationTransition( //180° Drehung des Ausweisen in öffentlicher Ansicht
+          turns: !showHiddenProperties
                     ? AlwaysStoppedAnimation(180 / 360)
                     : AlwaysStoppedAnimation(0 / 360),
                 child: PassWidget(
@@ -446,12 +449,12 @@ class _FlipTaskIDPassState extends State<FlipTaskIDPass> {
   }
 }
 
+//Klasse um den Agency-Questionnaire anzuzeigen
 class FlipTaskIDQuestionnaire extends StatefulWidget {
   @override
   _FlipTaskIDQuestionnaireState createState() =>
       _FlipTaskIDQuestionnaireState();
 }
-
 class _FlipTaskIDQuestionnaireState extends State<FlipTaskIDQuestionnaire> {
   late TaskAssigningService taskAssigningService;
 

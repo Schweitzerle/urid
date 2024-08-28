@@ -17,11 +17,11 @@ import '../../../widgets/countdownDialog.dart';
 import '../../../widgets/customWillPopScope.dart';
 import 'package:flutter/cupertino.dart';
 
+//Screen um die Geste und den Ablauf dieser Task zu erklären
 class ButtonTaskIDIntro extends StatefulWidget {
   @override
   _ButtonTaskIDIntroState createState() => _ButtonTaskIDIntroState();
 }
-
 class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
@@ -215,11 +215,11 @@ class _ButtonTaskIDIntroState extends State<ButtonTaskIDIntro> {
   }
 }
 
+//Klasse um zwischen den Ausführungen der Taskwiederholungen dem Nutzern nochmal kurz erklärt, was er zu tun hat
 class ButtonTaskIDOverview extends StatefulWidget {
   @override
   _ButtonTaskIDOverviewState createState() => _ButtonTaskIDOverviewState();
 }
-
 class _ButtonTaskIDOverviewState extends State<ButtonTaskIDOverview> {
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskCounterService taskCounterService = GetIt.instance.get<TaskCounterService>();
@@ -330,14 +330,16 @@ class _ButtonTaskIDOverviewState extends State<ButtonTaskIDOverview> {
   }
 }
 
+//Klasse mit dem digitalen Ausweis und der eigentlichen Task
 class ButtonTaskIDPass extends StatefulWidget {
   @override
   _ButtonTaskIDPassState createState() => _ButtonTaskIDPassState();
 }
-
 class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
+  //Variablen, um Zustand zu verwalten, ob Finger auf dem Bildschirm liegt
   bool showHiddenProperties = true;
   bool gestureEnabled = true;
+
   final CounterService counterService = GetIt.instance.get<CounterService>();
   final TaskTimer taskTimer = GetIt.instance.get<TaskTimer>();
   final Stopwatch stopwatch = Stopwatch();
@@ -349,6 +351,7 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
     stopwatch.start();
   }
 
+  //Wiedrholungscounter händeln
   void _handleResetCounter() {
     counterService.incrementCounter();
     int resetCounter = counterService.counter;
@@ -396,14 +399,15 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
           padding: const EdgeInsets.only(top: 20.0),
           child: Center(
             child: GestureDetector(
-              onTapDown: (details) {
+              onTapDown: (details) { //Bei Erkennung von Finger-Press auf dem Bilschirm wird die öffentliche Ansicht angezeigt
                 if (gestureEnabled) {
                   setState(() {
                     showHiddenProperties = false;
                   });
                 }
               },
-              onTapUp: (details) {
+              onTapUp: (details) { //Bei Erkennung von Finger-Press weg von Bilschirm wird die private Ansicht angezeigt
+
                 if (gestureEnabled) {
                   setState(() {
                     if (!showHiddenProperties) {
@@ -413,7 +417,8 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                   });
                 }
               },
-              onVerticalDragEnd: (details) {
+              onVerticalDragEnd: (details) { //Bei Erkennung von Finger-Press, welcher vertikal swiped auf dem Bilschirm wird die private Ansicht angezeigt
+
                 if (gestureEnabled) {
                   setState(() {
                     if (!showHiddenProperties) {
@@ -423,7 +428,8 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                   });
                 }
               },
-              onHorizontalDragEnd: (details) {
+              onHorizontalDragEnd: (details) { //Bei Erkennung von Finger-Press, welcher horizontal swiped auf dem Bilschirm wird die private Ansicht angezeigt
+
                 if (gestureEnabled) {
                   setState(() {
                     if (!showHiddenProperties) {
@@ -433,8 +439,8 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
                   });
                 }
               },
-              child: RotationTransition(
-                turns: !showHiddenProperties
+              child: RotationTransition( //180° Drehung des Ausweisen in öffentlicher Ansicht
+              turns: !showHiddenProperties
                     ? AlwaysStoppedAnimation(180 / 360)
                     : AlwaysStoppedAnimation(0 / 360),
                 child: PassWidget(
@@ -450,12 +456,12 @@ class _ButtonTaskIDPassState extends State<ButtonTaskIDPass> {
   }
 }
 
+//Klasse um den Agency-Questionnaire anzuzeigen
 class ButtonTaskIDQuestionnaire extends StatefulWidget {
   @override
   _ButtonTaskIDQuestionnaireState createState() =>
       _ButtonTaskIDQuestionnaireState();
 }
-
 class _ButtonTaskIDQuestionnaireState extends State<ButtonTaskIDQuestionnaire> {
   late TaskAssigningService taskAssigningService;
 
